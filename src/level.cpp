@@ -63,11 +63,11 @@ Level *createTestLevel(RoomSet *roomSet, shared_ptr<Resources> resources, Object
 RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 	RoomSet *result = new RoomSet();
 	
-	vector<string> roomNames { 
-		"cross", "ldoor", "bdoor", "rdoor", 
-		"tdoor", "bar1", "bar2", "tee1", 
-		"tee2", "tee3", "tee4", "bend1", 
-		"bend2", "bend3", "bend4", "enclosed" 
+	vector<string> roomNames {
+		"map1", "map1", "map1", "map1",
+		"map1", "map1", "map1", "map1",
+		"map1", "map1", "map1", "map1",
+		"map1", "map1", "map1", "map1",
 	};
 
 	for (string name : roomNames) {
@@ -189,11 +189,14 @@ RoomInfo *RoomSet::findRoom (bool up, bool down, bool left, bool right, bool tel
 	vector <RoomInfo>::iterator i;
 	for (i = rooms.begin(); i != rooms.end(); ++i)
 	{
-		if (i->up == up && i->down == down && i->left == left && i->right == right /* && i->teleport == teleport */)
-		{
-			result = &(*i);
-			break;
-		}	
+		result = &(*i);;
+		break;
+		//TODO: selectively enable / disable doors!
+//		if (i->up == up && i->down == down && i->left == left && i->right == right /* && i->teleport == teleport */)
+//		{
+//			result = &(*i);
+//			break;
+//		}
 	}
 	if (!result) {
 		cerr << string_format("Couldn't find room with %i %i %i %i %i\n", up, down, left, right, teleport);
@@ -201,6 +204,27 @@ RoomInfo *RoomSet::findRoom (bool up, bool down, bool left, bool right, bool tel
 	}
 	
 	return result;
+}
+
+bool doorMustBeInited(int doorDir, int initFlags) {
+	/*
+	switch(doorDir) {
+		case Dir::N:
+			if ((initFlags & INIT_DOOR_N) > 0) return true;
+			break;
+		case Dir::E:
+			if ((initFlags & INIT_DOOR_E) > 0) return true;
+			break;
+		case Dir::S:
+			if ((initFlags & INIT_DOOR_S) > 0) return true;
+			break;
+		case Dir::W:
+			if ((initFlags & INIT_DOOR_W) > 0) return true;
+			break;
+	}
+	return false;
+	 */
+	return true;
 }
 
 Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags) : roomInfo(ri), objects (o), map (NULL)
@@ -230,11 +254,13 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags) : roomInfo(
 		{
 			case ObjectInfo::DOOR:
 				{
-					Door *d = new Door (this, OT_DOOR);
-					d->setDir (i->doorDir);
-					d->setLocation (i->x * TILE_SIZE, i->y * TILE_SIZE);
-					objects->add (d);
-					doors[i->doorDir] = d;
+					if (doorMustBeInited(i->doorDir, initFlags)) {
+						Door *d = new Door (this, OT_DOOR);
+						d->setDir (i->doorDir);
+						d->setLocation (i->x * TILE_SIZE, i->y * TILE_SIZE);
+						objects->add (d);
+						doors[i->doorDir] = d;
+					}
 				}
 				break;
 			case ObjectInfo::TELEPORT:

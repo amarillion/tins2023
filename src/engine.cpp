@@ -96,13 +96,15 @@ public:
 			resources->addStream("Flower_field", "data/music/Flower_field.ogg");
 
 			vector<string> levels = {
-					"bar1", "bar2", "bdoor", "bend1", "bend2", "bend3", "bend4",
-					"cross", "enclosed", "ldoor", "rdoor", "tdoor", "tee1", "tee2", "tee3", "tee4"
+					"map1", "map1", "map1", "map1",
+					"map1", "map1", "map1", "map1",
+					"map1", "map1", "map1", "map1",
+					"map1", "map1", "map1", "map1",
 			};
 			//TODO: store tileset reference in map itself.
 			for (auto key : levels) {
 
-				auto filename = string_format("data/%s-remapped.json", key.c_str());
+				auto filename = string_format("data/%s.json", key.c_str());
 				resources->addJsonMapFile(key, filename, "tiles2");
 				auto amap = resources->getJsonMap(key);
 				assert (amap->map->tilelist);
