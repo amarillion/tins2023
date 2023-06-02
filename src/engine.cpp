@@ -93,6 +93,7 @@ public:
 			resources->addFiles("data/*.ttf");
 			resources->addFiles("data/*.tll");
 			resources->addFiles("data/*.wav");
+			resources->addFiles("data/*.glsl");
 			resources->addStream("Flower_field", "data/music/Flower_field.ogg");
 
 			vector<string> levels = {

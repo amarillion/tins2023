@@ -6,6 +6,7 @@
 #include "util.h"
 #include "mainloop.h"
 #include "strutil.h"
+#include "irisshader.h"
 
 using namespace std;
 
@@ -36,10 +37,15 @@ Game::~Game()
 	}
 }
 
-void Game::draw (const GraphicsContext &gc)
+void Game::draw (const GraphicsContext &gc2)
 {
+	GraphicsContext gc {};
+	gc.buffer = preProcessing;
+	gc.xofst = gc2.xofst;
+	gc.yofst = gc2.yofst;
+
 	al_set_target_bitmap(gc.buffer);
-	al_clear_to_color (BLACK);
+	al_clear_to_color(LIGHT_BLUE);
 	//~ teg_draw (buffer, level, 0, camera_x, 0);
 	//~ objects.draw(buffer, camera_x, 0);
 	for (int i = 0; i < settings->numPlayers; ++i)
@@ -56,6 +62,12 @@ void Game::draw (const GraphicsContext &gc)
 	al_draw_textf (gamefont, WHITE, 0, 464, ALLEGRO_ALIGN_LEFT, "%02i:%02i:%02i", min, sec, csec);
 
 	messages->draw(gc);
+
+	al_set_target_bitmap(gc2.buffer);
+	int counter = MainLoop::getMainLoop()->getMsecCounter();
+	iris->enable(counter / 1000.0f, gc.buffer);
+	al_draw_filled_rectangle(0, 0, MAIN_WIDTH, MAIN_HEIGHT, BLACK);
+	iris->disable();
 }
 
 void Game::update()
@@ -157,6 +169,8 @@ void Game::initGame ()
 
 	monsterHp = defaultMonsterHp;
 	initLevel();
+
+	iris = make_unique<IrisEffect>();
 }
 
 Player * initPlayer(PlayerState *ps, Room *room, int i) {
@@ -295,4 +309,7 @@ void Game::init (shared_ptr<Resources> resources)
 	icons[ICON_BANANA_PLACEHOLDER] = al_create_sub_bitmap(iconsheet, 320, 0, 40, 40);
 	icons[ICON_BANANA] = al_create_sub_bitmap(iconsheet, 120, 0, 40, 40);
 	icons[ICON_KEY] = al_create_sub_bitmap(iconsheet, 80, 0, 40, 40);
+
+	IrisEffect::init(resources);
+	preProcessing = al_create_bitmap(MAIN_WIDTH, MAIN_HEIGHT);
 }

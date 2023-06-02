@@ -8,6 +8,8 @@
 #include "messages.h"
 #include "view.h"
 
+class IrisEffect;
+
 class Game : public State
 {
 private:
@@ -19,6 +21,9 @@ private:
 	Player *player[2];
 	PlayerState ps[2];
 	std::shared_ptr<View> view[2]; // a view for each player
+	std::unique_ptr<IrisEffect> iris;
+	ALLEGRO_BITMAP *preProcessing = nullptr;
+
 	int gameTimer;
 	Settings *settings;
 	Level *level;
