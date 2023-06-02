@@ -32,6 +32,8 @@ public:
 	virtual void update() override;
 	virtual void handleEvent (ALLEGRO_EVENT &evt) override;
 	virtual void setFont(ALLEGRO_FONT *font) override;
+
+	/** use setTimer(msec, actionFunc) instead */
 	DEPRECATED void setTimer(int msec, int event);
 	void setTimer(int msec, ActionFunc event, bool repeating = false);
 	virtual void purge();
