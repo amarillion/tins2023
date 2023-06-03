@@ -168,17 +168,23 @@
 	</anim>
 	<anim id='BugBlue' dx='48' dy='48' regionw='64' regionh='64'>
 		<state>
-			<dir id="up" originx='0' rle='Duck_back'>
-				<frame time='0' hotx='-8' hoty='-8'/>
+			<dir id="up" rle='Duck_back'>
+				<frame time='200' originx='0' hotx='-8' hoty='-8'/>
+				<frame time='200' originx='64' hotx='-8' hoty='-8'/>
 			</dir>
 			<dir id="down" originx='0' rle='Duck_front'>
-				<frame time='0' hotx='-8' hoty='-8'/>
+				<frame time='200' originx='0' hotx='-8' hoty='-8'/>
+				<frame time='200' originx='64' hotx='-8' hoty='-8'/>
 			</dir>
 			<dir id="left" originx='0' rle='Duck1'>
-				<frame time='0' hotx='-8' hoty='-8'><flip/></frame>
+				<frame time='200' originx='0' hotx='-8' hoty='-8'><flip/></frame>
+				<frame time='200' originx='64' hotx='-8' hoty='-8'><flip/></frame>
+				<frame time='200' originx='128' hotx='-8' hoty='-8'><flip/></frame>
 			</dir>
 			<dir id="right" originx='0' rle='Duck1'>
-				<frame time='0' hotx='-8' hoty='-8'/>
+				<frame time='200' originx='0' hotx='-8' hoty='-8'/>
+				<frame time='200' originx='64' hotx='-8' hoty='-8'/>
+				<frame time='200' originx='128' hotx='-8' hoty='-8'/>
 			</dir>
 		</state>
 		<state>
@@ -329,16 +335,16 @@
 		</state>
 		<state>
 			<dir id="up" originx='384'>
-				<frame time='0' hotx='-8' hoty='-32'/>
+				<frame time='0' hotx='-24' hoty='-64'/>
 			</dir>
 			<dir id="down" originx='896'>
-				<frame time='0' hotx='-8' hoty='-64'/>
+				<frame time='0' hotx='-24' hoty='-32'/>
 			</dir>
 			<dir id="left" originx='128'>
-				<frame time='0' hotx='-32' hoty='-8'/>
+				<frame time='0' hotx='-64' hoty='-24'/>
 			</dir>
 			<dir id="right" originx='640'>
-				<frame time='0' hotx='-64' hoty='-8'/>
+				<frame time='0' hotx='-32' hoty='-24'/>
 			</dir>
 		</state>
 	</anim>

@@ -40,28 +40,8 @@ void Bullet::update()
 		kill();
 		return;
 	}
-		
-	int mx1, my1, mx2, my2;
-	int ix, iy;
-	TEG_MAP *map = getMap();
-	mx1 = ((int)getx()) / map->tilelist->tilew;
-	my1 = ((int)gety()) / map->tilelist->tileh;
-	mx2 = ((int)getx() + w - 1) / map->tilelist->tilew;
-	my2 = ((int)gety() + h - 1) / map->tilelist->tileh;
-			
-	// loop through all map positions we touch with the solid region
-	for (ix = mx1; ix <= mx2; ++ix)
-	{
-		for (iy = my1; iy <= my2; ++iy)
-		{
-			// see if there is a solid tile at this position
-			if (getTileStackFlags (ix, iy) & TS_SOLID)
-			{
-				// leave a splash
-				kill();
-			}
-		}
-	}
+
+	// no map collision
 }
 
 
