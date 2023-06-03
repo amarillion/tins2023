@@ -1,5 +1,4 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include "container.h"
 #include <memory>
@@ -13,8 +12,12 @@ public:
 	enum { E_NONE, E_START_OR_RESUME, E_NEXT_LEVEL, 
 		E_EXITSCREEN,
 		MENU_PLAYER_NUM, MENU_KEYS_1, MENU_KEYS_2, E_QUIT, MENU_MAIN, COVER,
-		GS_PLAY, MENU_PAUSE, GS_DONE, GS_GAME_OVER, E_TOGGLE_FULLSCREEN};
-	
+		GS_PLAY, MENU_PAUSE, GS_DONE, GS_GAME_OVER, E_TOGGLE_FULLSCREEN,
+#ifdef DEBUG
+		ANIM_EDIT, MENU_DEBUG
+#endif
+	};
+
 	virtual ~Engine() {}	
 	virtual int init() = 0; // call once during startup
 		
@@ -24,5 +27,3 @@ public:
 	static std::shared_ptr<Engine> newInstance();
 	virtual void logAchievement(const std::string &achievement) = 0;
 };
-
-#endif

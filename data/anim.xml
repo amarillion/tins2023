@@ -265,33 +265,33 @@
 	<anim id="healthcontainer" rle='pickups' dx='24' dy='24' regionw='40' regionh='40' originx='360' originy='0'>
 		<frame time='0' hotx='-6' hoty='-6'/>
 	</anim>
-	<anim id="door" dx='32' dy='32'>
+	<anim id="door" dx='40' dy='40' rle='bridge'>
 		<state>
 			<dir id="up">
-				<frame rle='door_to' time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-32' hoty='-32'/>
 			</dir>
 			<dir id="down">
-				<frame rle='door_bo' time='0' hotx='-32' hoty='0'/>
+				<frame time='0' hotx='-32' hoty='0'/>
 			</dir>
 			<dir id="left">
-				<frame rle='door_lo' time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-32' hoty='-32'/>
 			</dir>
 			<dir id="right">
-				<frame rle='door_ro' time='0' hotx='0' hoty='-32'/>
+				<frame time='0' hotx='0' hoty='-32'/>
 			</dir>
 		</state>
 		<state>
 			<dir id="up">
-				<frame rle='door_tc' time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-32' hoty='-32'/>
 			</dir>
 			<dir id="down">
-				<frame rle='door_bc' time='0' hotx='-32' hoty='0'/>
+				<frame time='0' hotx='-32' hoty='0'/>
 			</dir>
 			<dir id="left">
-				<frame rle='door_lc' time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-32' hoty='-32'/>
 			</dir>
 			<dir id="right">
-				<frame rle='door_rc' time='0' hotx='0' hoty='-32'/>
+				<frame time='0' hotx='0' hoty='-32'/>
 			</dir>
 		</state>
 	</anim>

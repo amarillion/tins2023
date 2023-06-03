@@ -5,26 +5,24 @@
 #include "object.h"
 #include "player.h"
 #include "screenshot.h"
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include "mainloop.h"
-#include "component.h"
 #include <memory>
 #include "game.h"
 #include "keymenuitem.h"
-#include "util.h"
-#include "mainloop.h"
 #include "text.h"
 #include "DrawStrategy.h"
 #include "strutil.h"
 #include "tilemap.h"
-#include "resources.h"
 #include "versionLoader.h"
-#include "view.h"
-#include "input.h"
 #include "metrics.h"
 #include "updatechecker.h"
 #include "anim.h"
+
+#ifdef DEBUG
+#include "animedit.h"
+#endif
 
 using namespace std;
 
@@ -42,17 +40,22 @@ private:
 #ifdef DEBUG
 	Input btnAbort;
 	Input btnDebugMode;
+	Input btnDebugMenu;
 #endif
 	
-	std::shared_ptr<Game> game;
+	shared_ptr<Game> game;
 	
-	ALLEGRO_FONT *gamefont;
 	bool isResume;
 
-	std::shared_ptr<ToggleMenuItem> miPlayerNum;
-	std::shared_ptr<SliderMenuItem> miSound;
-	std::shared_ptr<SliderMenuItem> miMusic;
-	std::shared_ptr<ActionMenuItem> miStart;
+	shared_ptr<ToggleMenuItem> miPlayerNum;
+	shared_ptr<SliderMenuItem> miSound;
+	shared_ptr<SliderMenuItem> miMusic;
+	shared_ptr<ActionMenuItem> miStart;
+
+#ifdef DEBUG
+	MenuScreenPtr mDebug;
+	shared_ptr<AnimEditor> animEdit;
+#endif
 
 	MenuScreenPtr mMain;
 	MenuScreenPtr mKeys[2];
@@ -67,6 +70,7 @@ public:
 	#ifdef DEBUG
 		btnAbort.setScancode (ALLEGRO_KEY_F10);
 		btnDebugMode.setScancode (ALLEGRO_KEY_F11);
+		btnDebugMenu.setScancode (ALLEGRO_KEY_F3);
 	#endif
 
 		game = Game::createInstance(this, &settings);
@@ -123,9 +127,14 @@ public:
 		Door::init(resources);
 		Monster::init(resources);
 		PickUp::init(resources);
+#ifdef DEBUG
+		animEdit = AnimEditor::newInstance();
+		add(animEdit, Container::FLAG_SLEEP);
+		animEdit->init(resources);
+#endif
 
 		game->init(resources);
-		gamefont = resources->getFont("builtin_font")->get();
+//		gamefont = resources->getFont("builtin_font")->get();
 
 		srand(time(0));
 
@@ -169,6 +178,15 @@ public:
 		setFocus(intro);
 		setTimer(50, GS_PLAY);
 	}
+
+#ifdef DEBUG
+	void handleEvent(ALLEGRO_EVENT &event) override {
+		if (event.type == ALLEGRO_EVENT_DISPLAY_SWITCH_IN) {
+			resources->refreshModifiedFiles();
+		}
+		Engine::handleEvent(event);
+	}
+#endif
 
 	virtual void handleMessage(ComponentPtr src, int code) override
 	{
@@ -240,6 +258,14 @@ public:
 		case MENU_KEYS_2:
 			setFocus (mKeys[1]);
 			break;
+#ifdef DEBUG
+		case MENU_DEBUG:
+			setFocus (mDebug);
+			break;
+		case ANIM_EDIT:
+			setFocus (animEdit);
+			break;
+#endif
 		case E_EXITSCREEN:
 			setFocus(updates);
 			metrics->logSessionClose();
@@ -263,12 +289,13 @@ public:
 		}
 
 #ifdef DEBUG
-		if (btnDebugMode.justPressed())
-		{
+		if (btnDebugMode.justPressed()) {
 			debug = !debug;
 		}
-		if (btnAbort.justPressed())
-		{
+		if (btnDebugMenu.justPressed()) {
+			setFocus(mDebug);
+		}
+		if (btnAbort.justPressed()) {
 			pushMsg(E_QUIT);
 		}
 #endif
@@ -337,17 +364,26 @@ public:
 			mKeys[i]->setMargin(160, 80);
 	//		mKeys[i]->add(BitmapComp::build(cover).xy((MAIN_WIDTH - al_get_bitmap_width(cover)) / 2, 80).get());
 		}
+
+#ifdef DEBUG
+		mDebug = MenuBuilder(this, nullptr)
+				.push_back (make_shared<ActionMenuItem>(ANIM_EDIT, "Animation viewer", ""))
+				.push_back (make_shared<ActionMenuItem> (MENU_MAIN, "Return", "Return to main menu"))
+				.build();
+		mDebug->add(ClearScreen::build(BLACK).get(), FLAG_BOTTOM);
+		mDebug->setMargin(160, 80);
+#endif
 	}
 
 	void initStart() {
-		setFocus (mMain);
+		setFocus(mMain);
 		miStart->setText("Start");
 		miPlayerNum->setEnabled(true);
 		isResume = false;
 	}
 
 	void initResume() {
-		setFocus (mMain);
+		setFocus(mMain);
 		miStart->setText("Resume");
 		miPlayerNum->setEnabled(false);
 		isResume = true;

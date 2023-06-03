@@ -1,14 +1,12 @@
 #include "levelGen.h"
 #include <iostream>
-#include "map2d.h"
 #include <sstream>
 #include <map>
 #include "util.h"
-#include <algorithm>    // std::random_shuffle
 #include "strutil.h"
-#include <math.h>
+#include <cmath>
 #include <set>
-#include "level.h"
+#include "collection_util.h"
 
 using namespace std;
 
@@ -26,13 +24,6 @@ map<Dir, DirInfo> DIR = {
 	{ W, { -1, 0, 'W', E } },
 	{ TELEPORT, { 0, 0, 'T', TELEPORT }}
 };
-
-/** short cut to check if a key exists in a given map */
-//TODO: move to utility class
-template<typename T, typename U>
-bool hasKey(const T &aMap, const U &aKey) {
-	return aMap.find(aKey) != aMap.end();
-}
 
 // essential missing functionality
 // see: https://stackoverflow.com/questions/6942273/how-to-get-a-random-element-from-a-c-container
