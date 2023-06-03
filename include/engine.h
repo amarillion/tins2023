@@ -18,7 +18,7 @@ public:
 #endif
 	};
 
-	virtual ~Engine() {}	
+	~Engine() override = default;
 	virtual int init() = 0; // call once during startup
 		
 	virtual Input* getInput(int p) = 0;

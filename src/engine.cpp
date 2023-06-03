@@ -77,6 +77,10 @@ public:
 		add(game, Container::FLAG_SLEEP);
 	}
 
+	~EngineImpl() {
+		metrics->done();
+	}
+
 	virtual Input* getInput(int p) override { 
 		return settings.button[p];
 	}
@@ -268,7 +272,6 @@ public:
 			metrics->logSessionClose();
 			break;
 		case E_QUIT:
-			metrics->done();
 			pushMsg(MSG_CLOSE);
 			break;
 		case MENU_MAIN:
