@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void View::init (int numPlayers, int player, int pw, int ph)
+void View::init(int numPlayers, int player, int pw, int ph)
 {
 	int HALF_W = pw / 2;
 
@@ -46,7 +46,7 @@ void View::draw(const GraphicsContext &gc) {
 			camera_x - x, camera_y - y);
 
 	int counter = MainLoop::getMainLoop()->getMsecCounter();
-	iris->enable((float)counter / 1000.0f, gc.buffer);
+	iris->enable((float)counter / 1000.0f, camera_x, camera_y);
 	teg_partdraw (map, 1,
 			x, y, w, h,
 			camera_x - x, camera_y - y);

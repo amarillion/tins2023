@@ -19,22 +19,11 @@ private:
 	static std::string fragShaderSource;
 	static std::string vertShaderSource;
 	static bool inited;
+	static ALLEGRO_BITMAP *gradient;
 public:
 	static void init(std::shared_ptr<Resources> res);
 	IrisEffect();
-//
-//	/**
-//	 * time: from start to completely dissolved, between 0.0 and 1.0
-//	 * closure: drawing code to execute between enabling and disabling the shader.
-//	 */
-//	void withPattern(float time, std::function<void()> closure) {
-//		enable(time);
-//		closure();
-//		disable();
-//	}
-
-	void enable(float sigma, ALLEGRO_BITMAP *bmp);
+	void enable(float time, int ofstx, int ofsty);
 	void disable();
-
 	ALLEGRO_SHADER *getShader() { return shader; }
 };

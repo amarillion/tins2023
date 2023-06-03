@@ -6,6 +6,8 @@
 
 using namespace std;
 
+ALLEGRO_BITMAP *IrisEffect::gradient;
+
 IrisEffect::IrisEffect()
 {
 	assert(inited);
@@ -34,27 +36,23 @@ IrisEffect::IrisEffect()
 	assert(ok);
 }
 
-void IrisEffect::enable(float sigma, ALLEGRO_BITMAP *bmp) {
+void IrisEffect::enable(float time, int ofstx, int ofsty) {
 	al_use_shader(shader);
 
-	al_set_shader_sampler("textureMap", bmp, 1);
-	int texSize[2] = {
-			al_get_bitmap_width(bmp),
-			al_get_bitmap_height(bmp)
-	};
-//	al_set_shader_int_vector("u_texture_size", 2, texSize, 1);
-	al_set_shader_float("time", sigma);
-//	int dir[2] = { 0, 1 };
-//	al_set_shader_int_vector("u_dir", 2, dir, 1);
+	al_set_shader_sampler("gradientMap", gradient, 1);
+	int offset[2] = {ofstx, ofsty };
+
+	al_set_shader_int_vector("offset", 2, offset, 1);
+	al_set_shader_float("time",time);
 }
 
 void IrisEffect::disable() {
-	al_use_shader(NULL);
+	al_use_shader(nullptr);
 }
 
 void IrisEffect::init(std::shared_ptr<Resources> resources) {
 	fragShaderSource = resources->getTextFile("iris_frag");
-	vertShaderSource = resources->getTextFile("iris_vert");
+	gradient = resources->getBitmap("gradient");
 	inited = true;
 }
 
