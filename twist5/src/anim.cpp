@@ -398,7 +398,7 @@ void Frame::draw(int x, int y) const
 		if (i.angle != 0) {
 			int w = al_get_bitmap_width(i.bitmap);
 			int h = al_get_bitmap_height(i.bitmap);
-			al_draw_rotated_bitmap(i.bitmap, w/2, h/2, x + w/2, y + h/2, 
+			al_draw_rotated_bitmap(i.bitmap, w/2, h/2, x + w/2 + i.hotx, y + h/2 + i.hoty,
 				(float)i.angle * M_PI / 180.0, i.transformFlag);
 		}
 		else {

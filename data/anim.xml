@@ -265,33 +265,41 @@
 	<anim id="healthcontainer" rle='pickups' dx='24' dy='24' regionw='40' regionh='40' originx='360' originy='0'>
 		<frame time='0' hotx='-6' hoty='-6'/>
 	</anim>
-	<anim id="door" dx='40' dy='40' rle='bridge'>
-		<state>
+	<anim id="door" dx='40' dy='40' rle='bridge' regionw='128' regionh='64'>
+		<state originx='0'>
 			<dir id="up">
-				<frame time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-48' hoty='0'>
+					<rot angle="90"/>
+				</frame>
 			</dir>
 			<dir id="down">
-				<frame time='0' hotx='-32' hoty='0'/>
+				<frame time='0' hotx='-44' hoty='-32'>
+					<rot angle="270"/>
+				</frame>
 			</dir>
 			<dir id="left">
-				<frame time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-32' hoty='-8'/>
 			</dir>
 			<dir id="right">
-				<frame time='0' hotx='0' hoty='-32'/>
+				<frame time='0' hotx='-64' hoty='-8'><flip/></frame>
 			</dir>
 		</state>
-		<state>
+		<state originx='128'>
 			<dir id="up">
-				<frame time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-48' hoty='0'>
+					<rot angle="90"/>
+				</frame>
 			</dir>
 			<dir id="down">
-				<frame time='0' hotx='-32' hoty='0'/>
+				<frame time='0' hotx='-44' hoty='-32'>
+					<rot angle="270"/>
+				</frame>
 			</dir>
 			<dir id="left">
-				<frame time='0' hotx='-32' hoty='-32'/>
+				<frame time='0' hotx='-32' hoty='-8'/>
 			</dir>
 			<dir id="right">
-				<frame time='0' hotx='0' hoty='-32'/>
+				<frame time='0' hotx='-64' hoty='-8'><flip/></frame>
 			</dir>
 		</state>
 	</anim>
