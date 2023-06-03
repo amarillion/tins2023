@@ -264,12 +264,10 @@ public:
 		else if (equalsIgnoreCase (extension, "xml"))
 		{
 			DomNode node = xmlParseFile(i);
-
-			vector<DomNode>::iterator n;
-			for (n = node.children.begin(); n != node.children.end(); ++n)
-			{
-				if (n->name == "anim")
-					Anim::loadFromXml (*n, this, animlist);
+			for (const auto &n: node.children) {
+				if (n.name == "anim") {
+					Anim::loadFromXml(n, this, animlist);
+				}
 			}
 		}
 		else if (equalsIgnoreCase (extension, "glsl")) {

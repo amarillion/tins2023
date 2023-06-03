@@ -155,7 +155,7 @@ public:
 	Anim();
 	~Anim() {}
 	
-	static void loadFromXml (xdom::DomNode &n, IBitmapProvider *res, std::map<std::string, Anim*> &result);
+	static void loadFromXml(const xdom::DomNode &n, IBitmapProvider *res, std::map<std::string, Anim*> &result);
 
  	void drawFrame (unsigned int state, unsigned int dir, int time, int x, int y) const;
 

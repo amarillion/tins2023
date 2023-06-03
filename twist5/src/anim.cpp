@@ -1,10 +1,11 @@
-#include <assert.h>
+#include <cassert>
 #include "anim.h"
 #include "color.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <memory>
+#include "collection_util.h"
 
 using namespace xdom;
 using namespace std;
@@ -55,7 +56,7 @@ struct CascadingProps
 	CascadingProps () : hotx (0), hoty (0), originx(0), originy(0), regionw(0), regionh(0), rle() {}
 
 	/* check the node for overridable properties */
-	void checkProperties (DomNode &n);
+	void checkProperties (const DomNode &n);
 };
 
 /**
@@ -71,31 +72,31 @@ private:
 
 	enum { TR_ROT };
 	/* NB: props must be copied for each branch of the XML tree, so props must be pass-by-value */
-	std::vector < Sequence > loadState (xdom::DomNode &i, CascadingProps props);
-	Sequence loadSequence (xdom::DomNode &i, CascadingProps props); // props must be pass-by-value
-	Frame loadFrame (xdom::DomNode &i, CascadingProps props); // props must be pass-by-value
-	CompositePart loadPart (xdom::DomNode &i, CascadingProps props); // props must be pass-by-value
+	std::vector < Sequence > loadState (const xdom::DomNode &i, CascadingProps props);
+	Sequence loadSequence (const xdom::DomNode &i, CascadingProps props); // props must be pass-by-value
+	Frame loadFrame (const xdom::DomNode &i, CascadingProps props); // props must be pass-by-value
+	CompositePart loadPart (const xdom::DomNode &i, CascadingProps props); // props must be pass-by-value
 	ALLEGRO_BITMAP *getLitRle(ALLEGRO_BITMAP *input, int r, int g, int b, int a);
 public:
-	AnimBuilder(IBitmapProvider *_res) : temp(NULL), res(_res) {}
-	void loadFromXml (xdom::DomNode &n);
+	explicit AnimBuilder(IBitmapProvider *_res) : temp(nullptr), res(_res) {}
+	void loadFromXml (const xdom::DomNode &n);
 	Anim *get() { return temp; }
 };
 
 // private helpers
-void checkIntProperty (DomNode &n, string const &attr, int &ref)
-{
-	if (n.attributes.find (attr) != n.attributes.end())
-		ref = atoi (n.attributes[attr].c_str());
+void checkIntProperty (const DomNode &n, string const &attr, int &ref) {
+	if (hasKey(n.attributes, attr)) {
+		ref = stoi(n.attributes.at(attr));
+	}
 }
 
-void checkStringProperty (DomNode &n, string const &attr, string &ref)
-{
-	if (n.attributes.find (attr) != n.attributes.end())
-		ref = n.attributes[attr];
+void checkStringProperty (const DomNode &n, string const &attr, string &ref) {
+	if (hasKey(n.attributes, attr)) {
+		ref = n.attributes.at(attr);
+	}
 }
 
-void CascadingProps::checkProperties (DomNode &n)
+void CascadingProps::checkProperties (const DomNode &n)
 {
 	checkIntProperty(n, "regionw", regionw);
 	checkIntProperty(n, "regionh", regionh);
@@ -111,74 +112,73 @@ Anim::Anim() : frames(), sizex (0), sizey (0), sizez (0)
 {
 }
 
-void Anim::loadFromXml (DomNode &n, IBitmapProvider *res, map<string, Anim*> &result)
-{
+void Anim::loadFromXml (const DomNode &n, IBitmapProvider *res, map<string, Anim*> &result) {
 	AnimBuilder builder (res);
-	builder.loadFromXml (n);
-	string name = n.attributes["id"];
+	builder.loadFromXml(n);
+	string name = n.attributes.at("id");
 	Anim *temp = builder.get();
-	result.insert (pair<string, Anim*>(name, temp));
+	result[name] = temp;
 }
 
-void AnimBuilder::loadFromXml (DomNode &n)
-{
+int safeInt(const std::map<std::string, std::string> &aMap, const std::string &aKey, int defaultValue = 0) {
+	if(aMap.find(aKey) == aMap.end()) {
+		return defaultValue;
+	}
+	else {
+		return stoi(aMap.at(aKey));
+	}
+}
+
+void AnimBuilder::loadFromXml (const DomNode &n) {
 	assert (n.name == "anim");
 
-	string name = n.attributes["id"];
-	vector<DomNode>::iterator h;
+	string name = n.attributes.at("id");
+	vector<DomNode>::const_iterator h;
 	
 	temp = new Anim();
 	
 	CascadingProps props;
 	props.checkProperties(n);
-	temp->sizex = atoi (n.attributes["dx"].c_str());
-	temp->sizey = atoi (n.attributes["dy"].c_str());
-	temp->sizez = atoi (n.attributes["dz"].c_str());
+	temp->sizex = safeInt(n.attributes, "dx");
+	temp->sizey = safeInt(n.attributes, "dy");
+	temp->sizez = safeInt(n.attributes, "dz");
 
 	h = n.children.begin();
-	if (h->name == "state")
-	{
-		for (; h != n.children.end(); ++h)
-		{
+	if (h->name == "state") {
+		for (; h != n.children.end(); ++h) {
 			temp->frames.push_back (loadState (*h, props));
 		}
 	}
-	else
-	{
+	else {
 		temp->frames.push_back (loadState (n, props));
 	}
 }
 
-Sequence AnimBuilder::loadSequence (xdom::DomNode &i, CascadingProps props)
-{
+Sequence AnimBuilder::loadSequence(const xdom::DomNode &i, CascadingProps props) {
 	Sequence result;
 	result.totalLength = 0;
 	result.loop = true;
 
 	props.checkProperties(i);
 
-	vector<DomNode>::iterator j;
-	for (j = i.children.begin(); j != i.children.end(); ++j)
-	{
-		Frame f = loadFrame (*j, props);
+	for (const auto &j: i.children) {
+		Frame f = loadFrame (j, props);
 		result.add (f);
 	}
 	assert (result.size() > 0);
 	return result;
 }
 
-vector < Sequence > AnimBuilder::loadState (DomNode &i, CascadingProps props)
-{
+vector < Sequence > AnimBuilder::loadState (const DomNode &i, CascadingProps props) {
 	vector < Sequence > result;
 	
-	vector<DomNode>::iterator h;
+	vector<DomNode>::const_iterator h;
 	
 	int totalDirs = 0;
 
 	props.checkProperties(i);
 
 	h = i.children.begin();
-	
 	if (h->name == "frame" || h->name == "composite")
 	{
 		result.push_back (loadSequence (i, props));
@@ -188,8 +188,7 @@ vector < Sequence > AnimBuilder::loadState (DomNode &i, CascadingProps props)
 	{	
 		for (; h != i.children.end(); ++h)
 		{
-			int length = 0;	
-			string id = h->attributes["id"];
+			string id = h->attributes.at("id");
 			int dir = Anim::model->idToIndex(id);
 			if (dir < 0)
 			{
@@ -258,34 +257,29 @@ void Frame::getCompositeBounds (int &sprx, int &spry, int &width, int &height) c
 	height = y2 - y1;
 }
 
-Frame AnimBuilder::loadFrame (DomNode &i, CascadingProps props)
+Frame AnimBuilder::loadFrame (const DomNode &i, CascadingProps props)
 {
 	Frame result;
-	vector<DomNode>::iterator j;
-	
 	props.checkProperties(i);
 
 	int time = 0;
-	if (i.attributes.find ("time") != i.attributes.end())
-		time = atoi(i.attributes["time"].c_str());
+	if (hasKey(i.attributes, "time")) {
+		time = stoi(i.attributes.at("time"));
+	}
 	result.length = time;
-	if (i.name == "frame")
-	{
+	if (i.name == "frame") {
 		// just a single part.
 		CompositePart part = loadPart (i, props);
 		result.parts.push_back (part);
 	}
-	else if (i.name == "composite")
-	{
-		for (j = i.children.begin(); j != i.children.end(); ++j)
-		{
+	else if (i.name == "composite") {
+		for (const auto &j: i.children) {
 			// multiple parts
-			CompositePart part = loadPart (*j, props);
+			CompositePart part = loadPart (j, props);
 			result.parts.push_back (part);
 		}
 	}
-	else
-	{
+	else {
 		assert (false); // unknown tag
 	}
 	
@@ -315,7 +309,7 @@ ALLEGRO_BITMAP *AnimBuilder::getLitRle(ALLEGRO_BITMAP *s, int r, int g, int b, i
 	return temp;
 }
 
-CompositePart AnimBuilder::loadPart (DomNode &i, CascadingProps props)
+CompositePart AnimBuilder::loadPart(const DomNode &i, CascadingProps props)
 {
 	CompositePart result;
 	
@@ -351,30 +345,25 @@ CompositePart AnimBuilder::loadPart (DomNode &i, CascadingProps props)
 	}
 
 	// apply transformations and effects.
-	vector<DomNode>::iterator m;
-	for (m = i.children.begin(); m != i.children.end(); ++m)
-	{
-		if (m->name == "lit")
-		{
-			int r = atoi (m->attributes["r"].c_str());
-			int g = atoi (m->attributes["g"].c_str());
-			int b = atoi (m->attributes["b"].c_str());
+	for (const auto &m: i.children) {
+		if (m.name == "lit") {
+			int r = stoi(m.attributes.at("r"));
+			int g = stoi(m.attributes.at("g"));
+			int b = stoi(m.attributes.at("b"));
 			int a = 255; // default alpha is 255
-			if (m->attributes.find ("alpha") != m->attributes.end())
-				a = atoi (m->attributes["alpha"].c_str());
+			if(hasKey(m.attributes, "alpha")) {
+				a = stoi(m.attributes.at("alpha"));
+			}
 			temprle = getLitRle (temprle, r, g, b, a);
 		}
-		else if (m->name == "flip")
-		{
+		else if (m.name == "flip") {
 			result.transformFlag |= ALLEGRO_FLIP_HORIZONTAL;
 		}
-		else if (m->name == "vflip")
-		{
+		else if (m.name == "vflip") {
 			result.transformFlag |= ALLEGRO_FLIP_VERTICAL;
 		}
-		else if (m->name == "rot")
-		{
-			int a = atoi (m->attributes["angle"].c_str());
+		else if (m.name == "rot") {
+			int a = stoi(m.attributes.at("angle"));
 			if (a >= 0 && a <= 360) {
 				result.angle = a;
 			}
@@ -382,8 +371,7 @@ CompositePart AnimBuilder::loadPart (DomNode &i, CascadingProps props)
 		}
 	}
 
-	if (!temprle)
-	{
+	if (!temprle) {
 		allegro_message ("error transforming animation frame %s", rle.c_str());
 	}
 	result.bitmap = temprle;
@@ -409,8 +397,7 @@ void Frame::draw(int x, int y) const
 
 void Frame::draw_tinted(int x, int y, ALLEGRO_COLOR tint) const
 {
-	for (auto &i : parts)
-	{
+	for (auto &i : parts) {
 		al_draw_tinted_bitmap (i.bitmap, tint, x + i.hotx, y + i.hoty, i.transformFlag);
 	}
 }
