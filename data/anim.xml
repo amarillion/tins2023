@@ -166,29 +166,76 @@
 			<frame originx='60' time='200'/>
 		</state>
 	</anim>
-	<anim rle='BugBlue' id='BugBlue' dx='20' dy='20' regionw='30' regionh='30'>
+	<anim id='BugBlue' dx='48' dy='48' regionw='64' regionh='64'>
 		<state>
-			<frame originx='0' time='200' hotx='-5' hoty='-5'/>
-			<frame originx='30' time='200' hotx='-5' hoty='-5'/>
+			<dir id="up" originx='0' rle='Duck_back'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="down" originx='0' rle='Duck_front'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="left" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'><flip/></frame>
+			</dir>
+			<dir id="right" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
 		</state>
 		<state>
-			<frame originx='0' time='100' hotx='-5' hoty='-5'>
-				<lit r='255' g='255' b='255'/>
-			</frame>
-			<frame originx='30' time='100' hotx='-5' hoty='-5'/>
+			<dir id="up" originx='0' rle='Duck_back'>
+				<frame time='0' hotx='-8' hoty='-8'><lit r='255' g='255' b='255'/></frame>
+			</dir>
+			<dir id="down" originx='0' rle='Duck_front'>
+				<frame time='0' hotx='-8' hoty='-8'><lit r='255' g='255' b='255'/></frame>
+			</dir>
+			<dir id="left" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'><lit r='255' g='255' b='255'/><flip/></frame>
+			</dir>
+			<dir id="right" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'><lit r='255' g='255' b='255'/></frame>
+			</dir>
 		</state>
 		<state>
-			<frame originx='0' time='100'>
-				<lit r='255' g='0' b='0'/>
-			</frame>
+			<dir id="up" originx='0' rle='Duck_back'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="down" originx='0' rle='Duck_front'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="left" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'><flip/></frame>
+			</dir>
+			<dir id="right" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
 		</state>
 		<state>
-			<frame originx='0' time='200' hotx='-5' hoty='-5'/>
-			<frame originx='30' time='200' hotx='-5' hoty='-5'/>
+			<dir id="up" originx='0' rle='Duck_back'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="down" originx='0' rle='Duck_front'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="left" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'><flip/></frame>
+			</dir>
+			<dir id="right" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
 		</state>
 		<state>
-			<frame originx='0' time='200' hotx='-5' hoty='-5'/>
-			<frame originx='30' time='200' hotx='-5' hoty='-5'/>
+			<dir id="up" originx='0' rle='Duck_back'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="down" originx='0' rle='Duck_front'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
+			<dir id="left" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'><flip/></frame>
+			</dir>
+			<dir id="right" originx='0' rle='Duck1'>
+				<frame time='0' hotx='-8' hoty='-8'/>
+			</dir>
 		</state>
 	</anim>
 	<anim rle='BugRed' id='BugRed' dx='20' dy='20' regionw='30' regionh='30'>
@@ -265,19 +312,19 @@
 	<anim id="healthcontainer" rle='pickups' dx='24' dy='24' regionw='40' regionh='40' originx='360' originy='0'>
 		<frame time='0' hotx='-6' hoty='-6'/>
 	</anim>
-	<anim id="door" dx='40' dy='40' rle='bridge' regionw='128' regionh='128' originy='0'>
+	<anim id="door" dx='16' dy='16' rle='bridge' regionw='128' regionh='128' originy='0'>
 		<state>
 			<dir id="up" originx='256'>
-				<frame time='0' hotx='-8' hoty='-32'/>
+				<frame time='0' hotx='-24' hoty='-64'/>
 			</dir>
 			<dir id="down" originx='768'>
-				<frame time='0' hotx='-8' hoty='-64'/>
+				<frame time='0' hotx='-24' hoty='-32'/>
 			</dir>
 			<dir id="left" originx='0'>
-				<frame time='0' hotx='-32' hoty='-8'/>
+				<frame time='0' hotx='-64' hoty='-24'/>
 			</dir>
 			<dir id="right" originx='512'>
-				<frame time='0' hotx='-64' hoty='-8'/>
+				<frame time='0' hotx='-32' hoty='-24'/>
 			</dir>
 		</state>
 		<state>

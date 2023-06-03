@@ -25,14 +25,16 @@ int tileStackFlags(TEG_MAP *map, int mx, int my) {
 	}
 	else
 	{
-		int i1, i2, f1, f2;
+		int i1, i2, i3, f1, f2, f3;
 		i1 = teg_mapget (map, 0, mx, my);
 		i2 = teg_mapget (map, 1, mx, my);
+		i3 = teg_mapget (map, 2, mx, my);
 		if (i1 >= 0) f1 = map->tilelist->tiles[i1].flags; else f1 = 0;
 		if (i2 >= 0) f2 = map->tilelist->tiles[i2].flags; else f2 = 0;
+		if (i3 >= 0) f3 = map->tilelist->tiles[i3].flags; else f3 = 0;
 
 		// check for solids
-		if (f1 == 1 || f2 == 1) result |= TS_SOLID;
+		if (f1 == 1 || f2 == 1 || f3 == 1) result |= TS_SOLID;
 
 		return result;
 	}
