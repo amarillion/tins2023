@@ -13,9 +13,9 @@ int main(int argc, const char *const *argv)
 
 	mainloop
 		.setEngine(engine)
-		.setAppName("flowpow")
-		.setTitle("Fole & Raul go Flower Power!")
-		.setConfigFilename("flowpow.cfg")
+		.setAppName("capylandia")
+		.setTitle("Fole & Raul: Capylandia Eco Rescue!")
+		.setConfigFilename("capylandia.cfg")
 		.setLogicIntervalMsec(20)
 		.setUsagiMode() // responsive, but scales screen if it gets too small. TODO: control breakpoints
 		.setPreferredGameResolution(GAME_WIDTH, GAME_HEIGHT)
