@@ -101,10 +101,7 @@ public:
 			resources->addStream("Flower_field", "data/music/Flower_field.ogg");
 
 			vector<string> levels = {
-					"map1", "map1", "map1", "map1",
-					"map1", "map1", "map1", "map1",
-					"map1", "map1", "map1", "map1",
-					"map1", "map1", "map1", "map1",
+					"map1"
 			};
 			//TODO: store tileset reference in map itself.
 			for (auto key : levels) {

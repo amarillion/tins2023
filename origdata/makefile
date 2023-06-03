@@ -7,7 +7,7 @@ SRC=.
 .PHONY: default
 default: all ;
 
-SPRITES=bridge
+SPRITES=bridge tiles2
 SHEET_FILES=$(patsubst %,$(DEST)/%.png,$(SPRITES))
 
 $(SHEET_FILES): $(DEST)/%.png: $(SRC)/%.ase

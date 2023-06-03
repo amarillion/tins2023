@@ -87,10 +87,7 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 	RoomSet *result = new RoomSet();
 	
 	vector<string> roomNames {
-		"map1", "map1", "map1", "map1",
-		"map1", "map1", "map1", "map1",
-		"map1", "map1", "map1", "map1",
-		"map1", "map1", "map1", "map1",
+		"map1"
 	};
 
 	for (string name : roomNames) {
@@ -100,11 +97,13 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 		ri.name = name;
 		int playerInitialisation = 0;
 
+		assert(ri.map->dl == LAYER_NUM);
+
 		for (int x = 0; x < ri.map->w; ++x)
 			for (int y = 0; y < ri.map->h; ++y)
 			{
 				// get object data from layer 2.
-				int tile = teg_mapget(ri.map, 2, x, y);
+				int tile = teg_mapget(ri.map, OBJECT_LAYER, x, y);
 				int flag = ri.map->tilelist->tiles[tile].flags;
 
 				if (tile >= 0 && flag >= 100)

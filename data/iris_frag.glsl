@@ -5,50 +5,47 @@
 
 precision mediump float;
 
-out vec4 vFragColor;	//fragment shader output
-
 //input from the vertex shader
-smooth in vec2 vUV;						//2D texture coordinates
+//smooth in vec2 vUV;						//2D texture coordinates
+//uniform sampler2D textureMap;			//reflection map
 
-//shader uniforms
-uniform sampler2D textureMap;			//the image to twirl
-uniform float time;				        //teh amount of twirl
+uniform sampler2D al_tex;               // default texture, set by al_draw_bitmap
+uniform float time;				        // waves move over time...
+
+varying vec2 varying_texcoord;
+varying vec2 pixel_position;
 
 void main()
 {
-	vec2 uv = vUV;
+	vec2 uv = gl_FragCoord.xy;          // gl_FragCoord coordinate relative to viewport, not texture.
 
-    float frequency = 20.0;
-    float amplitude = 4.0;
-    float speed = 6.282 / 10;
+    float waveLen = 20;
+    float speed = 6.282 * 25;
+    vec4 color = texture(al_tex, varying_texcoord);
+    float alpha = color.a;
 
-    vec4 color = texture(textureMap, uv);
-    if (color == vec4(1.0, 0.0, 1.0, 1.0)) {
-    	//vec2 h = vec2(
-         //       sin(  (length( uv ) * frequency ) + ( time * speed ) ),
-          //      cos(  (length( uv ) * frequency ) + ( time * speed ) )
-          //  // Scale amplitude to make input more convenient for users
-        //);
+    if (color.r == color.b && color.r > 0 && color.g == 0.0) {
+
 
     	float h = 0.5 + 0.5
-    	    * sin((0.3 * uv.x + 0.5 * uv.y + 0.1 * time * speed) * frequency)
-    	    * sin((0.5 * uv.x + 1.0 * uv.y - 0.2 * time * speed) * frequency * 2)
-    	    * sin((0.8 * uv.x - 1.0 * uv.y + 0.3 * time * speed) * frequency);
+    	    * sin((0.3 * uv.x + 0.5 * uv.y + 0.1 * time * speed) / waveLen)
+    	    * sin((0.5 * uv.x + 1.0 * uv.y - 0.2 * time * speed) / waveLen * 2)
+    	    * sin((0.8 * uv.x - 1.0 * uv.y + 0.3 * time * speed) / waveLen);
 
         if (h > 0.24 && h < 0.26) {
-    	    vFragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    	    gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
         }
         else if (h > 0.68 && h < 0.70) {
-    	    vFragColor = vec4(1.0, 0.0, 1.0, 1.0);
+    	    gl_FragColor = vec4(1.0, 0.0, 1.0, alpha);
         }
     	else if (h > 0.54 && h < 0.56) {
-    	    vFragColor = vec4(0.0, 1.0, 1.0, 1.0);
+    	    gl_FragColor = vec4(0.0, 1.0, 1.0, alpha);
         }
         else {
-            vFragColor = vec4(0, 0, 0, 1.0);
+            gl_FragColor = vec4(0, 0, 0, alpha);
         }
    }
    else {
-        vFragColor = color;
+        gl_FragColor = color;
    }
 }

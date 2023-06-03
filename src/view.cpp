@@ -1,6 +1,9 @@
-#include <assert.h>
+#include <cassert>
 #include "view.h"
 #include "game.h"
+#include "mainloop.h"
+
+using namespace std;
 
 void View::init (int numPlayers, int player, int pw, int ph)
 {
@@ -23,6 +26,8 @@ void View::init (int numPlayers, int player, int pw, int ph)
 	h = defaults[i][3];
 	status_x = defaults[i][4];
 	status_y = defaults[i][5];
+
+	iris = make_unique<IrisEffect>();
 }
 
 void View::update() {
@@ -39,9 +44,17 @@ void View::draw(const GraphicsContext &gc) {
 	teg_partdraw (map, 0,
 			x, y, w, h,
 			camera_x - x, camera_y - y);
+
+	int counter = MainLoop::getMainLoop()->getMsecCounter();
+	iris->enable((float)counter / 1000.0f, gc.buffer);
 	teg_partdraw (map, 1,
 			x, y, w, h,
 			camera_x - x, camera_y - y);
+	iris->disable();
+
+	teg_partdraw (map, 2,
+				  x, y, w, h,
+				  camera_x - x, camera_y - y);
 	GraphicsContext gc2;
 	gc2.buffer = gc.buffer;
 	gc2.xofst = camera_x - x;

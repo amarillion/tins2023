@@ -17,6 +17,10 @@ const int TILE_SIZE = 32;
 const int ROOM_WIDTH = 16;
 const int ROOM_HEIGHT = 16;
 
+const int LAYER_NUM = 4;
+const int FX_LAYER = 2;
+const int OBJECT_LAYER = 3;
+
 int tileStackFlags(TEG_MAP *map, int mx, int my);
 
 enum RoomFlags {

@@ -24,7 +24,6 @@ private:
 	Player *player[2];
 	PlayerState ps[2];
 	std::shared_ptr<View> view[2]; // a view for each player
-	std::unique_ptr<IrisEffect> iris;
 	ALLEGRO_BITMAP *preProcessing = nullptr;
 
 	int gameTimer;
@@ -106,17 +105,10 @@ GameImpl::~GameImpl()
 	}
 }
 
-void GameImpl::draw (const GraphicsContext &gc2)
+void GameImpl::draw (const GraphicsContext &gc)
 {
-	GraphicsContext gc {};
-	gc.buffer = preProcessing;
-	gc.xofst = gc2.xofst;
-	gc.yofst = gc2.yofst;
-
 	al_set_target_bitmap(gc.buffer);
 	al_clear_to_color(LIGHT_BLUE);
-	//~ teg_draw (buffer, level, 0, camera_x, 0);
-	//~ objects.draw(buffer, camera_x, 0);
 
 	al_draw_bitmap(chart->getBitmap(), 0, 0, 0);
 
@@ -140,14 +132,8 @@ void GameImpl::draw (const GraphicsContext &gc2)
 
 	messages->draw(gc);
 
-
-
-
-	al_set_target_bitmap(gc2.buffer);
-	int counter = MainLoop::getMainLoop()->getMsecCounter();
-	iris->enable(counter / 1000.0f, gc.buffer);
-	al_draw_filled_rectangle(0, 0, MAIN_WIDTH, MAIN_HEIGHT, BLACK);
-	iris->disable();
+//	al_set_target_bitmap(gc2.buffer);
+//	al_draw_filled_rectangle(0, 0, MAIN_WIDTH, MAIN_HEIGHT, BLACK);
 }
 
 void GameImpl::update()
@@ -249,8 +235,6 @@ void GameImpl::initGame ()
 
 	monsterHp = defaultMonsterHp;
 	initLevel();
-
-	iris = make_unique<IrisEffect>();
 }
 
 Player * initPlayer(PlayerState *ps, Room *room, int i) {
