@@ -1,6 +1,6 @@
-#include <assert.h>
+#include <cassert>
 #include "level.h"
-#include <math.h>
+#include <cmath>
 
 #include "door.h"
 #include "monster.h"
@@ -10,7 +10,7 @@
 #include "strutil.h"
 
 #include "levelGen.h"
-#include <algorithm>
+#include <bitset>
 
 using namespace std;
 using namespace xdom;
@@ -213,15 +213,11 @@ RoomInfo *RoomSet::findRoom (bool up, bool down, bool left, bool right, bool tel
 	vector <RoomInfo>::iterator i;
 	for (i = rooms.begin(); i != rooms.end(); ++i)
 	{
+		//TODO: select at random?
 		result = &(*i);;
 		break;
-		//TODO: selectively enable / disable doors!
-//		if (i->up == up && i->down == down && i->left == left && i->right == right /* && i->teleport == teleport */)
-//		{
-//			result = &(*i);
-//			break;
-//		}
 	}
+
 	if (!result) {
 		cerr << string_format("Couldn't find room with %i %i %i %i %i\n", up, down, left, right, teleport);
 		assert(false);
@@ -230,35 +226,33 @@ RoomInfo *RoomSet::findRoom (bool up, bool down, bool left, bool right, bool tel
 	return result;
 }
 
-bool doorMustBeInited(int doorDir, int initFlags) {
-	/*
-	switch(doorDir) {
-		case Dir::N:
+bool doorMustBeInited(int legacyDir, int initFlags) {
+	switch(legacyDir) {
+		case 0:
 			if ((initFlags & INIT_DOOR_N) > 0) return true;
 			break;
-		case Dir::E:
-			if ((initFlags & INIT_DOOR_E) > 0) return true;
-			break;
-		case Dir::S:
+		case 1:
 			if ((initFlags & INIT_DOOR_S) > 0) return true;
 			break;
-		case Dir::W:
+		case 2:
 			if ((initFlags & INIT_DOOR_W) > 0) return true;
 			break;
+		case 3:
+			if ((initFlags & INIT_DOOR_E) > 0) return true;
+			break;
+		default: assert(false);
 	}
 	return false;
-	 */
-	return true;
 }
 
 Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, int _my) : roomInfo(ri), objects (o), mx(_mx), my(_my), map(nullptr)
 {
 	assert(ri);
-	doors[0] = NULL;
-	doors[1] = NULL;
-	doors[2] = NULL;
-	doors[3] = NULL;
-	teleport = NULL;
+	doors[0] = nullptr;
+	doors[1] = nullptr;
+	doors[2] = nullptr;
+	doors[3] = nullptr;
+	teleport = nullptr;
 	map = ri->map;
 	initFlags = aInitFlags;
 	bananaCount = 0;
@@ -270,6 +264,7 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, in
 	int maxBananas = (initFlags & INIT_BANANA ? 1 : 0);
 	int maxBonus = (initFlags & INIT_BONUS ? 1 : 0);
 
+	int doorInit = initFlags >> 8;
 	// add monsters, doors, etc. (but do not link doors yet)
 	vector <ObjectInfo>::iterator i;
 	for (i = ri->objectInfo.begin(); i != ri->objectInfo.end(); ++i)
@@ -447,7 +442,7 @@ Level* createLevel(RoomSet *roomSet, Objects *objects, unsigned int numRooms, in
 
 			switch(dir) {
 				case N: case S: case W: case E:
-					src->linkDoor(dest, legacyDir, false); 
+					src->linkDoor(dest, legacyDir, false);
 					if (n->hasLock(dir)) src->lockDoor(legacyDir);
 					break;
 				case TELEPORT: src->linkTeleport(dest, false); 

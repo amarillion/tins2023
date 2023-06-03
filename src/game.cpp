@@ -365,12 +365,11 @@ Player *GameImpl::getNearestPlayer (Object *o)
 	}
 }
 
-void GameImpl::init (shared_ptr<Resources> resources)
-{
+void GameImpl::init (shared_ptr<Resources> resources) {
 	roomSet = RoomSet::init(resources);
 	gamefont = resources->getFont("builtin_font")->get();
 	messages->setFont(resources->getFont("SpicyRice-Regular")->get(48));
-	
+
 	ALLEGRO_BITMAP *iconsheet = resources->getBitmap("pickups");
 	icons[ICON_BANANA_PLACEHOLDER] = al_create_sub_bitmap(iconsheet, 320, 0, 40, 40);
 	icons[ICON_BANANA] = al_create_sub_bitmap(iconsheet, 120, 0, 40, 40);
