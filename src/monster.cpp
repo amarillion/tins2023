@@ -3,6 +3,8 @@
 #include "resources.h"
 #include "engine.h"
 #include <stdlib.h>
+#include "player.h"
+
 // #include <lua.h> //TODO
 #include "game.h"
 #include "mainloop.h"

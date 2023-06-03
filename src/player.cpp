@@ -292,7 +292,7 @@ void Player::handleCollission (ObjectBase *o)
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->hpMax += 25;
 			ps->hp = ps->hpMax;
-			game->messages->showMessage("Max Health Up", Messages::POP_UP);
+			game->showMessage("Max Health Up", Messages::POP_UP);
 		}
 		break; 
 		case OT_BONUS1: {
@@ -303,19 +303,19 @@ void Player::handleCollission (ObjectBase *o)
 		case OT_BONUS2: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnRange += 40;
-			game->messages->showMessage("Increased weapon range", Messages::POP_UP);
+			game->showMessage("Increased weapon range", Messages::POP_UP);
 		}
 		break; 
 		case OT_BONUS3: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnDamage += 2;
-			game->messages->showMessage("Increased weapon power", Messages::POP_UP);
+			game->showMessage("Increased weapon power", Messages::POP_UP);
 		}
 		break; 
 		case OT_BONUS4: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnType++;
-			game->messages->showMessage("Weapon upgrade", Messages::POP_UP);
+			game->showMessage("Weapon upgrade", Messages::POP_UP);
 		}
 		break; 
 		case OT_MONSTER: { // monster

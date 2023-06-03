@@ -1,16 +1,85 @@
 #include "game.h"
-#include "container.h"
 #include <allegro5/allegro.h>
-#include "color.h"
 #include <allegro5/allegro_font.h>
 #include "util.h"
 #include "mainloop.h"
 #include "strutil.h"
 #include "irisshader.h"
+#include "object.h"
+#include "engine.h"
+#include "messages.h"
+#include "view.h"
+#include "chart.h"
 
 using namespace std;
 
-Game::Game(Engine *engine, Settings *_settings) : objects(), parent(engine), settings(_settings)
+class GameImpl : public Game
+{
+private:
+	enum { ICON_BANANA_PLACEHOLDER, ICON_BANANA, ICON_KEY, ICON_NUM };
+
+	RoomSet *roomSet;
+	Objects objects;
+	Engine *parent;
+	Player *player[2];
+	PlayerState ps[2];
+	std::shared_ptr<View> view[2]; // a view for each player
+	std::unique_ptr<IrisEffect> iris;
+	ALLEGRO_BITMAP *preProcessing = nullptr;
+
+	int gameTimer;
+	Settings *settings;
+	Level *level;
+	int monsterHp;
+
+	static const int defaultGameTime = 180000; // 180 sec = 3 min
+	static const int defaultMonsterHp = 5;
+	static const int monsterHpIncrease = 2;
+	static const int gameTimeIncrease = 60000;
+
+	int bananaCount;
+
+	unsigned int currentLevel; // index of current Level
+
+	void drawStatus (ALLEGRO_BITMAP *buffer, int x, int y, PlayerState *ps);
+	void nextLevel(); // called when player reaches exit
+	void initLevel (); // for beginning a new level
+
+	ALLEGRO_FONT *gamefont;
+	ALLEGRO_BITMAP* icons[ICON_NUM];
+
+	Input btnPause;
+	std::string gameover_message;
+	std::shared_ptr<Messages> messages;
+
+	shared_ptr<Chart> chart;
+public:
+
+	void showMessage(const char *str, Messages::Behavior type) override {
+		messages->showMessage(str, type);
+	}
+
+	const std::string &gameOverMessage() override { return gameover_message; };
+
+	void addTime(int amount) override { gameTimer += amount; messages->showMessage("Extra time", Messages::RIGHT_TO_LEFT); }
+
+	void doneLevel() override; // clean up objects etc.
+	void initGame() override;
+	int getCurrentLevel() override { return currentLevel; }
+	Objects *getObjects() override { return &objects; }
+	GameImpl(Engine *engine, Settings *_settings);
+	virtual ~GameImpl();
+	virtual void draw(const GraphicsContext &gc) override;
+	virtual void update() override;
+	Player *getNearestPlayer (Object *o);
+	void init(std::shared_ptr<Resources> resources);
+};
+
+std::shared_ptr<Game> Game::createInstance(Engine *engine, Settings *settings) {
+	return make_shared<GameImpl>(engine, settings);
+}
+
+GameImpl::GameImpl(Engine *engine, Settings *_settings) : objects(), parent(engine), settings(_settings)
 {
 	player[0] = NULL;
 	player[1] = NULL;
@@ -26,7 +95,7 @@ Game::Game(Engine *engine, Settings *_settings) : objects(), parent(engine), set
 	view[1] = make_shared<View>(this);
 }
 
-Game::~Game()
+GameImpl::~GameImpl()
 {
 	if (level != NULL) delete level;
 	objects.killAll();
@@ -37,7 +106,7 @@ Game::~Game()
 	}
 }
 
-void Game::draw (const GraphicsContext &gc2)
+void GameImpl::draw (const GraphicsContext &gc2)
 {
 	GraphicsContext gc {};
 	gc.buffer = preProcessing;
@@ -48,6 +117,9 @@ void Game::draw (const GraphicsContext &gc2)
 	al_clear_to_color(LIGHT_BLUE);
 	//~ teg_draw (buffer, level, 0, camera_x, 0);
 	//~ objects.draw(buffer, camera_x, 0);
+
+	al_draw_bitmap(chart->getBitmap(), 0, 0, 0);
+
 	for (int i = 0; i < settings->numPlayers; ++i)
 	{
 		if (!ps[i].died)
@@ -55,13 +127,21 @@ void Game::draw (const GraphicsContext &gc2)
 			view[i]->draw(gc);
 		}
 		drawStatus (gc.buffer, view[i]->status_x, view[i]->status_y, &ps[i]);
+
+		int xco = player[i]->getRoom()->mx * ROOM_WIDTH + (player[i]->getx() / TILE_SIZE);
+		int yco = player[i]->getRoom()->my * ROOM_HEIGHT + (player[i]->gety() / TILE_SIZE);
+		al_put_pixel(xco, yco, i == 0 ? BLUE: GREEN);
 	}
+
 	int min = (gameTimer / 60000);
 	int sec = (gameTimer / 1000) % 60;
 	int csec = (gameTimer / 10) % 100;
 	al_draw_textf (gamefont, WHITE, 0, 464, ALLEGRO_ALIGN_LEFT, "%02i:%02i:%02i", min, sec, csec);
 
 	messages->draw(gc);
+
+
+
 
 	al_set_target_bitmap(gc2.buffer);
 	int counter = MainLoop::getMainLoop()->getMsecCounter();
@@ -70,7 +150,7 @@ void Game::draw (const GraphicsContext &gc2)
 	iris->disable();
 }
 
-void Game::update()
+void GameImpl::update()
 {
 	if (gameTimer % 1000 == 0) {
 		if (gameTimer == 60000) {
@@ -128,7 +208,7 @@ void Game::update()
 	}
 }
 
-void Game::drawStatus (ALLEGRO_BITMAP *buffer, int x, int y, PlayerState *xps)
+void GameImpl::drawStatus (ALLEGRO_BITMAP *buffer, int x, int y, PlayerState *xps)
 {
 	// draw bananas
 	int bananasGot = 0;
@@ -155,7 +235,7 @@ void Game::drawStatus (ALLEGRO_BITMAP *buffer, int x, int y, PlayerState *xps)
 	al_draw_textf (gamefont, WHITE, x + 128, y + 44, ALLEGRO_ALIGN_LEFT, "XP %05i", xps->xp);
 }
 
-void Game::initGame ()
+void GameImpl::initGame ()
 {
 	// initialize game and player stats.
 	// to start a new game.
@@ -182,10 +262,12 @@ Player * initPlayer(PlayerState *ps, Room *room, int i) {
 	return result;
 }
 
-void Game::initLevel()
+void GameImpl::initLevel()
 {
 	// initialize objects
 	level = createLevel(roomSet, &objects, currentLevel + (settings->numPlayers == 1 ? 4 : 6), monsterHp);
+
+	chart = Chart::createInstance(level);
 
 	player[0] = initPlayer(&ps[0], level->getStartRoom(0), 0);
 	objects.add (player[0]);
@@ -211,7 +293,7 @@ void Game::initLevel()
 
 }
 
-void Game::doneLevel()
+void GameImpl::doneLevel()
 {
 	objects.killAll();
 	if (level != NULL)
@@ -222,7 +304,7 @@ void Game::doneLevel()
 }
 
 // called when exit found
-void Game::nextLevel()
+void GameImpl::nextLevel()
 {
 	parent->logAchievement(string_format("players_%i_level_%i", settings->numPlayers, currentLevel));
 
@@ -250,7 +332,7 @@ void Game::nextLevel()
 	initLevel();
 }
 
-Player *Game::getNearestPlayer (Object *o)
+Player *GameImpl::getNearestPlayer (Object *o)
 {
 	assert (o);
 	if (settings->numPlayers == 2)
@@ -299,7 +381,7 @@ Player *Game::getNearestPlayer (Object *o)
 	}
 }
 
-void Game::init (shared_ptr<Resources> resources)
+void GameImpl::init (shared_ptr<Resources> resources)
 {
 	roomSet = RoomSet::init(resources);
 	gamefont = resources->getFont("builtin_font")->get();

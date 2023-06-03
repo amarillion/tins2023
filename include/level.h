@@ -14,6 +14,10 @@ class Objects;
 class Door;
 
 const int TILE_SIZE = 32;
+const int ROOM_WIDTH = 16;
+const int ROOM_HEIGHT = 16;
+
+int tileStackFlags(TEG_MAP *map, int mx, int my);
 
 enum RoomFlags {
 	INIT_KEY = 0x01, 
@@ -86,9 +90,11 @@ class Room
  		Door *teleport;
 
 		int initFlags; // room initialization flags...
-		int bananaCount; 
-	public:		
-		Room(Objects *o, RoomInfo *ri, int monsterHp, int initFlags = -1);
+		int bananaCount;
+	public:
+		int mx;
+		int my;
+		Room(Objects *o, RoomInfo *ri, int monsterHp, int initFlags = -1, int _mx = 0, int _my = 0);
 		TEG_MAP *map;
 		int getStartX (int pi); // get start location of player pi
 		int getStartY (int pi);
@@ -103,10 +109,13 @@ class Room
 class Level
 {
 	public:
+		int mw;
+		int mh;
+
 		std::vector <Room *> rooms;
 		Room *getStartRoom(int player);
 		
-		Level() : rooms() {}
+		Level(int _mw, int _mh) : mw(_mw), mh(_mh), rooms() {}
 		~Level();
 		int getBananaCount();
 		// ALLEGRO_BITMAP* getMinimap();

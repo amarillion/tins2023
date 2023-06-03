@@ -29,25 +29,7 @@ int Object::getTileStackFlags(int mx, int my)
 {
 	int result = 0;
 	TEG_MAP *map = getMap();
-	if (!map) return 0; // no map found !!!
-	
-	if (mx < 0 || my < 0 || mx >= map->w || my >= map->h)
-	{
-		return 0;
-	}
-	else
-	{
-		int i1, i2, f1, f2;
-		i1 = teg_mapget (map, 0, mx, my);
-		i2 = teg_mapget (map, 1, mx, my);
-		if (i1 >= 0) f1 = map->tilelist->tiles[i1].flags; else f1 = 0;
-		if (i2 >= 0) f2 = map->tilelist->tiles[i2].flags; else f2 = 0;
-		
-		// check for solids
-		if (f1 == 1 || f2 == 1) result |= TS_SOLID;
-		
-		return result;
-	}
+	return tileStackFlags(map, mx, my);
 }
 
 Object::Object (Room *r, int aType) : ObjectBase()

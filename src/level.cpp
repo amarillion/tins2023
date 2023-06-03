@@ -15,9 +15,32 @@
 using namespace std;
 using namespace xdom;
 
+int tileStackFlags(TEG_MAP *map, int mx, int my) {
+	int result = 0;
+	if (!map) return 0; // no map found !!!
+
+	if (mx < 0 || my < 0 || mx >= map->w || my >= map->h)
+	{
+		return 0;
+	}
+	else
+	{
+		int i1, i2, f1, f2;
+		i1 = teg_mapget (map, 0, mx, my);
+		i2 = teg_mapget (map, 1, mx, my);
+		if (i1 >= 0) f1 = map->tilelist->tiles[i1].flags; else f1 = 0;
+		if (i2 >= 0) f2 = map->tilelist->tiles[i2].flags; else f2 = 0;
+
+		// check for solids
+		if (f1 == 1 || f2 == 1) result |= TS_SOLID;
+
+		return result;
+	}
+}
+
 Level *createTestLevel(RoomSet *roomSet, shared_ptr<Resources> resources, Objects *objects, int monsterHp)
 {
-	Level *level = new Level();
+	Level *level = new Level(0, 0);
 
 	Room *temp[15];
 	for (int i = 0; i < 14; ++i) { temp[i] = NULL; }
@@ -159,7 +182,7 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 						playerInitialisation |= 2;
 						break;
 					default:
-						cerr << string_format ("Found flag %i for tile %i at (%i, %i) in map %s\n", flag, tile, x, y,  ri.name);
+						cerr << string_format ("Found flag %i for tile %i at (%i, %i) in map %s\n", flag, tile, x, y,  ri.name.c_str());
 						assert (false); // wrong type
 						break;
 					}
@@ -227,7 +250,7 @@ bool doorMustBeInited(int doorDir, int initFlags) {
 	return true;
 }
 
-Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags) : roomInfo(ri), objects (o), map (NULL)
+Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, int _my) : roomInfo(ri), objects (o), mx(_mx), my(_my), map(nullptr)
 {
 	assert(ri);
 	doors[0] = NULL;
@@ -376,7 +399,7 @@ Level* createLevel(RoomSet *roomSet, Objects *objects, unsigned int numRooms, in
 	Map2D<Cell> grid = createKruskalMaze(numRooms);
 	auto nodes = getAllNodes(grid);
 
-	Level *level = new Level();
+	Level *level = new Level(grid.getDimMX(), grid.getDimMY());
 	map<Node*, Room*> node2room;
 
 	for (auto n : nodes) {
@@ -398,7 +421,8 @@ Level* createLevel(RoomSet *roomSet, Objects *objects, unsigned int numRooms, in
 			((n->pStart == 2) ? INIT_P2_START : 0);
 			
 		Room *r = new Room(objects, roomSet->findRoom(
-			n->hasLink(N), n->hasLink(S), n->hasLink(W), n->hasLink(E), n->hasLink(TELEPORT)), monsterHp, initFlags);
+			n->hasLink(N), n->hasLink(S), n->hasLink(W), n->hasLink(E),
+			n->hasLink(TELEPORT)), monsterHp, initFlags, n->x, n->y);
 		level->rooms.push_back(r);
 		node2room[n] = r;
 	}

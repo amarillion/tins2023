@@ -69,7 +69,7 @@ public:
 		btnDebugMode.setScancode (ALLEGRO_KEY_F11);
 	#endif
 
-		game = make_shared<Game>(this, &settings);
+		game = Game::createInstance(this, &settings);
 		add(game, Container::FLAG_SLEEP);
 	}
 
@@ -192,7 +192,7 @@ public:
 				ContainerPtr intro = make_shared<Container>();
 				add(intro);
 				intro->add(ClearScreen::build(BLACK).get());
-				intro->add(Text::buildf(WHITE, "%s", game->gameover_message.c_str())
+				intro->add(Text::buildf(WHITE, "%s", game->gameOverMessage().c_str())
 						.center().get());
 				initStart();
 				intro->setTimer (50, MSG_KILL);
