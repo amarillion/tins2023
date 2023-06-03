@@ -2,6 +2,7 @@
 #include "color.h"
 #include <memory>
 #include "chart.h"
+#include <allegro5/allegro_primitives.h>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ private:
 public:
 	ALLEGRO_BITMAP *getBitmap() override { return bmp; }
 
-	ChartImpl(const Level *level): level(level) {
+	explicit ChartImpl(const Level *level): level(level) {
 		bmp = al_create_bitmap(level->mw * ROOM_WIDTH, level->mh * ROOM_HEIGHT);
 
 		al_clear_to_color(DARK_GREY);
@@ -41,9 +42,29 @@ public:
 					al_put_pixel(basex + x, basey + y, color);
 				}
 			}
+
+			// draw doors...
+			int flags = room->getFlags();
+			if (flags & INIT_DOOR_N) {
+				al_draw_filled_rectangle(basex + 7, basey + 0, basex + 9, basey + 2,
+										 flags & INIT_LOCK_N ? WHITE: LIGHT_GREY);
+			}
+			if (flags & INIT_DOOR_E) {
+				al_draw_filled_rectangle(basex + 14, basey + 7, basex + 16, basey + 9,
+										 flags & INIT_LOCK_E ? WHITE: LIGHT_GREY);
+			}
+			if (flags & INIT_DOOR_S) {
+				al_draw_filled_rectangle(basex + 7, basey + 14, basex + 9, basey + 16,
+										 flags & INIT_LOCK_S ? WHITE: LIGHT_GREY);
+			}
+			if (flags & INIT_DOOR_W) {
+				al_draw_filled_rectangle(basex + 0, basey + 7, basex + 2, basey + 9,
+										 flags & INIT_LOCK_W ? WHITE: LIGHT_GREY);
+			}
 		}
 	}
 
+	virtual ~ChartImpl() = default;
 };
 
 std::shared_ptr<Chart> Chart::createInstance(Level *level) {

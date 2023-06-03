@@ -68,11 +68,11 @@ public:
 	int getCurrentLevel() override { return currentLevel; }
 	Objects *getObjects() override { return &objects; }
 	GameImpl(Engine *engine, Settings *_settings);
-	virtual ~GameImpl();
-	virtual void draw(const GraphicsContext &gc) override;
-	virtual void update() override;
-	Player *getNearestPlayer (Object *o);
-	void init(std::shared_ptr<Resources> resources);
+	~GameImpl() override;
+	void draw(const GraphicsContext &gc) override;
+	void update() override;
+	Player *getNearestPlayer (Object *o) override;
+	void init(std::shared_ptr<Resources> resources) override;
 };
 
 std::shared_ptr<Game> Game::createInstance(Engine *engine, Settings *settings) {
