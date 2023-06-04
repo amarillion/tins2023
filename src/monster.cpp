@@ -22,16 +22,11 @@ Monster::Monster(Room *r, int subType, int _hp) : Object (r, OT_MONSTER), monste
 	hp = _hp;
 }
 
-void Monster::init(std::shared_ptr<Resources> res)
-{
-	sprites[BLUE_FLOWER] = res->getAnim ("FlowerBlue");
-	sprites[BLUE_BELL] = res->getAnim ("BellBlue");
-	sprites[ORANGE_FLOWER] = res->getAnim ("FlowerOrange");
-	sprites[ORANGE_BELL] = res->getAnim ("BellOrange");
-	sprites[GREEN_BUG] = res->getAnim ("BugGreen");
-	sprites[RED_BUG] = res->getAnim ("BugRed");
-	sprites[BLUE_BUG] = res->getAnim ("BugBlue");
-	
+void Monster::init(std::shared_ptr<Resources> res) {
+	sprites[PELICAN] = res->getAnim ("Pelican");
+	sprites[CHICKEN] = res->getAnim ("Chicken");
+	sprites[DRIVING_DUCK] = res->getAnim ("DrivingDuck");
+
 	samples[0] = res->getSample ("fugly2");
 	samples[1] = res->getSample ("fugly2");
 	samples[2] = res->getSample ("mugly2");
@@ -98,25 +93,10 @@ void Monster::newState(State newState, int time) {
 
 void Monster::determineNextState() {
 	switch (monsterType) {
-		case BLUE_FLOWER: // Flower
-		case ORANGE_FLOWER:
-			if (eState != SHOOT && random(100) > 30) {
-				newState(SHOOT, defaultTelegraphingDelay);
-			}
-			else {
-				if (eState == WAIT) {
-					newState(MOVERANDOM, rand() % 50 + 25);
-				}
-				else {
-					newState(WAIT, rand() % 50 + 25);
-				}
-			}
-			break;
-		case BLUE_BELL:
-		case ORANGE_BELL:
+		case CHICKEN:
 			newState(SHOOT, rand() % 80 + 50);
 			break;
-		CASE: RED_BUG:
+		case PELICAN:
 			if (eState == WAIT) {
 				newState(MOVERANDOM, rand() % 50 + 25);
 			}
@@ -124,8 +104,7 @@ void Monster::determineNextState() {
 				newState(WAIT, rand() % 50 + 25);
 			}
 			break;
-		case GREEN_BUG:
-		case BLUE_BUG:
+		case DRIVING_DUCK:
 			newState(MOVERANDOM, rand() % 50 + 25);
 			break;
 	}

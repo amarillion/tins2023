@@ -33,8 +33,8 @@ int tileStackFlags(TEG_MAP *map, int mx, int my) {
 		if (i2 >= 0) f2 = map->tilelist->tiles[i2].flags; else f2 = 0;
 		if (i3 >= 0) f3 = map->tilelist->tiles[i3].flags; else f3 = 0;
 
-		// check for solids
-		if (f1 == 1 || f2 == 1 || f3 == 1) result |= TS_SOLID;
+		// three-way OR
+		result = f1 | f2 | f3;
 
 		return result;
 	}
@@ -108,75 +108,59 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 				int tile = teg_mapget(ri.map, OBJECT_LAYER, x, y);
 				int flag = ri.map->tilelist->tiles[tile].flags;
 
-				if (tile >= 0 && flag >= 100)
+				if (tile >= 0 && flag >= 64)
 				{
 					ObjectInfo oi;
 					oi.x = x;
 					oi.y = y;
-					switch (flag)
+					switch (tile)
 					{
-					case 100:
+					case 172:
 						oi.type = ObjectInfo::DOOR;
 						oi.doorDir = 0;
 						ri.up = true;
 						break;
-					case 101:
+					case 173:
 						oi.type = ObjectInfo::DOOR;
 						oi.doorDir = 3;
 						ri.right = true;
 						break;
-					case 102:
+					case 174:
 						oi.type = ObjectInfo::DOOR;
 						oi.doorDir = 1;
 						ri.down = true;
 						break;
-					case 103:
+					case 175:
 						oi.type = ObjectInfo::DOOR;
 						oi.doorDir = 2;
 						ri.left = true;
 						break;
-					case 104:
+					case 190:
 						oi.type = ObjectInfo::BANANA;
 						ri.bananas++;
 						break;
-					case 105: // green bug
+					case 188:
 						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = GREEN_BUG;
+						oi.monsterType = CHICKEN;
 						break;
-					case 106: // blue bell
+					case 189:
 						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = BLUE_BELL;
+						oi.monsterType = DRIVING_DUCK;
 						break;
-					case 107: // orange bell
+					case 191:
 						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = ORANGE_BELL;
+						oi.monsterType = PELICAN;
 						break;
-					case 108: // blue bug
-						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = BLUE_BUG;
-						break;
-					case 112: // organge flower
-						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = ORANGE_FLOWER;
-						break;
-					case 113: // blue flower
-						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = BLUE_FLOWER;
-						break;
-					case 114: // red bug
-						oi.type = ObjectInfo::MONSTER;
-						oi.monsterType = RED_BUG;
-						break;
-					case 109:
+					case 221:
 						oi.type = ObjectInfo::TELEPORT;
 						break;
-					case 110:
+					case 222:
 						oi.type = ObjectInfo::PLAYER;
 						oi.pi = 0;
 						ri.playerStart = true;
 						playerInitialisation |= 1;
 						break;
-					case 111:
+					case 223:
 						oi.type = ObjectInfo::PLAYER;
 						oi.pi = 1;
 						ri.playerStart = true;

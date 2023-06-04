@@ -1,5 +1,4 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include <list>
@@ -8,10 +7,11 @@
 #include "level.h"
 #include "component.h"
 #include "objectbase.h"
-#include <math.h>
+#include <cmath>
 
 // tile stack properties
-#define TS_SOLID 0x01
+const int TS_SOLID = 0x01;
+const int TS_OCEAN = 0x02;
 
 class Objects;
 class Engine;
@@ -82,5 +82,3 @@ public:
 	virtual void onUpdate() override;
 	virtual void draw (const GraphicsContext &gc, Room *room, int cx, int cy, int cw, int ch);
 };
-
-#endif

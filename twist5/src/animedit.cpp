@@ -20,6 +20,9 @@ public:
 
 class AnimEditorImpl : public AnimEditor
 {
+	vector<shared_ptr<AnimComponent2>> animComponents {};
+	int dirSetting = 0;
+
 public:
 	AnimEditorImpl()
 	{
@@ -55,10 +58,11 @@ public:
 				auto animComponent = make_shared<AnimComponent2>(aa);
 				animComponent->setLocation(xco + margin, yco + margin, aa->sizex, aa->sizey);
 				animComponent->setState(state);
-				animComponent->setDir(0);
+				animComponent->setDir(dirSetting);
+				animComponents.push_back(animComponent);
 				add(animComponent);
 				xco += w;
-				if (xco > 800) { //TODO hardcoded width...
+				if (xco > 720) { //TODO hardcoded width...
 					xco = 0;
 					yco += maxh;
 					maxh = 0;
@@ -66,6 +70,23 @@ public:
 			}
 		}
 		
+	}
+
+	void handleEvent(ALLEGRO_EVENT &event) override {
+		switch(event.type)
+		{
+			case ALLEGRO_EVENT_KEY_CHAR:
+			{
+				if (event.keyboard.keycode == ALLEGRO_KEY_TAB) {
+					dirSetting = (dirSetting + 1) % 4; //TODO num directions hardcoded?
+					for (auto &animcomponent : animComponents) {
+						animcomponent->setDir(dirSetting);
+					}
+				}
+				break;
+			}
+		}
+		Container::handleEvent(event);
 	}
 
 	//  void draw(const GraphicsContext &gc) override {

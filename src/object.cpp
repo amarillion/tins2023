@@ -89,7 +89,7 @@ void Object::try_move (double dx, double dy)
 				for (iy = my1; iy <= my2; ++iy)
 				{
 					// see if there is a solid tile at this position
-					if (getTileStackFlags (ix, iy) & TS_SOLID)
+					if (getTileStackFlags (ix, iy) & (TS_SOLID|TS_OCEAN))
 					{
 							valid = false;
 					}

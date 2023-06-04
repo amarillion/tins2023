@@ -34,12 +34,14 @@ public:
 					ALLEGRO_COLOR color;
 					int flags = tileStackFlags(room->map, x, y);
 					if (flags & TS_SOLID) {
-						color = DARK_GREY;
+						al_put_pixel(basex + x, basey + y, DARK_GREY);
+					}
+					else if (flags & TS_OCEAN) {
+						// leave transparent...
 					}
 					else {
-						color = LIGHT_GREY;
+						al_put_pixel(basex + x, basey + y, LIGHT_GREY);
 					}
-					al_put_pixel(basex + x, basey + y, color);
 				}
 			}
 
