@@ -35,6 +35,7 @@ enum {
 	OT_BONUS4,
 
 	OT_DEADMONSTER,
+	OT_NO_COLLISION
 
 };
 

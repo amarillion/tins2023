@@ -167,8 +167,7 @@ void Objects::draw (const GraphicsContext &gc, Room *room, int cx, int cy, int c
 }
 
 void Object::say(const string &text) {
-	Balloon *balloon = new Balloon(this->room, 0, text);
-	const int margin = 16;
-	balloon->setLocation(x + (w / 2) - (balloon->w / 2), y - balloon->h - margin);
+	Balloon *balloon = new Balloon(this->room, this, text);
+	balloon->updatePositionToParent();
 	game->getObjects()->add(balloon);
 }
