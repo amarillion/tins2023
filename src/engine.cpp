@@ -19,6 +19,7 @@
 #include "metrics.h"
 #include "updatechecker.h"
 #include "anim.h"
+#include "balloon.h"
 
 #ifdef DEBUG
 #include "animedit.h"
@@ -124,6 +125,7 @@ public:
 		ObjectBase::init (&debug, MainLoop::getMainLoop());
 		Object::init (this, game.get());
 		Player::init(resources);
+		Balloon::init(resources);
 		Bullet::init(resources);
 		Door::init(resources);
 		Monster::init(resources);

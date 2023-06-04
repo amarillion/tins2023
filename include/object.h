@@ -72,6 +72,8 @@ public:
 
 	virtual int getType() { return type; }
 	static void init(Engine *_engine, Game *_game) { engine = _engine; game = _game; }
+
+	void say(const std::string &text);
 };
 
 class Objects : public SimpleObjectList<Object> {

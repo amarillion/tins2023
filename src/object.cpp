@@ -5,6 +5,8 @@
 #include "player.h"
 #include <assert.h>
 #include "util.h"
+#include "balloon.h"
+#include "game.h"
 
 using namespace std;
 
@@ -162,4 +164,11 @@ void Objects::draw (const GraphicsContext &gc, Room *room, int cx, int cy, int c
 	}
 
 	al_set_clipping_rectangle(ox, oy, ow, oh);
+}
+
+void Object::say(const string &text) {
+	Balloon *balloon = new Balloon(this->room, 0, text);
+	const int margin = 16;
+	balloon->setLocation(x + (w / 2) - (balloon->w / 2), y - balloon->h - margin);
+	game->getObjects()->add(balloon);
 }

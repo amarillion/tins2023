@@ -260,11 +260,13 @@ void GameImpl::initLevel()
 
 	player[0] = initPlayer(&ps[0], level->getStartRoom(0), 0);
 	objects.add (player[0]);
+	player[0]->say("Let's go!");
 
 	if (settings->numPlayers == 2)
 	{
 		player[1] = initPlayer (&ps[1], level->getStartRoom(1), 1);
 		objects.add (player[1]);
+		player[1]->say("You bet!");
 	}
 	else
 	{
