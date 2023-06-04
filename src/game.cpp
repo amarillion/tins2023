@@ -281,7 +281,7 @@ void GameImpl::initLevel()
 
 	bananaCount = level->getBananaCount();
 
-	messages->showMessage(string_format("Collect %i Bananas", bananaCount), Messages::RIGHT_TO_LEFT);
+	messages->showMessage(string_format("Rescue %i capybaras", bananaCount), Messages::RIGHT_TO_LEFT);
 
 }
 

@@ -1,5 +1,4 @@
-#ifndef _MESSAGES_H
-#define _MESSAGES_H
+#pragma once
 
 #include "container.h"
 
@@ -10,5 +9,3 @@ public:
 
 	virtual std::string const className() const override { return "Messages"; }
 };
-
-#endif

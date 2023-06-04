@@ -31,8 +31,8 @@ void Messages::showMessage(std::string text, Behavior behavior) {
 	shared_ptr<Text> t;
 
 	const int HEIGHT = 120;
-	t = Text::build(WHITE, ALLEGRO_ALIGN_CENTER, text).xywh(0, 0, GAME_WIDTH, HEIGHT).get();
-	t->setLetterColorGenerator(make_shared<RainbowGenerator2>(12));
+	t = Text::build(BROWN, ALLEGRO_ALIGN_CENTER, text).xywh(0, 0, GAME_WIDTH, HEIGHT).get();
+//	t->setLetterColorGenerator(make_shared<RainbowGenerator2>(12));
 	if (behavior == POP_UP) {
 		animator = make_shared<Animator<Point>>(
 			Point(0, 480), Point(0, 360), 
