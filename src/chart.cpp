@@ -20,9 +20,9 @@ public:
 	explicit ChartImpl(const Level *level): level(level) {
 		bmp = al_create_bitmap(level->mw * ROOM_WIDTH, level->mh * ROOM_HEIGHT);
 
-		al_clear_to_color(DARK_GREY);
-
 		al_set_target_bitmap(bmp);
+		al_clear_to_color(TRANSPARENT);
+
 		for (Room *room: level->rooms) {
 			// draw a single room...
 
@@ -47,20 +47,22 @@ public:
 
 			// draw doors...
 			int flags = room->getFlags();
+			int ROOM_WIDTH_2 = ROOM_WIDTH / 2;
+			int ROOM_HEIGHT_2 = ROOM_HEIGHT / 2;
 			if (flags & INIT_DOOR_N) {
-				al_draw_filled_rectangle(basex + 7, basey + 0, basex + 9, basey + 2,
+				al_draw_filled_rectangle(basex + ROOM_WIDTH_2 - 1, basey + 0, basex + ROOM_WIDTH_2 + 1, basey + 2,
 										 flags & INIT_LOCK_N ? WHITE: LIGHT_GREY);
 			}
 			if (flags & INIT_DOOR_E) {
-				al_draw_filled_rectangle(basex + 14, basey + 7, basex + 16, basey + 9,
+				al_draw_filled_rectangle(basex + ROOM_WIDTH - 2, basey + ROOM_HEIGHT_2 - 1, basex + ROOM_WIDTH, basey + ROOM_HEIGHT_2 + 1,
 										 flags & INIT_LOCK_E ? WHITE: LIGHT_GREY);
 			}
 			if (flags & INIT_DOOR_S) {
-				al_draw_filled_rectangle(basex + 7, basey + 14, basex + 9, basey + 16,
+				al_draw_filled_rectangle(basex + ROOM_WIDTH_2 - 1, basey + ROOM_HEIGHT - 2, basex + ROOM_WIDTH_2 + 1, basey + ROOM_HEIGHT,
 										 flags & INIT_LOCK_S ? WHITE: LIGHT_GREY);
 			}
 			if (flags & INIT_DOOR_W) {
-				al_draw_filled_rectangle(basex + 0, basey + 7, basex + 2, basey + 9,
+				al_draw_filled_rectangle(basex + 0, basey + ROOM_HEIGHT_2 - 1, basex + 2, basey + ROOM_HEIGHT_2 + 1,
 										 flags & INIT_LOCK_W ? WHITE: LIGHT_GREY);
 			}
 		}

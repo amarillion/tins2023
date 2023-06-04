@@ -14,8 +14,8 @@ class Objects;
 class Door;
 
 const int TILE_SIZE = 32;
-const int ROOM_WIDTH = 16;
-const int ROOM_HEIGHT = 16;
+const int ROOM_WIDTH = 24;
+const int ROOM_HEIGHT = 24;
 
 const int LAYER_NUM = 4;
 const int FX_LAYER = 2;

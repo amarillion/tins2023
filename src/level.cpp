@@ -89,7 +89,7 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 	RoomSet *result = new RoomSet();
 	
 	vector<string> roomNames {
-		"map1"
+		"map2"
 	};
 
 	for (string name : roomNames) {
