@@ -11,6 +11,7 @@
 #include "view.h"
 #include "chart.h"
 #include "frame.h"
+#include "chartview.h"
 
 using namespace std;
 
@@ -55,6 +56,8 @@ private:
 	shared_ptr<Chart> chart;
 	ALLEGRO_BITMAP *chartFrame;
 	ALLEGRO_BITMAP *woodFrame;
+
+	shared_ptr<ChartView> chartView;
 public:
 
 	void showMessage(const char *str, Messages::Behavior type) override {
@@ -113,11 +116,6 @@ void GameImpl::draw (const GraphicsContext &gc)
 	al_set_target_bitmap(gc.buffer);
 	al_clear_to_color(LIGHT_BLUE);
 
-	// TODO: move to chart view class...
-	Rect chartRect { 0, 0, 128, 96 };
-	drawFrame(chartFrame, chartRect, Point{8,8}, chartMapFunc);
-	al_draw_bitmap(chart->getBitmap(), 8, 8, 0);
-
 	for (int i = 0; i < settings->numPlayers; ++i)
 	{
 		Rect rect { (int)view[i]->getx() - 8, (int)view[i]->gety() - 8, view[i]->getw() + 16, view[i]->geth() + 16 };
@@ -128,10 +126,6 @@ void GameImpl::draw (const GraphicsContext &gc)
 			view[i]->draw(gc);
 		}
 		drawStatus (gc.buffer, view[i]->status_x, view[i]->status_y, &ps[i]);
-
-		int xco = player[i]->getRoom()->mx * ROOM_WIDTH + (player[i]->getx() / TILE_SIZE);
-		int yco = player[i]->getRoom()->my * ROOM_HEIGHT + (player[i]->gety() / TILE_SIZE);
-		al_put_pixel(xco, yco, i == 0 ? BLUE: GREEN);
 	}
 
 	int min = (gameTimer / 60000);
@@ -140,6 +134,7 @@ void GameImpl::draw (const GraphicsContext &gc)
 	al_draw_textf (gamefont, WHITE, 0, 464, ALLEGRO_ALIGN_LEFT, "%02i:%02i:%02i", min, sec, csec);
 
 	messages->draw(gc);
+	chartView->draw(gc);
 
 //	al_set_target_bitmap(gc2.buffer);
 //	al_draw_filled_rectangle(0, 0, MAIN_WIDTH, MAIN_HEIGHT, BLACK);
@@ -260,17 +255,19 @@ void GameImpl::initLevel()
 	// initialize objects
 	level = createLevel(roomSet, &objects, currentLevel + (settings->numPlayers == 1 ? 4 : 6), monsterHp);
 
-	chart = Chart::createInstance(level);
-
 	player[0] = initPlayer(&ps[0], level->getStartRoom(0), 0);
 	objects.add (player[0]);
 	player[0]->say("Let's go!");
+
+	chartView->initLevel(level);
+	chartView->addPlayer(0, player[0]);
 
 	if (settings->numPlayers == 2)
 	{
 		player[1] = initPlayer (&ps[1], level->getStartRoom(1), 1);
 		objects.add (player[1]);
 		player[1]->say("You bet!");
+		chartView->addPlayer(1, player[1]);
 	}
 	else
 	{
@@ -390,4 +387,7 @@ void GameImpl::init (shared_ptr<Resources> resources) {
 	preProcessing = al_create_bitmap(MAIN_WIDTH, MAIN_HEIGHT);
 	chartFrame = resources->getBitmap("chart");
 	woodFrame = resources->getBitmap("frame");
+
+	chartView = make_shared<ChartView>(chartFrame);
+	add(chartView);
 }

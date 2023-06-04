@@ -8,7 +8,6 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
-#include "util.h"
 #include "textstyle.h"
 #include "container.h"
 
