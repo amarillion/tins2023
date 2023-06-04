@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "view.h"
 #include "chart.h"
+#include "frame.h"
 
 using namespace std;
 
@@ -52,6 +53,7 @@ private:
 	std::shared_ptr<Messages> messages;
 
 	shared_ptr<Chart> chart;
+	ALLEGRO_BITMAP *chartFrame;
 public:
 
 	void showMessage(const char *str, Messages::Behavior type) override {
@@ -80,10 +82,10 @@ std::shared_ptr<Game> Game::createInstance(Engine *engine, Settings *settings) {
 
 GameImpl::GameImpl(Engine *engine, Settings *_settings) : objects(), parent(engine), settings(_settings)
 {
-	player[0] = NULL;
-	player[1] = NULL;
-	level = NULL;
-	roomSet = NULL;
+	player[0] = nullptr;
+	player[1] = nullptr;
+	level = nullptr;
+	roomSet = nullptr;
 
 	btnPause.setScancode(ALLEGRO_KEY_ESCAPE);
 
@@ -110,7 +112,10 @@ void GameImpl::draw (const GraphicsContext &gc)
 	al_set_target_bitmap(gc.buffer);
 	al_clear_to_color(LIGHT_BLUE);
 
-	al_draw_bitmap(chart->getBitmap(), 0, 0, 0);
+	// TODO: move to chart view class...
+	Rect chartRect { 0, 0, 128, 96 };
+	drawFrame(chartFrame, chartRect, Point{8,8}, chartMapFunc);
+	al_draw_bitmap(chart->getBitmap(), 8, 8, 0);
 
 	for (int i = 0; i < settings->numPlayers; ++i)
 	{
@@ -377,4 +382,5 @@ void GameImpl::init (shared_ptr<Resources> resources) {
 
 	IrisEffect::init(resources);
 	preProcessing = al_create_bitmap(MAIN_WIDTH, MAIN_HEIGHT);
+	chartFrame = resources->getBitmap("chart");
 }

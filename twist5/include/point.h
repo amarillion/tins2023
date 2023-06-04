@@ -1,9 +1,6 @@
 #pragma once
 
 #include "deprecated.h"
-#include "assert.h"
-
-class Rect;
 
 template<typename T>
 class Vec2
