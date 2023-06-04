@@ -1,11 +1,9 @@
 #include "anim.h"
-#include "color.h"
 #include "engine.h"
 #include "object.h"
 #include "player.h"
-#include <assert.h>
+#include <cassert>
 #include "util.h"
-#include "balloon.h"
 #include "game.h"
 
 using namespace std;
@@ -164,10 +162,4 @@ void Objects::draw (const GraphicsContext &gc, Room *room, int cx, int cy, int c
 	}
 
 	al_set_clipping_rectangle(ox, oy, ow, oh);
-}
-
-void Object::say(const string &text) {
-	Balloon *balloon = new Balloon(this->room, this, text);
-	balloon->updatePositionToParent();
-	game->getObjects()->add(balloon);
 }

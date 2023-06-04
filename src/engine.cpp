@@ -2,6 +2,7 @@
 #include "door.h"
 #include "engine.h"
 #include "monster.h"
+#include "npc.h"
 #include "object.h"
 #include "player.h"
 #include "screenshot.h"
@@ -130,6 +131,8 @@ public:
 		Door::init(resources);
 		Monster::init(resources);
 		PickUp::init(resources);
+		Rescuee::init(resources);
+		Shopkeep::init(resources);
 #ifdef DEBUG
 		animEdit = AnimEditor::newInstance();
 		add(animEdit, Container::FLAG_SLEEP);

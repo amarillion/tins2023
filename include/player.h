@@ -34,7 +34,6 @@ public:
 	PickUp(Room *r, int type) : Object (r, type) { 
 		solid = true; 
 		switch(type) {
-			case OT_BANANA: setAnim(anims[AnimType::BANANA]); break;
 			case OT_HEALTH: setAnim(anims[AnimType::HEALTH]); break;
 			case OT_HEALTHCONTAINER: setAnim(anims[AnimType::HEALTHCONTAINER]); break;
 			case OT_KEY: setAnim(anims[AnimType::KEY]); break;
@@ -53,6 +52,16 @@ public:
 	static Anim *anims[ANIM_NUM];
 };
 
+/**
+ * Some helper functions for advanced Objects...
+ */
+class ObjectMixin : public Object {
+public:
+	ObjectMixin(Room *r, int type) : Object(r, type) {}
+	void drop(int bonusType);
+	void say(const std::string &text);
+};
+
 class PlayerState
 {
 	public:
@@ -69,13 +78,13 @@ class PlayerState
 	int wpnDamage = defaultWpnDamage; 
 	int lootTableCounter = 0;
 	int wpnType = 0;
-	int bananas = 0; // bananas collected
+	int rescues = 0; // rescues collected
 	int keys = 0; // keys collected
 	int xp = 0; // gold collected for killing monsters
 	bool died = false;
 };
 
-class Player : public Object
+class Player : public ObjectMixin
 {
 	static const int transportDelay = 5;
 	static const int invulnerabilityDelay = 50;

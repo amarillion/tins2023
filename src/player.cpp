@@ -1,15 +1,15 @@
-#include <assert.h>
+#include <cassert>
 #include "player.h"
-#include "resources.h"
 #include "anim.h"
 #include "engine.h"
 #include "door.h"
 #include "game.h"
 #include "mainloop.h"
-#include "util.h"
 #include "monster.h"
 #include <cmath>
-#include "math.h"
+#include "balloon.h"
+
+using namespace std;
 
 Anim *Bullet::bullet[1];
 
@@ -79,7 +79,20 @@ void PickUp::init(std::shared_ptr<Resources> res)
 
 Anim *PickUp::anims[PickUp::AnimType::ANIM_NUM];
 
-Player::Player(PlayerState *_ps, Room *r, int _playerType) : Object (r, OT_PLAYER)
+void ObjectMixin::drop(int bonusType) {
+	// instantiate a bonus...
+	PickUp *pickup = new PickUp(getRoom(), bonusType);
+	game->getObjects()->add (pickup);
+	pickup->setLocation (getx() + 8, gety());
+}
+
+void ObjectMixin::say(const string &text) {
+	Balloon *balloon = new Balloon(this->room, this, text);
+	balloon->updatePositionToParent();
+	game->getObjects()->add(balloon);
+}
+
+Player::Player(PlayerState *_ps, Room *r, int _playerType) : ObjectMixin(r, OT_PLAYER)
 {
 	ps = _ps;
 	transportCounter = 0;
@@ -253,9 +266,9 @@ void Player::handleCollission (ObjectBase *o)
 	if (ps->died) return;
 	
 	switch(o->getType()) {
-		case OT_BANANA: {
+		case OT_RESCUEE: {
 			MainLoop::getMainLoop()->audio()->playSample (samples[PICKUP_OTHER]);
-			ps->bananas++;
+			ps->rescues++;
 		}
 		break;
 		case OT_KEY: {
@@ -302,7 +315,7 @@ void Player::handleCollission (ObjectBase *o)
 			Monster *m = dynamic_cast<Monster*>(o);
 			if (hittimer == 0) hit(m->getDamage());
 		}
-		break; 
+		break;
 		case OT_LOCKED_DOOR: {
 			if (ps->keys > 0) {
 				Door *d = dynamic_cast<Door*>(o);			

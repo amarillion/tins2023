@@ -18,7 +18,7 @@ using namespace std;
 class GameImpl : public Game
 {
 private:
-	enum { ICON_BANANA_PLACEHOLDER, ICON_BANANA, ICON_KEY, ICON_NUM };
+	enum { ICON_CAPY_PLACEHOLDER, ICON_CAPY, ICON_KEY, ICON_NUM };
 
 	RoomSet *roomSet;
 	Objects objects;
@@ -174,7 +174,7 @@ void GameImpl::update()
 		view[i]->update();
 		
 		if (!ps[i].died) gameover = false;
-		bananasGot += ps[i].bananas;
+		bananasGot += ps[i].rescues;
 	}
 	if (gameover)
 	{
@@ -200,12 +200,12 @@ void GameImpl::update()
 
 void GameImpl::drawStatus (ALLEGRO_BITMAP *buffer, int x, int y, PlayerState *xps)
 {
-	// draw bananas
+	// draw rescues
 	int bananasGot = 0;
-	for (int i = 0; i < settings->numPlayers; ++i) bananasGot += ps[i].bananas;
-	int total = bananaCount - bananasGot + xps->bananas;
+	for (int i = 0; i < settings->numPlayers; ++i) bananasGot += ps[i].rescues;
+	int total = bananaCount - bananasGot + xps->rescues;
 	for (int i = 0; i < total; ++i) {
-		al_draw_bitmap(icons[i < xps->bananas ? ICON_BANANA : ICON_BANANA_PLACEHOLDER], x - 8 + (i * 32), y, 0);
+		al_draw_bitmap(icons[i < xps->rescues ? ICON_CAPY : ICON_CAPY_PLACEHOLDER], x - 8 + (i * 32), y, 0);
 	}
 	
 	// draw keys
@@ -307,15 +307,15 @@ void GameImpl::nextLevel()
 	// int maxPlayer = 0;
 	// int i;
 	// for (i = 0; i < settings->numPlayers; ++i) {
-	// 	if (ps[i].bananas > max) {
+	// 	if (ps[i].rescues > max) {
 	// 		maxPlayer = i;
-	// 		max = ps[i].bananas;
+	// 		max = ps[i].rescues;
 	// 	}
 	// }
 	// ps[maxPlayer].hpMax += 10;
 	
 	for (int i = 0; i < settings->numPlayers; ++i) {
-		ps[i].bananas = 0;
+		ps[i].rescues = 0;
 		ps[i].keys = 0;
 	}
 
@@ -379,8 +379,8 @@ void GameImpl::init (shared_ptr<Resources> resources) {
 	messages->setFont(resources->getFont("SpicyRice-Regular")->get(48));
 
 	ALLEGRO_BITMAP *iconsheet = resources->getBitmap("pickups");
-	icons[ICON_BANANA_PLACEHOLDER] = al_create_sub_bitmap(iconsheet, 320, 0, 40, 40);
-	icons[ICON_BANANA] = al_create_sub_bitmap(iconsheet, 120, 0, 40, 40);
+	icons[ICON_CAPY_PLACEHOLDER] = al_create_sub_bitmap(iconsheet, 440, 0, 32, 32);
+	icons[ICON_CAPY] = al_create_sub_bitmap(iconsheet, 400, 0, 32, 32);
 	icons[ICON_KEY] = al_create_sub_bitmap(iconsheet, 80, 0, 40, 40);
 
 	IrisEffect::init(resources);

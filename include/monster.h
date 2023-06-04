@@ -2,6 +2,8 @@
 #define MONSTER_H
 
 #include "object.h"
+#include "player.h"
+
 // #include <lua.h> //TODO
 
 enum MonsterType {
@@ -11,7 +13,7 @@ enum MonsterType {
 const int MONSTER_SAMPLE_NUM = 4;
 
 class Player;
-class Monster : public Object
+class Monster : public ObjectMixin
 {
 private:
 	static const int defaultHitDelay = 20;

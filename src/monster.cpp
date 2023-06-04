@@ -13,7 +13,7 @@
 Anim *Monster::sprites[MONSTER_NUM];
 ALLEGRO_SAMPLE *Monster::samples[MONSTER_SAMPLE_NUM];
 
-Monster::Monster(Room *r, int subType, int _hp) : Object (r, OT_MONSTER), monsterType (subType)
+Monster::Monster(Room *r, int subType, int _hp) : ObjectMixin(r, OT_MONSTER), monsterType (subType)
 {
 	setVisible(true);
 	solid = true;
@@ -168,9 +168,7 @@ void Monster::update()
 void Monster::createPickup(Player *p) {
 	p->ps->lootTableCounter++;
 	if ((p->ps->lootTableCounter % 8) == 0) {
-		PickUp *heart = new PickUp(getRoom(), OT_HEALTH);
-		game->getObjects()->add (heart);
-		heart->setLocation (getx() + 8, gety());
+		drop(OT_HEALTH);
 	}
 }
 

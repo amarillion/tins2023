@@ -24,8 +24,6 @@ enum { UP, DOWN, LEFT, RIGHT };
 enum { 
 	OT_MONSTER, OT_BULLET, OT_ENEMY_BULLET, OT_PLAYER, OT_DOOR, OT_LOCKED_DOOR, OT_TELEPORT, 
 	
-	OT_BANANA,
-
 	OT_HEALTH,
 	OT_HEALTHCONTAINER,
 	OT_KEY,
@@ -35,8 +33,10 @@ enum {
 	OT_BONUS4,
 
 	OT_DEADMONSTER,
-	OT_NO_COLLISION
+	OT_NO_COLLISION,
 
+	OT_SHOPKEEP,
+	OT_RESCUEE
 };
 
 struct LegacyDirInfo {
@@ -74,7 +74,6 @@ public:
 	virtual int getType() { return type; }
 	static void init(Engine *_engine, Game *_game) { engine = _engine; game = _game; }
 
-	void say(const std::string &text);
 };
 
 class Objects : public SimpleObjectList<Object> {

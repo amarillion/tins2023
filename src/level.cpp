@@ -8,6 +8,7 @@
 #include "util.h"
 #include "tilemap.h"
 #include "strutil.h"
+#include "npc.h"
 
 #include "levelGen.h"
 #include <bitset>
@@ -176,7 +177,7 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 
 		}
 		
-		// each room should have exactly three placeholders for bananas
+		// each room should have exactly three placeholders for rescues
 		if (ri.bananas < 3) {
 			cerr << string_format("Missing placeholders in %s\n", name.c_str());
 			assert(false);
@@ -286,7 +287,7 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, in
 			case ObjectInfo::BANANA:
 				{
 					if (bananaCount < maxBananas) {
-						PickUp *b = new PickUp (this, OT_BANANA);
+						Rescuee *b = new Rescuee(this);
 						b->setLocation (i->x * TILE_SIZE, i->y * TILE_SIZE);
 						objects->add (b);
 						bananaCount++;

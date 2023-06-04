@@ -190,7 +190,7 @@ void roundRobinDistribute(const vector<Node*> &allNodes, int max, void set(Node*
 		int currentArea = areas[areaPos];
 		
 		Node *n = allNodes[pos];
-		// scan for a node of the right area, without bananas
+		// scan for a node of the right area, without rescues
 		if (n->doorArea == currentArea && !get(n)) {
 			set(n);
 			remain--;

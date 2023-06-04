@@ -58,15 +58,42 @@
 		<frame originx='32' time='200'/>
 		<frame originx='64' time='200'/>
 	</anim>
-	<anim id='bullet' rle='bullets' dx='16' dy='16' regionw='40' regionh='40'>
+	<anim id='bullet' rle='bullets' dx='16' dy='16' regionw='32' regionh='32'>
 		<state>
-			<frame originx='40' time='0' hotx='-12' hoty='-12'/>
+			<dir id="up">
+				<frame originx='64' time='0' hotx='-12' hoty='-12'><rot angle="270"/></frame>
+			</dir>
+			<dir id="down">
+				<frame originx='64' time='0' hotx='-12' hoty='-12'><rot angle="90"/></frame>
+			</dir>
+			<dir id="left">
+				<frame originx='64' time='0' hotx='-12' hoty='-12'><rot angle="180"/></frame>
+			</dir>
+			<dir id="right">
+				<frame originx='64' time='0' hotx='-12' hoty='-12'/>
+			</dir>
+x		</state>
+		<state>
+			<frame originx='0' time='200' hotx='-12' hoty='-12'/>
+			<frame originx='0' time='200' hotx='-12' hoty='-12'><rot angle="90"/></frame>
+			<frame originx='0' time='200' hotx='-12' hoty='-12'><rot angle="180"/></frame>
+			<frame originx='0' time='200' hotx='-12' hoty='-12'><rot angle="270"/></frame>
 		</state>
 		<state>
-			<frame originx='80' time='0' hotx='-12' hoty='-12'/>
+			<frame originx='32' time='200' hotx='-12' hoty='-12'/>
+			<frame originx='32' time='200' hotx='-12' hoty='-12'><rot angle="90"/></frame>
+			<frame originx='32' time='200' hotx='-12' hoty='-12'><rot angle="180"/></frame>
+			<frame originx='32' time='200' hotx='-12' hoty='-12'><rot angle="270"/></frame>
 		</state>
 	</anim>
-	<anim id='Capybara' dx='30' dy='40' regionw='64' regionh='64' hotx='-15' hoty='-18'>
+	<anim id='Shopkeep' dx='30' dy='40' regionw='64' regionh='64' hotx='-15' hoty='-18'>
+		<frame rle="Capy_01" originx='128' time='200'/>
+	</anim>
+	<anim id='Rescuee' dx='30' dy='40' regionw='64' regionh='64' hotx='-15' hoty='-18'>
+		<state rle="Capy_02">
+			<frame originx='128' time='200'/>
+			<frame originx='192' time='200'/>
+		</state>
 		<state rle="Capy_01">
 			<frame originx='0' time='200'/>
 			<frame originx='64' time='200'/>
