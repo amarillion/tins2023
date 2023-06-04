@@ -296,19 +296,19 @@ void Player::handleCollission (ObjectBase *o)
 		case OT_BONUS2: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnRange += 40;
-			game->showMessage("Increased weapon range", Messages::POP_UP);
+			game->showMessage("Increased soaker pressure", Messages::POP_UP);
 		}
 		break; 
 		case OT_BONUS3: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnDamage += 2;
-			game->showMessage("Increased weapon power", Messages::POP_UP);
+			game->showMessage("Increased soaker power", Messages::POP_UP);
 		}
 		break; 
 		case OT_BONUS4: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnType++;
-			game->showMessage("Weapon upgrade", Messages::POP_UP);
+			game->showMessage("Soaker upgrade", Messages::POP_UP);
 		}
 		break; 
 		case OT_MONSTER: { // monster
