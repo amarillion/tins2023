@@ -54,6 +54,7 @@ private:
 
 	shared_ptr<Chart> chart;
 	ALLEGRO_BITMAP *chartFrame;
+	ALLEGRO_BITMAP *woodFrame;
 public:
 
 	void showMessage(const char *str, Messages::Behavior type) override {
@@ -119,6 +120,9 @@ void GameImpl::draw (const GraphicsContext &gc)
 
 	for (int i = 0; i < settings->numPlayers; ++i)
 	{
+		Rect rect { (int)view[i]->getx() - 8, (int)view[i]->gety() - 8, view[i]->getw() + 16, view[i]->geth() + 16 };
+		drawFrame(woodFrame, rect, Point{8,8}, regularFrameFunc);
+
 		if (!ps[i].died)
 		{
 			view[i]->draw(gc);
@@ -385,4 +389,5 @@ void GameImpl::init (shared_ptr<Resources> resources) {
 	IrisEffect::init(resources);
 	preProcessing = al_create_bitmap(MAIN_WIDTH, MAIN_HEIGHT);
 	chartFrame = resources->getBitmap("chart");
+	woodFrame = resources->getBitmap("frame");
 }

@@ -8,6 +8,7 @@ struct ALLEGRO_BITMAP;
 
 Point chartMapFunc(const Point &cell, const Point &frameSize);
 Point bubbleMapFunc(const Point &cell, const Point &frameSize);
+Point regularFrameFunc(const Point &cell, const Point &frameSize);
 
 /**
  * Slices input tiles in equal tiles of size tileSize.

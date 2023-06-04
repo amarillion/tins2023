@@ -1,6 +1,9 @@
 #pragma once
 #include "setting.h"
 
+const int GAME_WIDTH=800;
+const int GAME_HEIGHT=480;
+
 struct ALLEGRO_CONFIG;
 
 class Constants

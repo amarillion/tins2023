@@ -2,6 +2,30 @@
 
 #include <allegro5/allegro5.h>
 
+Point regularFrameFunc(const Point &cell, const Point &frameSize) {
+	bool isLeft = cell.x() == 0;
+	bool isRight = cell.x() == frameSize.x() - 1;
+	bool isTop = cell.y() == 0;
+	bool isBottom = cell.y() == frameSize.y() - 1;
+
+	if (isTop) {
+		if (isLeft) { return Point {0,0}; }
+		else if (isRight) { return Point { 2, 0 }; }
+		else return Point { 1, 0 };
+	}
+	else if (isBottom) {
+		if (isLeft) { return Point {0,2}; }
+		else if (isRight) { return Point { 2, 2 }; }
+		else { return Point { 1, 2 }; }
+	}
+	else {
+		if (isLeft) { return Point {0,1}; }
+		else if (isRight) { return Point { 2, 1 }; }
+		else return Point { 1, 1 };
+	}
+
+}
+
 
 Point bubbleMapFunc(const Point &cell, const Point &frameSize) {
 	bool isLeft = cell.x() == 0;

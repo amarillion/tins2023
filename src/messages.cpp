@@ -4,6 +4,7 @@
 #include "easing.h"
 #include "widget.h"
 #include "animator.h"
+#include "constants.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ void Messages::showMessage(std::string text, Behavior behavior) {
 	shared_ptr<Text> t;
 
 	const int HEIGHT = 120;
-	t = Text::build(WHITE, ALLEGRO_ALIGN_CENTER, text).xywh(0, 0, 640, HEIGHT).get();
+	t = Text::build(WHITE, ALLEGRO_ALIGN_CENTER, text).xywh(0, 0, GAME_WIDTH, HEIGHT).get();
 	t->setLetterColorGenerator(make_shared<RainbowGenerator2>(12));
 	if (behavior == POP_UP) {
 		animator = make_shared<Animator<Point>>(
@@ -44,7 +45,7 @@ void Messages::showMessage(std::string text, Behavior behavior) {
 	else if (behavior == RIGHT_TO_LEFT) {
 		int yco = (480 - HEIGHT) / 2;
 		animator = make_shared<Animator<Point>>(
-			Point(640, yco), Point(-640, yco), 
+			Point(GAME_WIDTH, yco), Point(-GAME_WIDTH, yco),
 			240, // At a speed of 160, I got complaints about the text being unreadable
 			[=](const Point &p){ t->setxy(p.x(), p.y()); },
 			[=](){ t->kill(); }

@@ -11,9 +11,9 @@ void View::init(int numPlayers, int player, int pw, int ph)
 
 	const int defaults[3][6] =
 	{
-		{ 64, 64,          pw - 128, ph - 128,                64, 0 },
-		{ 0, 0,            HALF_W - 8, 320,                   0, 320 },
-		{ HALF_W + 8, 160, HALF_W - 8, 320,                   HALF_W, 0 }
+		{ 8, 96+8,          pw - 16, ph - (96+16),                128, 0 },
+		{ 8, 96+8,            HALF_W - 16, 368,                   128, 0 },
+		{ HALF_W + 8, 8, HALF_W - 16, 368,                   HALF_W, 368+16 }
 	};
 	camera_x = 0;
 	camera_y = 0;
