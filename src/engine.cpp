@@ -103,7 +103,7 @@ public:
 			resources->addFiles("data/*.tll");
 			resources->addFiles("data/*.wav");
 			resources->addFiles("data/*.glsl");
-			resources->addStream("Flower_field", "data/music/Flower_field.ogg");
+			resources->addStream("PearlPollution", "data/music/PearlPollution.ogg");
 
 			vector<string> levels = {
 					"map1"
@@ -165,7 +165,7 @@ public:
 
 	void showIntro()
 	{
-		MainLoop::getMainLoop()->audio()->playMusic(resources->getMusic("Flower_field"));
+		MainLoop::getMainLoop()->audio()->playMusic(resources->getMusic("PearlPollution"));
 		ContainerPtr intro = make_shared<Container>();
 		add(intro);
 		intro->add(ClearScreen::build(BLACK).get());

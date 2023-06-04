@@ -155,7 +155,7 @@ void Player::update()
 		if (button[btnAction].getState())
 		{
 			attacktimer = ps->wpnSpeed;
-			int idx = random(6);
+			int idx = 5;
 			MainLoop::getMainLoop()->audio()->playSample(shoot[ps->wpnType == 0 ? 0 : 1][idx]);
 	
 			double angle = LEGACY_DIR[getDir()].angle;
