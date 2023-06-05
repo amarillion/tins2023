@@ -69,6 +69,7 @@ void PickUp::init(std::shared_ptr<Resources> res)
 {
 	anims[AnimType::BANANA] = res->getAnim("banana");
 	anims[AnimType::HEALTH] = res->getAnim("health");
+	anims[AnimType::GOLD] = res->getAnim("gold");
 	anims[AnimType::KEY] = res->getAnim("key");
 	anims[AnimType::BONUS1] = res->getAnim("bonus1");
 	anims[AnimType::BONUS2] = res->getAnim("bonus2");
@@ -258,6 +259,10 @@ void Player::hit(int damage)
 		ps->died = true;
 		setVisible (false);
 		solid = false;
+		for (int i = 0; i < ps->keys; ++i) {
+			drop(OT_KEY);
+		}
+
 		kill(); // TODO: dying animation
 	}	
 }
@@ -286,18 +291,24 @@ void Player::handleCollission (ObjectBase *o)
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			game->collectMap();
 		}
+		break;
 		case OT_HEALTHCONTAINER: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->hpMax += 25;
 			ps->hp = ps->hpMax;
 			game->showMessage("Max Health Up", Messages::POP_UP);
 		}
-		break; 
+		break;
+		case OT_GOLD: {
+			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_KEY]);
+			ps->gold += 10;
+		}
+		break;
 		case OT_BONUS1: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			game->addTime(30000); // add 30 seconds
 		}
-		break; 
+		break;
 		case OT_BONUS2: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnRange += 40;

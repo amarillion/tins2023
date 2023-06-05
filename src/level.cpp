@@ -244,10 +244,11 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, in
 	
 	int keyCount = 0;
 	int bonusCount = 0;
-
+	int monsterCount = 0;
 	int maxKeys = (initFlags & INIT_KEY ? 1 : 0);
 	int maxBananas = (initFlags & INIT_BANANA ? 1 : 0);
 	int maxBonus = (initFlags & INIT_BONUS ? 1 : 0);
+	int maxMonsters = (initFlags & (INIT_P1_START|INIT_P2_START)) ? 0 : 10;
 
 	int doorInit = initFlags >> 8;
 	// add monsters, doors, etc. (but do not link doors yet)
@@ -279,9 +280,12 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, in
 				break;
 			case ObjectInfo::MONSTER:
 				{
-					Monster *m = new Monster (this, i->monsterType, monsterHp);
-					m->setLocation (i->x * TILE_SIZE, i->y * TILE_SIZE);
-					objects->add (m);
+					if (monsterCount < maxMonsters) {
+						Monster *m = new Monster(this, i->monsterType, monsterHp);
+						m->setLocation(i->x * TILE_SIZE, i->y * TILE_SIZE);
+						objects->add(m);
+						maxMonsters++;
+					}
 				}
 				break;
 			case ObjectInfo::BANANA:

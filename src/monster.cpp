@@ -170,6 +170,9 @@ void Monster::createPickup(Player *p) {
 	if ((p->ps->lootTableCounter % 8) == 0) {
 		drop(OT_HEALTH);
 	}
+	else {
+		drop(OT_GOLD);
+	}
 }
 
 void Monster::handleCollission(ObjectBase *o)
@@ -184,7 +187,7 @@ void Monster::handleCollission(ObjectBase *o)
 		hp -= p->ps->wpnDamage;
 		if (hp < 0)
 		{
-			p->ps->xp += defaultXpValue;
+//			p->ps->xp += defaultXpValue;
 			createPickup(p);
 		} // killed after hitcount == 0 again
 		

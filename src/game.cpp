@@ -231,7 +231,7 @@ void GameImpl::drawStatus (ALLEGRO_BITMAP *buffer, int x, int y, PlayerState *xp
 	al_draw_filled_rectangle(x1, y1, x1 + wHp, y1 + 12, RED);
 	al_draw_rectangle(x1, y1, x1 + wMax, y1 + 12, WHITE, 1.0);
 
-	al_draw_textf (gamefont, WHITE, x + 128, y + 44, ALLEGRO_ALIGN_LEFT, "XP %05i", xps->xp);
+	al_draw_textf (gamefont, WHITE, x + 128, y + 44, ALLEGRO_ALIGN_LEFT, "$ %05i", xps->gold);
 }
 
 void GameImpl::initGame ()
