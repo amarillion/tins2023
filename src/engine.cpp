@@ -107,7 +107,7 @@ public:
 			resources->addStream("PearlPollution", "data/music/PearlPollution.ogg");
 
 			vector<string> levels = {
-					"map2"
+					"map2", "map3", "map4", "map5", "map6"
 			};
 			//TODO: store tileset reference in map itself.
 			for (auto key : levels) {

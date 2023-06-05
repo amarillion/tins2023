@@ -90,7 +90,7 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 	RoomSet *result = new RoomSet();
 	
 	vector<string> roomNames {
-		"map2"
+		"map2", "map3", "map4", "map5", "map6"
 	};
 
 	for (string name : roomNames) {
@@ -195,13 +195,7 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 RoomInfo *RoomSet::findRoom (bool up, bool down, bool left, bool right, bool teleport)
 {
 	RoomInfo *result = nullptr;
-	vector <RoomInfo>::iterator i;
-	for (i = rooms.begin(); i != rooms.end(); ++i)
-	{
-		//TODO: select at random?
-		result = &(*i);;
-		break;
-	}
+	result = &choice(rooms); // pick a room at random
 
 	if (!result) {
 		cerr << string_format("Couldn't find room with %i %i %i %i %i\n", up, down, left, right, teleport);

@@ -15,9 +15,15 @@ static inline T bound (T _min, T val, T _max)
 /** generate a random number in the range [0, i) */
 int random (int i);
 
-// pick one  at random from a vector
+// pick one at random from a vector - const variant
 template<typename T>
-T choice(const std::vector<T> &aContainer) {
+const T &choice(const std::vector<T> &aContainer) {
+	return aContainer[random(aContainer.size())];
+}
+
+// non-const variant
+template<typename T>
+T &choice(std::vector<T> &aContainer) {
 	return aContainer[random(aContainer.size())];
 }
 
