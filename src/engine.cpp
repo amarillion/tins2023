@@ -34,7 +34,7 @@ private:
 
 	std::shared_ptr<Resources> resources;
 	std::shared_ptr<Metrics> metrics;
-	std::shared_ptr<UpdateChecker> updates;
+//	std::shared_ptr<UpdateChecker> updates;
 
 	Settings settings;
 	VersionLoader version;
@@ -152,10 +152,10 @@ public:
 		ALLEGRO_PATH *localAppData = al_get_standard_path(ALLEGRO_USER_SETTINGS_PATH);
 		string cacheDir = al_path_cstr(localAppData, ALLEGRO_NATIVE_PATH_SEP);
 
-		updates = UpdateChecker::newInstance(cacheDir, versionStr, E_QUIT);
-		add (updates, Container::FLAG_SLEEP);
-		updates->start_check_thread("fole", "en");
-		updates->setFont(resources->getFont("builtin_font")->get()); //TODO: should not be necessary
+//		updates = UpdateChecker::newInstance(cacheDir, versionStr, E_QUIT);
+//		add (updates, Container::FLAG_SLEEP);
+//		updates->start_check_thread("fole", "en");
+//		updates->setFont(resources->getFont("builtin_font")->get()); //TODO: should not be necessary
 
 		metrics = Metrics::newInstance("fole", versionStr);
 		metrics->logSessionStart();
@@ -273,8 +273,9 @@ public:
 			break;
 #endif
 		case E_EXITSCREEN:
-			setFocus(updates);
+//			setFocus(updates);
 			metrics->logSessionClose();
+			pushMsg(MSG_CLOSE);
 			break;
 		case E_QUIT:
 			pushMsg(MSG_CLOSE);
