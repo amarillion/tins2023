@@ -145,8 +145,8 @@ distclean: clean
 
 BUILDDATE=$(shell date +%Y%m%d)
 GITHASH=$(shell git log -1 --format='%H')
-APPNAME="TINS2022 entry"
-VERSION=0.1
+APPNAME="TINS2023 entry"
+VERSION=tins23-final
 
 .PHONY: updateversion
 updateversion:
