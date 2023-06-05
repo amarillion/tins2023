@@ -299,8 +299,8 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, in
 						keyCount++;
 					}
 					else if (bonusCount < maxBonus) {
-						vector<int> choices = { OT_BONUS1, OT_BONUS2, OT_BONUS3, OT_BONUS4, OT_HEALTHCONTAINER };
-						PickUp *b = new PickUp (this, choice(choices));
+//						vector<int> choices = { OT_BONUS1, OT_BONUS2, OT_BONUS3, OT_BONUS4, OT_HEALTHCONTAINER };
+						PickUp *b = new PickUp (this, OT_MAP);
 						b->setLocation (i->x * TILE_SIZE, i->y * TILE_SIZE);
 						objects->add (b);
 						bonusCount++;

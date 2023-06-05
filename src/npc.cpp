@@ -1,4 +1,5 @@
 #include "npc.h"
+#include "util.h"
 
 using namespace std;
 
@@ -28,6 +29,15 @@ void Rescuee::handleCollission(ObjectBase *o) {
 	}
 }
 
+void Rescuee::rescue() {
+	state = RESCUED;
+	setState(1); // update animation state
+
+	vector<int> choices { OT_BONUS1, OT_BONUS2, OT_BONUS3, OT_BONUS4, OT_HEALTHCONTAINER };
+	drop(choice(choices));
+	say("Thank you,\nTake this...");
+	type = OT_NO_COLLISION; // prevent triggering player again
+}
 
 void Shopkeep::update() {}
 

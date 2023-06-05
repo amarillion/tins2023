@@ -38,6 +38,7 @@ private:
 	static const int monsterHpIncrease = 2;
 	static const int gameTimeIncrease = 60000;
 
+	bool mapCollected = false;
 	int bananaCount;
 
 	unsigned int currentLevel; // index of current Level
@@ -53,7 +54,6 @@ private:
 	std::string gameover_message;
 	std::shared_ptr<Messages> messages;
 
-	shared_ptr<Chart> chart;
 	ALLEGRO_BITMAP *chartFrame;
 	ALLEGRO_BITMAP *woodFrame;
 
@@ -78,6 +78,15 @@ public:
 	void update() override;
 	Player *getNearestPlayer (Object *o) override;
 	void init(std::shared_ptr<Resources> resources) override;
+
+	void collectMap() override {
+		mapCollected = true;
+		refreshMap();
+	}
+
+	void refreshMap() override {
+		chartView->refresh(mapCollected);
+	}
 };
 
 std::shared_ptr<Game> Game::createInstance(Engine *engine, Settings *settings) {
@@ -247,6 +256,7 @@ Player * initPlayer(PlayerState *ps, Room *room, int i) {
 	room->getPlayerLocation(i, &x, &y);
 	result->setLocation(x * TILE_SIZE, y * TILE_SIZE);
 	cout << "Initializing player " << i << " at [" << x << ", " << y << "]\n";
+	room->visited = true;
 	return result;
 }
 
@@ -280,9 +290,10 @@ void GameImpl::initLevel()
 	view[1]->player = player[1];
 
 	bananaCount = level->getBananaCount();
+	mapCollected = false;
 
 	messages->showMessage(string_format("Rescue %i capybaras", bananaCount), Messages::RIGHT_TO_LEFT);
-
+	chartView->refresh(mapCollected);
 }
 
 void GameImpl::doneLevel()

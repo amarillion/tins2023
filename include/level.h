@@ -96,6 +96,7 @@ class Room
 		int initFlags; // room initialization flags...
 		int bananaCount;
 	public:
+		bool visited = false;
 		int mx;
 		int my;
 		Room(Objects *o, RoomInfo *ri, int monsterHp, int initFlags = -1, int _mx = 0, int _my = 0);

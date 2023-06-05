@@ -37,6 +37,7 @@ public:
 			case OT_HEALTH: setAnim(anims[AnimType::HEALTH]); break;
 			case OT_HEALTHCONTAINER: setAnim(anims[AnimType::HEALTHCONTAINER]); break;
 			case OT_KEY: setAnim(anims[AnimType::KEY]); break;
+			case OT_MAP: setAnim(anims[AnimType::MAP]); break;
 			case OT_BONUS1: setAnim(anims[AnimType::BONUS1]); break;
 			case OT_BONUS2: setAnim(anims[AnimType::BONUS2]); break;
 			case OT_BONUS3: setAnim(anims[AnimType::BONUS3]); break;
@@ -48,7 +49,7 @@ public:
 	virtual void handleCollission(ObjectBase *o);
 	static void init(std::shared_ptr<Resources> res);		
 	
-	enum AnimType { BANANA, HEALTH, KEY, BONUS1, BONUS2, BONUS3, BONUS4, HEALTHCONTAINER, ANIM_NUM };
+	enum AnimType { BANANA, HEALTH, KEY, BONUS1, BONUS2, BONUS3, BONUS4, MAP, HEALTHCONTAINER, ANIM_NUM };
 	static Anim *anims[ANIM_NUM];
 };
 

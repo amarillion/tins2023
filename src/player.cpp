@@ -75,6 +75,7 @@ void PickUp::init(std::shared_ptr<Resources> res)
 	anims[AnimType::BONUS3] = res->getAnim("bonus3");
 	anims[AnimType::BONUS4] = res->getAnim("bonus4");
 	anims[AnimType::HEALTHCONTAINER] = res->getAnim("healthcontainer");
+	anims[AnimType::MAP] = res->getAnim("map");
 }
 
 Anim *PickUp::anims[PickUp::AnimType::ANIM_NUM];
@@ -280,7 +281,11 @@ void Player::handleCollission (ObjectBase *o)
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->hp = std::min(ps->hp + heartHealthValue, ps->hpMax);
 		}
-		break; 
+		break;
+		case OT_MAP: {
+			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
+			game->collectMap();
+		}
 		case OT_HEALTHCONTAINER: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->hpMax += 25;
@@ -332,9 +337,10 @@ void Player::handleCollission (ObjectBase *o)
 				Door *d = dynamic_cast<Door*>(o);
 				assert (d);
 				MainLoop::getMainLoop()->audio()->playSample(samples[STEPS]);
-				if (d->otherRoom != NULL)
-				{
+				if (d->otherRoom != nullptr) {
 					setRoom(d->otherRoom);
+					d->otherRoom->visited = true;
+					game->refreshMap();
 					setLocation(d->otherDoor->getx(), d->otherDoor->gety());
 				}
 				hittimer = invulnerabilityDelay;
@@ -348,9 +354,10 @@ void Player::handleCollission (ObjectBase *o)
 				Door *t = dynamic_cast<Door*>(o);
 				assert (t);
 				MainLoop::getMainLoop()->audio()->playSample(samples[TELEPORT]);
-				if (t->otherRoom != NULL)
-				{
+				if (t->otherRoom != nullptr) {
 					setRoom(t->otherRoom);
+					t->otherRoom->visited = true;
+					game->refreshMap();
 					setLocation(t->otherDoor->getx(), t->otherDoor->gety());
 				}
 				hittimer = invulnerabilityDelay;

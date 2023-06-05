@@ -20,14 +20,7 @@ public:
 	static void init(std::shared_ptr<Resources> res);
 	void handleCollission(ObjectBase *o) override;
 
-	void rescue() {
-		state = RESCUED;
-		setState(1); // update animation state
-		drop(OT_BONUS1);
-		say("Thank you!");
-		type = OT_NO_COLLISION; // prevent triggering player again
-	}
-
+	void rescue();
 	void update() override;
 };
 

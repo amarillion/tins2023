@@ -14,6 +14,8 @@ class Player;
 
 class Game : public State {
 public:
+	virtual void collectMap() = 0;
+	virtual void refreshMap() = 0;
 	virtual void initGame() = 0;
 	virtual void doneLevel() = 0;
 	virtual void init(std::shared_ptr<Resources> resources) = 0;

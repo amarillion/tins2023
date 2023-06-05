@@ -270,6 +270,9 @@ x		</state>
 	<anim id="banana" rle='pickups' dx='16' dy='36' regionw='40' regionh='40' originx='120' originy='0'>
 		<frame time='0' hotx='-12' hoty='-4'/>
 	</anim>
+	<anim id="map" rle='pickups' dx='16' dy='36' regionw='40' regionh='40' originx='480' originy='0'>
+		<frame time='0' hotx='-12' hoty='-4'/>
+	</anim>
 	<anim id="key" rle='pickups' dx='12' dy='24' regionw='40' regionh='40' originx='80' originy='0'>
 		<frame time='0' hotx='-12' hoty='-8'/>
 	</anim>

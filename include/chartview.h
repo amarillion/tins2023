@@ -29,4 +29,8 @@ public:
 	void addPlayer(int idx, Player *p) {
 		player[idx] = p;
 	}
+
+	void refresh(bool mapCollected) {
+		chart->drawMap(mapCollected);
+	}
 };

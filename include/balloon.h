@@ -7,15 +7,11 @@ class Balloon: public Object {
 	static ALLEGRO_BITMAP *balloonMap;
 	static ALLEGRO_FONT *font;
 
-	std::string text;
+	std::vector<std::string> lines;
 	Object *parent;
 	int timer = 150; // 3 sec
 public:
-	Balloon(Room *r, Object *_parent, std::string _text): Object(r, OT_NO_COLLISION), text(std::move(_text)), parent(_parent) {
-		w = al_get_text_width(font, text.c_str()) + 16;
-		h = 24;
-		solid = false;
-	}
+	Balloon(Room *r, Object *_parent, const std::string &text);
 
 	void updatePositionToParent() {
 		const int margin = 16;

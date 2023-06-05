@@ -2,6 +2,7 @@
 #include "frame.h"
 #include "color.h"
 #include <allegro5/allegro_ttf.h>
+#include "strutil.h"
 
 ALLEGRO_BITMAP *Balloon::balloonMap = nullptr;
 ALLEGRO_FONT *Balloon::font = nullptr;
@@ -14,10 +15,27 @@ void Balloon::draw(const GraphicsContext &gc) {
 	Rect destRect { base.x(), base.y(), w, h };
 	drawFrame(balloonMap, destRect, BALLOON_TILE_SIZE, bubbleMapFunc);
 
-	al_draw_text(font, BLACK, base.x() + (w / 2), base.y() + ((h - al_get_font_line_height(font)) / 2), ALLEGRO_ALIGN_CENTER, text.c_str());
+	int lineh = al_get_font_line_height(font);
+	int yco = base.y() + ((h - lineh * lines.size()) / 2);
+	for (const auto &line: lines) {
+		al_draw_text(font, BLACK, base.x() + (w / 2), yco, ALLEGRO_ALIGN_CENTER, line.c_str());
+		yco += lineh;
+	}
 }
 
 void Balloon::init(std::shared_ptr<Resources> &res) {
 	balloonMap = res->getBitmap("bubble1");
 	font = res->getFont("builtin_font")->get();
+}
+
+Balloon::Balloon(Room *r, Object *_parent, const std::string &text) : Object(r, OT_NO_COLLISION), parent(_parent) {
+	lines = split(text, '\n');
+	int maxW = 0;
+	for (const auto &line: lines) {
+		int w = al_get_text_width(font, line.c_str());
+		if (w > maxW) { maxW = w; }
+	}
+	w = maxW + 16;
+	h = 16 + al_get_font_line_height(font) * lines.size();
+	solid = false;
 }
