@@ -37,11 +37,11 @@ public:
 				}
 				else {
 					if (mapCollected) {
-						if (flags & TS_SOLID) {
-							al_put_pixel(basex + x, basey + y, DARK_GREEN);
-						} else {
+//						if (flags & TS_SOLID) {
+//							al_put_pixel(basex + x, basey + y, DARK_GREEN);
+//						} else {
 							al_put_pixel(basex + x, basey + y, baseColor);
-						}
+//						}
 					}
 					else {
 						al_put_pixel(basex + x, basey + y, baseColor);
@@ -55,20 +55,16 @@ public:
 		int ROOM_WIDTH_2 = ROOM_WIDTH / 2;
 		int ROOM_HEIGHT_2 = ROOM_HEIGHT / 2;
 		if (flags & INIT_DOOR_N) {
-			al_draw_filled_rectangle(basex + ROOM_WIDTH_2 - 1, basey + 0, basex + ROOM_WIDTH_2 + 1, basey + 2,
-									 flags & INIT_LOCK_N ? WHITE: LIGHT_GREY);
+			al_draw_filled_rectangle(basex + ROOM_WIDTH_2 - 1, basey + 0, basex + ROOM_WIDTH_2 + 1, basey + 2, baseColor);
 		}
 		if (flags & INIT_DOOR_E) {
-			al_draw_filled_rectangle(basex + ROOM_WIDTH - 2, basey + ROOM_HEIGHT_2 - 1, basex + ROOM_WIDTH, basey + ROOM_HEIGHT_2 + 1,
-									 flags & INIT_LOCK_E ? WHITE: LIGHT_GREY);
+			al_draw_filled_rectangle(basex + ROOM_WIDTH - 2, basey + ROOM_HEIGHT_2 - 1, basex + ROOM_WIDTH, basey + ROOM_HEIGHT_2 + 1,baseColor);
 		}
 		if (flags & INIT_DOOR_S) {
-			al_draw_filled_rectangle(basex + ROOM_WIDTH_2 - 1, basey + ROOM_HEIGHT - 2, basex + ROOM_WIDTH_2 + 1, basey + ROOM_HEIGHT,
-									 flags & INIT_LOCK_S ? WHITE: LIGHT_GREY);
+			al_draw_filled_rectangle(basex + ROOM_WIDTH_2 - 1, basey + ROOM_HEIGHT - 2, basex + ROOM_WIDTH_2 + 1, basey + ROOM_HEIGHT,baseColor);
 		}
 		if (flags & INIT_DOOR_W) {
-			al_draw_filled_rectangle(basex + 0, basey + ROOM_HEIGHT_2 - 1, basex + 2, basey + ROOM_HEIGHT_2 + 1,
-									 flags & INIT_LOCK_W ? WHITE: LIGHT_GREY);
+			al_draw_filled_rectangle(basex + 0, basey + ROOM_HEIGHT_2 - 1, basex + 2, basey + ROOM_HEIGHT_2 + 1,baseColor);
 		}
 
 	}

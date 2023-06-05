@@ -79,6 +79,9 @@ public:
 
 class Objects : public SimpleObjectList<Object> {
 public:
-	virtual void onUpdate() override;
+	void onUpdate() override;
 	virtual void draw (const GraphicsContext &gc, Room *room, int cx, int cy, int cw, int ch);
+	std::list<Object*> getChildren() {
+		return objects;
+	}
 };

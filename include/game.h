@@ -14,6 +14,7 @@ class Player;
 
 class Game : public State {
 public:
+	virtual bool isMapCollected() = 0;
 	virtual void collectMap() = 0;
 	virtual void refreshMap() = 0;
 	virtual void initGame() = 0;

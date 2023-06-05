@@ -104,8 +104,7 @@ class Player : public ObjectMixin
 	int attacktimer;
 	bool isWalking;
 		
-	int playerType; // 0 for fole, 1 for raul
-	
+
 	Input *button;
 	
 	void hit(int damage);
@@ -113,6 +112,7 @@ class Player : public ObjectMixin
 	enum State { CONTROL, ANIMATING };
 	State eState = CONTROL;
 public:
+	int playerType; // 0 for fole, 1 for raul
 	PlayerState *ps;
 	Player(PlayerState *ps, Room *r, int _playerType);
 	virtual void update() override;

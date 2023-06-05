@@ -26,7 +26,6 @@ private:
 	Player *player[2];
 	PlayerState ps[2];
 	std::shared_ptr<View> view[2]; // a view for each player
-	ALLEGRO_BITMAP *preProcessing = nullptr;
 
 	int gameTimer;
 	Settings *settings;
@@ -59,6 +58,7 @@ private:
 
 	shared_ptr<ChartView> chartView;
 public:
+	bool isMapCollected() override { return mapCollected; }
 
 	void showMessage(const char *str, Messages::Behavior type) override {
 		messages->showMessage(str, type);
@@ -270,14 +270,11 @@ void GameImpl::initLevel()
 	player[0]->say("Let's go!");
 
 	chartView->initLevel(level);
-	chartView->addPlayer(0, player[0]);
-
 	if (settings->numPlayers == 2)
 	{
 		player[1] = initPlayer (&ps[1], level->getStartRoom(1), 1);
 		objects.add (player[1]);
 		player[1]->say("You bet!");
-		chartView->addPlayer(1, player[1]);
 	}
 	else
 	{
@@ -291,6 +288,10 @@ void GameImpl::initLevel()
 
 	bananaCount = level->getBananaCount();
 	mapCollected = false;
+
+	// start collecting keys anew...
+	ps[0].keys = 0;
+	ps[1].keys = 0;
 
 	messages->showMessage(string_format("Rescue %i capybaras", bananaCount), Messages::RIGHT_TO_LEFT);
 	chartView->refresh(mapCollected);
@@ -395,10 +396,10 @@ void GameImpl::init (shared_ptr<Resources> resources) {
 	icons[ICON_KEY] = al_create_sub_bitmap(iconsheet, 80, 0, 40, 40);
 
 	IrisEffect::init(resources);
-	preProcessing = al_create_bitmap(MAIN_WIDTH, MAIN_HEIGHT);
 	chartFrame = resources->getBitmap("chart");
 	woodFrame = resources->getBitmap("frame");
 
-	chartView = make_shared<ChartView>(chartFrame);
+	ALLEGRO_BITMAP *mapIcons = resources->getBitmap("mapicons");
+	chartView = make_shared<ChartView>(chartFrame, mapIcons, this);
 	add(chartView);
 }
