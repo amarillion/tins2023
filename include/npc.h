@@ -24,16 +24,18 @@ public:
 	void update() override;
 };
 
-class Shopkeep : public Object {
+class Shopkeep : public ObjectMixin {
 	static Anim *sprite;
+	int helpCounter = 0;
+	int cooldown = 0;
+	int bonus = 0;
+	std::string message {};
+	int price = 0;
+	bool sold = false;
 public:
-	Shopkeep(Room *r) : Object(r, OT_SHOPKEEP) {
-		setVisible(true);
-		solid = true;
-		setAnim(sprite);
-	}
+	Shopkeep(Room *r);
 	static void init(std::shared_ptr<Resources> res);
 
-	void handleCollission(ObjectBase *o) override {}
+	void handleCollission(ObjectBase *o) override;
 	void update() override;
 };

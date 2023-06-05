@@ -152,6 +152,9 @@ RoomSet *RoomSet::init (shared_ptr<Resources> res) {
 						oi.type = ObjectInfo::MONSTER;
 						oi.monsterType = PELICAN;
 						break;
+					case 204:
+						oi.type = ObjectInfo::SHOPKEEP;
+						break;
 					case 221:
 						oi.type = ObjectInfo::TELEPORT;
 						break;
@@ -282,6 +285,15 @@ Room::Room (Objects *o, RoomInfo *ri, int monsterHp, int aInitFlags, int _mx, in
 					}
 				}
 				break;
+			case ObjectInfo::SHOPKEEP:
+			{
+				if (initFlags & INIT_SHOPKEEP) {
+					Shopkeep *m = new Shopkeep(this);
+					m->setLocation(i->x * TILE_SIZE, i->y * TILE_SIZE);
+					objects->add(m);
+				}
+			}
+			break;
 			case ObjectInfo::BANANA:
 				{
 					if (bananaCount < maxBananas) {
@@ -394,6 +406,7 @@ Level* createLevel(RoomSet *roomSet, Objects *objects, unsigned int numRooms, in
 			(n->hasLock(S) ? INIT_LOCK_S : 0) |
 			(n->hasLock(W) ? INIT_LOCK_W : 0) |
 			(n->hasBanana ? INIT_BANANA : 0) |
+			(n->hasShop ? INIT_SHOPKEEP: 0 ) |
 			(n->hasKeycard ? INIT_KEY : 0) |
 			(n->hasBonus ? INIT_BONUS : 0) |
 			((n->pStart == 1) ? INIT_P1_START : 0) |

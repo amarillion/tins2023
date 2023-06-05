@@ -190,7 +190,7 @@ void roundRobinDistribute(const vector<Node*> &allNodes, int max, void set(Node*
 		int currentArea = areas[areaPos];
 		
 		Node *n = allNodes[pos];
-		// scan for a node of the right area, without rescues
+		// first try all rooms, omitting ones that already have something in them..
 		if (n->doorArea == currentArea && !get(n)) {
 			set(n);
 			remain--;
@@ -212,7 +212,7 @@ void roundRobinDistribute(const vector<Node*> &allNodes, int max, void set(Node*
 
 }
 
-void placeObjects(Map2D<Cell> &lvl, int maxBananas, int maxBonus) {
+void placeObjects(Map2D<Cell> &lvl, int maxBananas, int maxBonus, int maxShop) {
 
 	multiset<int> doorAreaCounts;
 	// multimap<int, Node*> doorAreaNodes;
@@ -264,8 +264,16 @@ void placeObjects(Map2D<Cell> &lvl, int maxBananas, int maxBonus) {
 		allNodes,
 		maxBonus,
 		[](Node* n) { n->hasBonus = true; },
-		[](Node* n) { return n->hasBanana || n->hasBonus; },
+		[](Node* n) { return n->hasBanana || n->hasBonus || n->hasShop; },
 		areasOrderedByFrq
+	);
+
+	roundRobinDistribute(
+			allNodes,
+			maxShop,
+			[](Node* n) { n->hasShop = true; },
+			[](Node* n) { return n->hasBanana || n->hasBonus || n->hasShop; },
+			areasOrderedByFrq
 	);
 
 	random_shuffle(allNodes.begin(), allNodes.end());
@@ -410,6 +418,7 @@ Map2D<Cell> createKruskalMaze(int roomNum) {
 	int maxDoors = max(1, roomNum / 5);
 	int bananas = max(2, roomNum / 3);
 	int bonus = max(1, roomNum / 8);
+	int shop = max(1, roomNum / 4);
 
 	auto level = Map2D<Cell>(mapSize, mapSize);
 	initCells(level);
@@ -419,7 +428,7 @@ Map2D<Cell> createKruskalMaze(int roomNum) {
 
 	kruskal(level, maxDoors);
 
-	placeObjects(level, bananas, bonus);
+	placeObjects(level, bananas, bonus, shop);
 
 #ifdef DEBUG
 	cout << endl << toString(level) << endl;

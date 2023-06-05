@@ -27,6 +27,7 @@ enum RoomFlags {
 	INIT_KEY = 0x01, 
 	INIT_BONUS = 0x02, 
 	INIT_BANANA = 0x04,
+	INIT_SHOPKEEP = 0x08,
 
 	INIT_P1_START = 0x10,
 	INIT_P2_START = 0x20,
@@ -41,13 +42,14 @@ enum RoomFlags {
 	INIT_LOCK_S = 0x4000,
 	INIT_LOCK_W = 0x8000,
 
-	INIT_TELEPORTER = 0x10000
+	INIT_TELEPORTER = 0x10000,
+
 };
 
 class ObjectInfo
 {
 	public:
-		enum ObjectInfoType {DOOR, TELEPORT, MONSTER, BANANA, PLAYER};
+		enum ObjectInfoType {DOOR, TELEPORT, MONSTER, BANANA, PLAYER, SHOPKEEP};
 		ObjectInfoType type;
 		
 		int doorDir; // only for DOOR

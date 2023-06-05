@@ -23,6 +23,7 @@ struct Node {
 	bool hasBanana = false;
 	bool hasBonus = false;
 	bool hasKeycard = false;
+	bool hasShop = false;
 
 	int degree() const {
 		return links.size();

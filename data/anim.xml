@@ -87,7 +87,7 @@ x		</state>
 		</state>
 	</anim>
 	<anim id='Shopkeep' dx='30' dy='40' regionw='64' regionh='64' hotx='-15' hoty='-18'>
-		<frame rle="Capy_01" originx='128' time='200'/>
+		<frame rle="Boterham" time='0'/>
 	</anim>
 	<anim id='Rescuee' dx='30' dy='40' regionw='64' regionh='64' hotx='-15' hoty='-18'>
 		<state rle="Capy_02">

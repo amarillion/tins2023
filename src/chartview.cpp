@@ -37,6 +37,9 @@ void ChartView::draw(const GraphicsContext &gc) {
 			case OT_TELEPORT:
 				if (mapCollected) al_draw_bitmap_region(mapIcons, 32, 0, 5, 5, xco, yco, 0);
 				break;
+			case OT_SHOPKEEP:
+				if (mapCollected) al_draw_bitmap_region(mapIcons, 48, 0, 5, 5, xco, yco, 0);
+				break;
 			case OT_LOCKED_DOOR:
 				if (mapCollected) al_draw_bitmap_region(mapIcons, 40, 0, 5, 5, xco, yco, 0);
 				break;
