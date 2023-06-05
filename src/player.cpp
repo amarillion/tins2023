@@ -97,10 +97,10 @@ void ObjectMixin::say(const string &text) {
 Player::Player(PlayerState *_ps, Room *r, int _playerType) : ObjectMixin(r, OT_PLAYER)
 {
 	ps = _ps;
-	transportCounter = 0;
+	transportCooldown = 0;
 	setVisible(true);
 	hittimer = invulnerabilityDelay; // start invulnerable, because you could start near an enemy
-	attacktimer = 0;
+	attackCooldown = 0;
 	button = NULL;
 	playerType = _playerType;
 	solid = true;
@@ -140,16 +140,43 @@ void Player::init(std::shared_ptr<Resources> res)
 
 }
 
+void Player::waitMove(int duration, Point delta, int anim, std::function<void()> _onWaitEnd) {
+	type = OT_NO_COLLISION;
+	eState = ANIMATING;
+	waitTimer = duration;
+	setState(anim);
+	onWaitEnd = std::move(_onWaitEnd);
+	waitDelta = delta;
+}
+
 void Player::update()
+{
+	if (eState == CONTROL) {
+		updateControl();
+	}
+	else {
+		waitTimer--;
+		x += waitDelta.x();
+		y += waitDelta.y();
+		if (waitTimer < 0) {
+			setState(0); // back to regular animation...
+			type = OT_PLAYER;
+			eState = CONTROL;
+			onWaitEnd();
+		}
+	}
+}
+
+void Player::updateControl()
 {
 	if (!button) button = engine->getInput(playerType);
 	assert (button);
 
-	// reduce transportCounter
-	// when touching a transport (door or teleport), transportCounter is increased again in handlecollision.
-	if (transportCounter > 0)
+	// reduce transportCooldown
+	// when touching a transport (door or teleport), transportCooldown is increased again in handlecollision.
+	if (transportCooldown > 0)
 	{
-		transportCounter--;
+		transportCooldown--;
 	}
 	
 	if (hittimer > 0)
@@ -161,15 +188,15 @@ void Player::update()
 	bool freshAnim = false;
 		
 	// attacking
-	if (attacktimer > 0)
+	if (attackCooldown > 0)
 	{
-		attacktimer --;
+		attackCooldown --;
 	}
 	else
 	{
 		if (button[btnAction].getState())
 		{
-			attacktimer = ps->wpnSpeed;
+			attackCooldown = ps->wpnSpeed;
 			int idx = 5;
 			MainLoop::getMainLoop()->audio()->playSample(shoot[ps->wpnType == 0 ? 0 : 1][idx]);
 	
@@ -227,13 +254,11 @@ void Player::update()
 
 	// walking or not?
 	if (newDir != -1) {
-		isWalking = false;
 		if (getDir() != newDir) {
 			setDir(newDir);
 			setAnim (walk[playerType]);
 		}
 	}
-	else isWalking = true;
 
 	// handle animation
 	Object::update();
@@ -296,7 +321,7 @@ void Player::handleCollission (ObjectBase *o)
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->hpMax += 25;
 			ps->hp = ps->hpMax;
-			game->showMessage("Max Health Up", Messages::POP_UP);
+			say("Max Health Up");
 		}
 		break;
 		case OT_GOLD: {
@@ -312,19 +337,19 @@ void Player::handleCollission (ObjectBase *o)
 		case OT_BONUS2: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnRange += 40;
-			game->showMessage("Increased soaker pressure", Messages::POP_UP);
+			say("Soaker pressure up");
 		}
 		break; 
 		case OT_BONUS3: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnDamage += 2;
-			game->showMessage("Increased soaker power", Messages::POP_UP);
+			say("Soaker damage up");
 		}
 		break; 
 		case OT_BONUS4: {
 			MainLoop::getMainLoop()->audio()->playSample(samples[PICKUP_OTHER]);
 			ps->wpnType++;
-			game->showMessage("Soaker upgrade", Messages::POP_UP);
+			say("Got soaker upgrade");
 		}
 		break; 
 		case OT_MONSTER: { // monster
@@ -338,42 +363,60 @@ void Player::handleCollission (ObjectBase *o)
 				d->setLocked(false);
 				MainLoop::getMainLoop()->audio()->playSample(samples[UNLOCK]);
 				ps->keys--;
-				// TODO avoid going through straight away
+				waitMove(50, Point{0,0}, 0, [=](){});
+				// TODO puff of smoke animation
+			}
+			else {
+				if (transportCooldown == 0)
+				{
+					say("I need a key!");
+				}
+				transportCooldown = transportDelay; // make sure we don't go back
 			}
 		}	
 		break; 
 		case OT_DOOR: { // exit
-			if (transportCounter == 0)
+			if (transportCooldown == 0)
 			{
 				Door *d = dynamic_cast<Door*>(o);
 				assert (d);
 				MainLoop::getMainLoop()->audio()->playSample(samples[STEPS]);
-				if (d->otherRoom != nullptr) {
-					setRoom(d->otherRoom);
-					d->otherRoom->visited = true;
-					game->refreshMap();
-					setLocation(d->otherDoor->getx(), d->otherDoor->gety());
-				}
-				hittimer = invulnerabilityDelay;
+
+				Point dir {
+						LEGACY_DIR[d->getDir()].dx * 4,
+						LEGACY_DIR[d->getDir()].dy * 4
+				};
+				setDir(d->getDir());
+				waitMove(25, dir, 0, [=, this](){
+					if (d->otherRoom != nullptr) {
+						setRoom(d->otherRoom);
+						d->otherRoom->visited = true;
+						game->refreshMap();
+						setLocation(d->otherDoor->getx(), d->otherDoor->gety());
+					}
+					hittimer = invulnerabilityDelay;
+				});
 			}
-			transportCounter = transportDelay; // make sure we don't go back
+			transportCooldown = transportDelay; // make sure we don't go back
 		}
 		break; 
 		case OT_TELEPORT: {
-			if (transportCounter == 0)
+			if (transportCooldown == 0)
 			{
 				Door *t = dynamic_cast<Door*>(o);
 				assert (t);
 				MainLoop::getMainLoop()->audio()->playSample(samples[TELEPORT]);
-				if (t->otherRoom != nullptr) {
-					setRoom(t->otherRoom);
-					t->otherRoom->visited = true;
-					game->refreshMap();
-					setLocation(t->otherDoor->getx(), t->otherDoor->gety());
-				}
-				hittimer = invulnerabilityDelay;
+				waitMove(50, Point{0,0}, 1, [=, this]() {
+					if (t->otherRoom != nullptr) {
+						setRoom(t->otherRoom);
+						t->otherRoom->visited = true;
+						game->refreshMap();
+						setLocation(t->otherDoor->getx(), t->otherDoor->gety());
+					}
+					hittimer = invulnerabilityDelay;
+				});
 			}
-			transportCounter = transportDelay; // make sure we don't go back		
+			transportCooldown = transportDelay; // make sure we don't go back
 		}
 		break; 
 		case OT_ENEMY_BULLET: {		

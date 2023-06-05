@@ -1,5 +1,4 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include "object.h"
 #include "settings.h"
@@ -94,18 +93,19 @@ class Player : public ObjectMixin
 	static constexpr double playerBulletSpeed = 6.0;
 	static const int defaultWpnDamage = 4;
 	
-	int transportCounter;
 
 	static Anim *walk[2];
 	static ALLEGRO_SAMPLE *shoot[2][6];
 	enum Samples { HURT1, HURT2, UNLOCK, STEPS, PICKUP_KEY, PICKUP_OTHER, TELEPORT, SAMPLE_NUM };
 	static ALLEGRO_SAMPLE *samples[SAMPLE_NUM];
-	
-	int hittimer;
-	int attacktimer;
-	bool isWalking;
-		
 
+	int transportCooldown;
+	int hittimer; // invulnerability period...
+	int attackCooldown;
+
+	int waitTimer;
+	Point waitDelta{0,0};
+	std::function<void()> onWaitEnd;
 	Input *button;
 	
 	void hit(int damage);
@@ -117,8 +117,9 @@ public:
 	PlayerState *ps;
 	Player(PlayerState *ps, Room *r, int _playerType);
 	virtual void update() override;
+	void updateControl();
 	static void init(std::shared_ptr<Resources> res);
 	virtual void handleCollission(ObjectBase *o);
+	void waitMove(int duration, Point delta, int anim, std::function<void(void)> onWaitEnd);
 };
 
-#endif
