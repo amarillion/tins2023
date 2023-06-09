@@ -214,12 +214,12 @@ public:
 class Text : public Component, public DataListener
 {
 protected:
-	virtual void changed(int code = 0) override = 0;
+	void changed(int code = 0) override = 0;
 public:
 	enum { OFF, LINE_BY_LINE, LETTER_BY_LETTER };
 
-	virtual void draw(const GraphicsContext &gc) override = 0;
-	virtual void update() override = 0;
+	void draw(const GraphicsContext &gc) override = 0;
+	void update() override = 0;
 
 	virtual void startTypewriter(int mode, int delay = 0) = 0;
 	virtual void setAlignment(int value) = 0;

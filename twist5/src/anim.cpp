@@ -19,7 +19,7 @@ class DefaultDirectionModel : public IDirectionModel
 private:
 	map<string, int> dirMap;
 public:
-	virtual int idToIndex(const string &id) override
+	int idToIndex(const string &id) override
 	{
 		if (dirMap.find(id) == dirMap.end())
 		{

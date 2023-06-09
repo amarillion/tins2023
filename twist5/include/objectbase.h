@@ -72,7 +72,7 @@ protected:
 
 public:
 	/** can't be overridden. Override onUpdate instead */
-	virtual void update() override final {
+	void update() override final {
 		for (auto i : objects) {
 			if (i->isAlive()) i->update();
 		}
@@ -80,7 +80,7 @@ public:
 		purge();
 	}
 
-	virtual void draw (const GraphicsContext &gc) override {
+	void draw (const GraphicsContext &gc) override {
 		for (auto o : objects) {
 			if (o->isVisible() && o->isAlive()) {
 				o->draw(gc);

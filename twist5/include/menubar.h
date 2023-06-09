@@ -14,7 +14,7 @@ public:
 	static ComponentBuilder<MenuItem> build(std::string text, bool topBar, std::shared_ptr<Menu> subMenu);
 	static ComponentBuilder<MenuItem> buildSpacer();
 
-	virtual std::string const className() const override { return "MenuItem"; }
+	std::string const className() const override { return "MenuItem"; }
 };
 
 class Menu : public Container
@@ -31,5 +31,5 @@ public:
 	virtual ~Menu() {}
 	static ComponentBuilder<Menu> build(bool fMenuBar);
 
-	virtual std::string const className() const override { return "Menu"; }
+	std::string const className() const override { return "Menu"; }
 };

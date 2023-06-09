@@ -19,7 +19,7 @@ private:
 	ALLEGRO_FONT *wrapped;
 public:
 	BitmapFontWrapper(ALLEGRO_FONT *wrapped) : wrapped(wrapped) {}
-	virtual ALLEGRO_FONT *get(int size = 12) override {
+	ALLEGRO_FONT *get(int size = 12) override {
 		return wrapped;
 	}
 	virtual ~BitmapFontWrapper() {
@@ -34,7 +34,7 @@ private:
 public:
 	TtfWrapper(const std::string &fname): fname(fname) {}
 
-	virtual ALLEGRO_FONT *get(int size = 12) override {
+	ALLEGRO_FONT *get(int size = 12) override {
 		if (fonts.find(size) == fonts.end()) {
 			ALLEGRO_FONT *font = al_load_font(fname.c_str(), size, 0);
 			if (!font) {
@@ -111,16 +111,16 @@ public:
 	{
 		animlist.insert (pair<string, Anim*>(id, val));
 	}
-	virtual const std::map<std::string, Anim*> &getAnims() const override {
+	const std::map<std::string, Anim*> &getAnims() const override {
 		return animlist;
 	}
 
-	virtual Anim *getAnimIfExists (const string &id) override
+	Anim *getAnimIfExists (const string &id) override
 	{
 		if (animlist.find(id) == animlist.end()) return nullptr; else return animlist[id];
 	}
 
-	virtual Anim *getAnim (const string &id) override
+	Anim *getAnim (const string &id) override
 	{
 		if (animlist.find (id) == animlist.end())
 		{
@@ -132,7 +132,7 @@ public:
 		}
 	}
 
-	virtual ALLEGRO_SAMPLE *getSampleIfExists(const std::string &id) override
+	ALLEGRO_SAMPLE *getSampleIfExists(const std::string &id) override
 	{
 		if (samples.find(id) == samples.end())
 			return nullptr;
@@ -140,11 +140,11 @@ public:
 			return samples[id];
 	}
 
-	virtual ALLEGRO_BITMAP *getBitmapIfExists(const std::string &id)  override { 
+	ALLEGRO_BITMAP *getBitmapIfExists(const std::string &id)  override {
 		if (sprites.find(id) == sprites.end()) return nullptr; else return sprites[id];
 	}
 
-	virtual void putBitmap(const string &id, ALLEGRO_BITMAP *bmp) override {
+	void putBitmap(const string &id, ALLEGRO_BITMAP *bmp) override {
 		sprites.insert (pair<string, ALLEGRO_BITMAP *>(id, bmp));
 	}
 
@@ -164,7 +164,7 @@ public:
 	}
 
 	// throws ResourceException on failure
-	virtual void addSingleFile(const string &i) override
+	void addSingleFile(const string &i) override
 	{
 		string basename;
 		string extension;
@@ -284,7 +284,7 @@ public:
 		}
 	}
 
-	virtual void addDir(const char *dir) override
+	void addDir(const char *dir) override
 	{
 		//TODO: use listDir function from util.cpp
 
@@ -311,7 +311,7 @@ public:
 		al_destroy_fs_entry(entry);
 	}
 
-	virtual void addFiles(const char *pattern) override {
+	void addFiles(const char *pattern) override {
 		vector<string> filenames;
 		glob (pattern, filenames);
 		if (filenames.size() == 0) {
@@ -323,7 +323,7 @@ public:
 	}
 
 	//TODO: rename to getMusic
-	virtual ALLEGRO_AUDIO_STREAM *getMusic (const string &id) override
+	ALLEGRO_AUDIO_STREAM *getMusic (const string &id) override
 	{
 		if (duhlist.find (id) == duhlist.end()) {
 			throw (ResourceException(string_format("Couldn't find DUH (Music) '%s'", id.c_str())));
@@ -353,7 +353,7 @@ public:
 		}
 	}
 
-	virtual string getTextFile (const string &id) override {
+	string getTextFile (const string &id) override {
 		if (textFiles.find (id) == textFiles.end()) {
 			throw(ResourceException(string_format("Couldn't find Text file '%s'", id.c_str())));
 		}
@@ -361,7 +361,7 @@ public:
 		return textFiles[id];
 	}
 
-	virtual const JsonNode &getJson(const std::string &id) override {
+	const JsonNode &getJson(const std::string &id) override {
 		if (jsonFiles.find(id) == jsonFiles.end()) {
 			throw(ResourceException(string_format("Couldn't find JSON file '%s'", id.c_str())));
 		}
@@ -369,7 +369,7 @@ public:
 		return jsonFiles[id];
 	}
 
-	virtual ALLEGRO_BITMAP *getBitmap (const string &id) override
+	ALLEGRO_BITMAP *getBitmap (const string &id) override
 	{
 		if (sprites.find (id) == sprites.end())
 		{
@@ -379,7 +379,7 @@ public:
 		return sprites[id];
 	}
 
-	virtual const shared_ptr<FontWrapper> getFont(const string &id) override {
+	const shared_ptr<FontWrapper> getFont(const string &id) override {
 		if (fonts.find (id) == fonts.end())
 		{
 			// auto-vivicate fixed font...
@@ -398,14 +398,14 @@ public:
 			return fonts[id];
 	}
 
-	virtual Tilemap *getJsonMap (const string &id) override {
+	Tilemap *getJsonMap (const string &id) override {
 		if (jsonMaps.data.find(id) == jsonMaps.data.end()) {
 			throw (ResourceException(string_format("Couldn't find MAP '%s'", id.c_str())));
 		}
 		return jsonMaps.data[id];
 	}
 
-	virtual TEG_TILELIST *getTilelist (const string &id) override {
+	TEG_TILELIST *getTilelist (const string &id) override {
 		if (tilelists.find (id) == tilelists.end()) {
 			throw (ResourceException(string_format("Couldn't find TILELIST '%s'", id.c_str())));
 		}
@@ -413,14 +413,14 @@ public:
 		return tilelists[id];
 	}
 
-	virtual void addJsonMapFile(const string &filename, const string &tilesname) override {
+	void addJsonMapFile(const string &filename, const string &tilesname) override {
 		string basename;
 		string extension;
 		split_path (filename, basename, extension);
 		return addJsonMapFile(basename, filename, tilesname);
 	}
 
-	virtual void addJsonMapFile(const string &id, const string &filename, const string &tilesname) override {
+	void addJsonMapFile(const string &id, const string &filename, const string &tilesname) override {
 		TEG_TILELIST *tiles = getTilelist (tilesname);
 		if (!tiles) {
 			throw (ResourceException(string_format("Could not find tiles named [%s]", tilesname.c_str())));
@@ -434,7 +434,7 @@ public:
 		jsonMaps.data[id] = result;
 	}
 
-	virtual void addStream(const string &id, const string &filename) override {
+	void addStream(const string &id, const string &filename) override {
 		ALLEGRO_AUDIO_STREAM *temp;
 		if (!(temp = al_load_audio_stream (filename.c_str(), 4, 2048))) { //TODO: correct values for al_load_audio_stream
 			throw (ResourceException(string_format("error loading Stream %s", id.c_str())));
@@ -448,7 +448,7 @@ public:
 		}
 	}
 
-	virtual ALLEGRO_SAMPLE *getSample (const string &id) override {
+	ALLEGRO_SAMPLE *getSample (const string &id) override {
 		if (samples.find (id) == samples.end())
 		{
 			throw (ResourceException(string_format("Couldn't find SAMPLE '%s'", id.c_str())));

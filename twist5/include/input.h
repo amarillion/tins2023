@@ -15,7 +15,7 @@ private:
 	int msg;
 public:
 	AnyKey(int _msg) : msg(_msg) {}
-	virtual void handleEvent(ALLEGRO_EVENT &event) override;
+	void handleEvent(ALLEGRO_EVENT &event) override;
 	static ComponentBuilder<AnyKey> build(int actionMsg);
 };
 
@@ -34,7 +34,7 @@ public:
 	bool getState();
 	
 	virtual ~Input() {}
-	virtual void update() override;
+	void update() override;
 
 	/**
 		returns true if 

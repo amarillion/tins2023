@@ -62,9 +62,9 @@ private:
 	}
 
 protected:
-	virtual bool wantsFocus () override { return true; }
+	bool wantsFocus () override { return true; }
 
-	virtual void SetText(const char *text) override {
+	void SetText(const char *text) override {
 		assert (!isSeparator);
 		parseGuiText(text);
 	}
@@ -84,7 +84,7 @@ protected:
 		return result;
 	}
 
-	virtual void onMouseEnter() override {
+	void onMouseEnter() override {
 		pushMsg(MSG_REQUEST_FOCUS);
 	}
 
@@ -93,7 +93,7 @@ protected:
 		else pushMsg(actionCode);
 	}
 
-	virtual void handleEvent(ALLEGRO_EVENT &event) override {
+	void handleEvent(ALLEGRO_EVENT &event) override {
 		switch (event.type)
 		{
 			case ALLEGRO_EVENT_TWIST_MOUSE_ENTER_WIDGET:
@@ -194,7 +194,7 @@ protected:
 		}
 	}
 
-	virtual void doDraw (const GraphicsContext &gc) override
+	void doDraw (const GraphicsContext &gc) override
 	{
 		int x1 = getx() + gc.xofst;
 		int y1 = gety() + gc.yofst;
@@ -252,10 +252,10 @@ protected:
 	}
 
 public:
-	virtual void setActionFunc(ActionFunc value) override { actionFunc = value; }
+	void setActionFunc(ActionFunc value) override { actionFunc = value; }
 	virtual shared_ptr<Menu> getSubMenu() { return subMenu; }
 
-	virtual void reprBase(std::ostream &out) const override {
+	void reprBase(std::ostream &out) const override {
 		out << "[" << x << ", " << y << " - " << w << "x" << h << "] ";
 		out << (isVisible() ? "v" : ".")
 			<< (TestFlag(D_DISABLED) ? "." : "e")
@@ -309,11 +309,11 @@ protected:
 	ComponentPtr childPopup = nullptr;
 public:
 
-	virtual shared_ptr<MenuItem> &GetItem(size_t index) override { assert (index < items.size()); return items[index]; }
-	virtual void Check(size_t pos) override { assert (pos < items.size()); items[pos]->Select(); }
-	virtual void Uncheck(size_t pos) override { assert (pos < items.size()); items[pos]->Deselect(); }
+	shared_ptr<MenuItem> &GetItem(size_t index) override { assert (index < items.size()); return items[index]; }
+	void Check(size_t pos) override { assert (pos < items.size()); items[pos]->Select(); }
+	void Uncheck(size_t pos) override { assert (pos < items.size()); items[pos]->Deselect(); }
 
-	virtual void addItem(const char *item, int msg) override
+	void addItem(const char *item, int msg) override
 	{
 		auto btn = MenuItem::build(0, string(item), false).get();
 		btn->setActionFunc( [=] () {
@@ -362,7 +362,7 @@ public:
 		return false;
 	}
 
-	virtual void addSeparator() override {
+	void addSeparator() override {
 		auto spacer = MenuItem::buildSpacer().get();
 		spacer->setGroupId(2);
 		add (spacer);
@@ -371,7 +371,7 @@ public:
 		recalculateLayout();
 	}
 
-	virtual void addItem(const char *submenu, shared_ptr<Menu> menu) override
+	void addItem(const char *submenu, shared_ptr<Menu> menu) override
 	{
 		auto btn = MenuItem::build(submenu, true, menu).get();
 		btn->setGroupId(2);
@@ -417,7 +417,7 @@ public:
 		pushMsg(MSG_CLOSE); // should trigger closing of popup...
 	}
 
-	virtual void onMouseLeave() override
+	void onMouseLeave() override
 	{
 		close();
 	}
@@ -445,7 +445,7 @@ private:
 		return Rect(xco, p.y(), comp->getPreferredWidth(), MENU_ITEM_HEIGHT);
 	}
 
-	virtual void recalculateLayout() override
+	void recalculateLayout() override
 	{
 		setLayout(Layout::LEFT_TOP_W_H, getx(), gety(), items.size() * MENU_ITEM_WIDTH, MENU_ITEM_HEIGHT);
 	}
@@ -458,7 +458,7 @@ public:
 
 	virtual ~MenuBarImpl() {}
 
-	virtual void update() override {
+	void update() override {
 		MenuBaseImpl::update();
 		if (childPopup != nullptr)
 		{

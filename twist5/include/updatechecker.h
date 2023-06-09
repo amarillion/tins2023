@@ -19,7 +19,7 @@ public:
 
     // factory
     static std::shared_ptr<UpdateChecker> newInstance(const std::string &cacheDir, const std::string &current_version_str, int nextAction);
-	virtual std::string const className() const override { return "UpdateChecker"; }
+	std::string const className() const override { return "UpdateChecker"; }
 };
 
 

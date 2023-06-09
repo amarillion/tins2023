@@ -20,10 +20,10 @@ public:
 
 	void Popup(Component *parent) {}
 
-	virtual void draw(const GraphicsContext &gc) override;
+	void draw(const GraphicsContext &gc) override;
 
-	virtual void handleEvent (ALLEGRO_EVENT &event) override;
-	virtual std::string const className() const override { return "Dialog"; }
+	void handleEvent (ALLEGRO_EVENT &event) override;
+	std::string const className() const override { return "Dialog"; }
 
 protected:
 	void moveFocus(int dir);
@@ -37,7 +37,7 @@ protected:
 		initFocusIfNeeded();
 	};
 
-	virtual void MsgStart() override { /* TODO dialog intialisation */ }
+	void MsgStart() override { /* TODO dialog intialisation */ }
 
 };
 
@@ -50,8 +50,8 @@ private:
 	int keymod;
 public:
 	void Setup (int scancode, int keymod = 0);
-	virtual std::string const className() const override { return "Shortcut"; }
-	virtual bool MsgXChar(int keycode, int modifiers) override;
+	std::string const className() const override { return "Shortcut"; }
+	bool MsgXChar(int keycode, int modifiers) override;
 	Shortcut(int scancode, int keymod = 0) : scancode(scancode), keymod(keymod) { setVisible(false); }
 	static ComponentBuilder<Shortcut> build(int scancode, int keymod = 0);
 };

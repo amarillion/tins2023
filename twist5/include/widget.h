@@ -112,7 +112,7 @@ public:
 	/** Set a border by skin index. Note that this only takes effect if child widgets make use of the value in their draw() method */
 	void setBorder(int i) { border = GetSkin()->GetBitmap(i); SetFlag(D_DIRTY); }
 
-	virtual void draw(const GraphicsContext &gc) override;
+	void draw(const GraphicsContext &gc) override;
 
 	virtual bool MsgClose();
 	virtual void MsgTimer(int id);
@@ -176,7 +176,7 @@ public:
 	ALLEGRO_FONT *GetFont(int state);
 
 
-	virtual void handleEvent(ALLEGRO_EVENT &evt) override;
+	void handleEvent(ALLEGRO_EVENT &evt) override;
 
 	/**
 	   Tests if two references to widgets are one and the same.
@@ -187,8 +187,8 @@ public:
 	*/
 	bool operator!=(const Widget& obj) const;
 
-	virtual std::string const className() const override { return "Widget"; }
-	virtual void UpdateSize() override { onResize(); }
+	std::string const className() const override { return "Widget"; }
+	void UpdateSize() override { onResize(); }
 };
 
 class TextWidget : public Widget

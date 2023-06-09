@@ -20,7 +20,7 @@ public:
 		setAwake(false);
 	}
 
-	virtual void onFocus() override;
-	virtual bool onHandleMessage(ComponentPtr src, int msg) override;
-	virtual std::string const className() const override { return "State"; }
+	void onFocus() override;
+	bool onHandleMessage(ComponentPtr src, int msg) override;
+	std::string const className() const override { return "State"; }
 };

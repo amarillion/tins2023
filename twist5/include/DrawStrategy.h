@@ -14,9 +14,9 @@ class ClearScreen : public Widget
 {
 public:
 	ClearScreen(ALLEGRO_COLOR color = WHITE) { this->color = color; }
-	virtual void draw(const GraphicsContext &gc) override;
+	void draw(const GraphicsContext &gc) override;
 	static ComponentBuilder<ClearScreen> build(ALLEGRO_COLOR color = WHITE);
-	virtual std::string const className() const override { return "ClearScreen"; }
+	std::string const className() const override { return "ClearScreen"; }
 	void setColor(ALLEGRO_COLOR val) { color = val; }
 private:
 	ALLEGRO_COLOR color;
@@ -28,10 +28,10 @@ public:
 	Pattern(ALLEGRO_BITMAP *bmp) : texture(bmp), textureHolder() {}
 	Pattern(std::shared_ptr<ALLEGRO_BITMAP> _bmp) : texture(_bmp.get()), textureHolder(_bmp) {}
 
-	virtual void draw(const GraphicsContext &gc) override;
+	void draw(const GraphicsContext &gc) override;
 	static ComponentBuilder<Pattern> build(ALLEGRO_BITMAP *bmp);
 	static ComponentBuilder<Pattern> build(std::shared_ptr<ALLEGRO_BITMAP> bmp);
-	virtual std::string const className() const override { return "Pattern"; }
+	std::string const className() const override { return "Pattern"; }
 private:
 
 	/**
@@ -74,7 +74,7 @@ public:
 	 */
 	BitmapComp(ALLEGRO_BITMAP*  _rle) : rleHolder(), rle(_rle), zoom(1.0), isZoomed(false), hx(0.0), hy(0.0) {}
 
-	virtual void draw(const GraphicsContext &gc) override;
+	void draw(const GraphicsContext &gc) override;
 
 	/**
 	 * Call this builder when ownership is transferred to BitmapComp. BitmapComp will ensure al_destroy_bitmap is called.
@@ -95,7 +95,7 @@ public:
 	 * */
 	void setHotspot (double hxval, double hyval) { hx = hxval; hy = hyval; }
 
-	virtual std::string const className() const override { return "BitmapComp"; }
+	std::string const className() const override { return "BitmapComp"; }
 };
 
 class TileMapView : public Component
@@ -104,10 +104,10 @@ class TileMapView : public Component
 	int layer = 0;
 public:
 	TileMapView(const TEG_MAP *tilemap, int layer = 0);
-	virtual void draw(const GraphicsContext &gc) override;
-	virtual void update() override { counter++; }
+	void draw(const GraphicsContext &gc) override;
+	void update() override { counter++; }
 	static ComponentBuilder<TileMapView> build(TEG_MAP *map, int _layer = 0);
-	virtual std::string const className() const override { return "TileMapView"; }
+	std::string const className() const override { return "TileMapView"; }
 private:
 	const TEG_MAP *tilemap;
 };
@@ -124,8 +124,8 @@ private:
 public:
 	static ComponentBuilder<AnimComponent> build(Anim *anim);
 	AnimComponent (Anim *anim);
-	virtual void draw(const GraphicsContext &gc) override;
-	virtual std::string const className() const override { return "AnimComponent"; }
+	void draw(const GraphicsContext &gc) override;
+	std::string const className() const override { return "AnimComponent"; }
 	void setState(int val) { state = val; }
 	void setDir(int val) { dir = val; }
 };

@@ -29,13 +29,13 @@ class MenuItem : public Component
 		void setParent (MenuScreen *val) { parent = val; }
 		virtual std::string getText() = 0;
 		virtual std::string getHint() = 0;
-		virtual void draw(const GraphicsContext &gc) override;
+		void draw(const GraphicsContext &gc) override;
 		void setEnabled (bool value) { enabled = value; }
 		virtual bool isEnabled() { return enabled; }
 
 		virtual ALLEGRO_COLOR getColor();
 
-		virtual std::string const className() const override { return "MenuItem"; }
+		std::string const className() const override { return "MenuItem"; }
 };
 
 class ActionMenuItem : public MenuItem
@@ -47,9 +47,9 @@ class ActionMenuItem : public MenuItem
 	public:
 		ActionMenuItem (int _action, std::string _text, std::string _hint) :
 			MenuItem(), action (_action), text (_text), hint (_hint) {}
-		virtual void handleEvent(ALLEGRO_EVENT &event) override;
-		virtual std::string getText() override { return text; }
-		virtual std::string getHint() override { return hint; }
+		void handleEvent(ALLEGRO_EVENT &event) override;
+		std::string getText() override { return text; }
+		std::string getHint() override { return hint; }
 		void setText (std::string value) { text = value; }
 };
 
@@ -65,9 +65,9 @@ public:
 	ToggleMenuItem(int _action, std::string _a, std::string _b, std::string _hint);
 	void setToggle(bool value) { toggle = value; }
 	bool getToggle() { return toggle; }
-	virtual void handleEvent(ALLEGRO_EVENT &event) override;
-	virtual std::string getText() override { return toggle ? a : b; }
-	virtual std::string getHint() override { return hint; }
+	void handleEvent(ALLEGRO_EVENT &event) override;
+	std::string getText() override { return toggle ? a : b; }
+	std::string getHint() override { return hint; }
 };
 
 class SliderMenuItem : public MenuItem
@@ -80,9 +80,9 @@ private:
 	void updateText();
 public:
 	SliderMenuItem(RangeModel<float> *model, std::string label, std::string _hint);
-	virtual void handleEvent(ALLEGRO_EVENT &event) override;
-	virtual std::string getText() override { return text; }
-	virtual std::string getHint() override { return hint; }
+	void handleEvent(ALLEGRO_EVENT &event) override;
+	std::string getText() override { return text; }
+	std::string getHint() override { return hint; }
 };
 
 typedef std::shared_ptr<MenuItem> MenuItemPtr;
@@ -122,9 +122,9 @@ public:
 	}
 	MenuItemPtr& operator[] (int idx) { return items[idx]; }
 	void setMargin(int top, int bottom) { topMargin = top; bottomMargin = bottom; }
-	virtual void onUpdate() override;
-	virtual void handleEvent(ALLEGRO_EVENT &event) override;
-	virtual void onFocus () override;
+	void onUpdate() override;
+	void handleEvent(ALLEGRO_EVENT &event) override;
+	void onFocus () override;
 	int getSelectedIdx() { return selected; }
 	MenuItemPtr getSelectedItem() { return items[selected]; }
 
@@ -148,7 +148,7 @@ public:
 		if (idx >= 0) selected = idx;
 	}
 
-	virtual std::string const className() const override { return "MenuScreen"; }
+	std::string const className() const override { return "MenuScreen"; }
 
 	/** Slightly more customizable layout, still with vertical equal spacing, but allows setting top and bottom margins */
 	static const Rect  marginAdjustedlayout(int topMargin, int bottomMargin, ComponentPtr comp, ComponentPtr prev, int idx, int size, const Rect &p);
@@ -186,7 +186,7 @@ private:
 	MenuScreen *parent;
 public:
 	Hint(MenuScreen *parent) { this->parent = parent; }
-	virtual void draw (const GraphicsContext &gc) override;
+	void draw (const GraphicsContext &gc) override;
 
-	virtual std::string const className() const override { return "Hint"; }
+	std::string const className() const override { return "Hint"; }
 };

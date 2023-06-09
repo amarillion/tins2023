@@ -68,16 +68,16 @@ public:
 		return result;
 	}
 
-	virtual void logSessionStart() override {
+	void logSessionStart() override {
 		logHelper (0, "Start session");	
 	}
 
-	virtual void logAchievement(const string &achievementId) override {
+	void logAchievement(const string &achievementId) override {
 		double secondsElapsed = difftime(time(0), startTime);
 		logHelper(secondsElapsed, achievementId);
 
 	}
-	virtual void logSessionClose() override {
+	void logSessionClose() override {
 		double secondsElapsed = difftime(time(0), startTime);
 		logHelper(secondsElapsed, "Session closed");
 	}

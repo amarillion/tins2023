@@ -140,8 +140,8 @@ public:
 	int GetHorizontalIncrement( void ) { return hInc; }
 	int GetVerticalIncrement( void ) { return vInc; }
 
-	virtual std::string const className() const override { return "Scroller"; }
-	virtual void handleMessage(ComponentPtr src, int msg) override;
+	std::string const className() const override { return "Scroller"; }
+	void handleMessage(ComponentPtr src, int msg) override;
 
 };
 
@@ -168,7 +168,7 @@ class ScrollBox : public Container, public DataListener
 	void updateScrollerPositions();
 protected:
 
-	virtual void handleMessage(ComponentPtr src, int msg) override;
+	void handleMessage(ComponentPtr src, int msg) override;
 public:
 	int GetClientHeight() { return viewport->getClientWidth(); }
 	int GetClientWidth() { return viewport->getClientHeight(); }
@@ -194,6 +194,6 @@ public:
 	int GetVScrollOption() { return vopt; }
 
 	static ComponentBuilder<ScrollBox> build(ComponentPtr child = nullptr) { return ComponentBuilder<ScrollBox>(std::make_shared<ScrollBox>(child)); }
-	virtual std::string const className() const override { return "ScrollBox"; }
-	virtual void changed (int code = 0) override;
+	std::string const className() const override { return "ScrollBox"; }
+	void changed (int code = 0) override;
 };

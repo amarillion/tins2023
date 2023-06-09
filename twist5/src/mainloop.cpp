@@ -32,7 +32,7 @@ public:
 		setLayout (Layout::LEFT_TOP_RIGHT_BOTTOM, 0, 0, 0, 0);
 	}
 
-	virtual void update() override
+	void update() override
 	{
 		Container::update();
 
@@ -47,7 +47,7 @@ public:
 		popupParentMap[child] = parent;
 	}
 
-	virtual void handleMessage(ComponentPtr src, int msg) override
+	void handleMessage(ComponentPtr src, int msg) override
 	{
 		// pass messages to parents...
 		if (popupParentMap.find(src) != popupParentMap.end())
@@ -60,7 +60,7 @@ public:
 
 	}
 
-	virtual std::string const className() const override { return "RootComponent"; }
+	std::string const className() const override { return "RootComponent"; }
 };
 
 MainLoop *MainLoop::instance = nullptr;

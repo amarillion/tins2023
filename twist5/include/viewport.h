@@ -40,7 +40,7 @@ public:
 	ViewPort () : xofst (0), yofst (0), basex(0), basey(0), destx (0),
 		desty (0), quake(), child() {}
 
-	virtual void repr(int indent, std::ostream &out) const override;
+	void repr(int indent, std::ostream &out) const override;
 
 	// set directly
 	void setOfst (int _xofst, int _yofst)
@@ -89,7 +89,7 @@ public:
 
 	void setChild (ComponentPtr value);
 
-	virtual void setFont(ALLEGRO_FONT *font) override
+	void setFont(ALLEGRO_FONT *font) override
 	{
 		sfont = font;
 		if (child && !child->getFont()) child->setFont(font);
@@ -97,10 +97,10 @@ public:
 
 	virtual ~ViewPort() {}
 
-	virtual void update() override;
-	virtual void draw (const GraphicsContext &gc) override;
+	void update() override;
+	void draw (const GraphicsContext &gc) override;
 
-	virtual void UpdateSize() override
+	void UpdateSize() override
 	{
 		if (child)
 		{
@@ -120,10 +120,10 @@ public:
 	int getClientHeight() { if (child) return child->geth(); else return 0; }
 	int getClientWidth() { if (child) return child->getw(); else return 0; }
 
-	virtual void handleEvent (ALLEGRO_EVENT &event) override;
-	virtual bool MsgXChar(int keycode, int mod) override;
+	void handleEvent (ALLEGRO_EVENT &event) override;
+	bool MsgXChar(int keycode, int mod) override;
 
-	virtual std::string const className() const override { return "ViewPort"; }
+	std::string const className() const override { return "ViewPort"; }
 
 	void center()
 	{

@@ -353,7 +353,7 @@ public:
 	/** write stats on this component for debugging purposes */
 	virtual void repr(int indent, std::ostream &out) const;
 
-	virtual std::string const className() const override { return "Component"; }
+	std::string const className() const override { return "Component"; }
 };
 
 typedef std::shared_ptr<Component> ComponentPtr;

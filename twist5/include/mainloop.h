@@ -127,7 +127,7 @@ private:
 protected:
 	ALLEGRO_CONFIG *config;
 	bool fpsOn;
-	virtual void UpdateSize() override;
+	void UpdateSize() override;
 public:
 	bool isSmokeTest() { return smokeTest; }
 

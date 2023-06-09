@@ -52,7 +52,7 @@ public:
 		}
 	}
 
-	virtual void MsgMousemove(const Point &d) override
+	void MsgMousemove(const Point &d) override
 	{
 		int qx = d.x();
 		int qy = d.y();

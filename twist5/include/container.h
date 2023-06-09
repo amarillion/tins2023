@@ -28,10 +28,10 @@ public:
 		FLAG_SLEEP = 1,
 		/** use add (..., FLAG_BOTTOM) for it to be drawn as background */
 		FLAG_BOTTOM = 2 };
-	virtual void draw(const GraphicsContext &gc) override;
-	virtual void update() override;
-	virtual void handleEvent (ALLEGRO_EVENT &evt) override;
-	virtual void setFont(ALLEGRO_FONT *font) override;
+	void draw(const GraphicsContext &gc) override;
+	void update() override;
+	void handleEvent (ALLEGRO_EVENT &evt) override;
+	void setFont(ALLEGRO_FONT *font) override;
 
 	/** use setTimer(msec, actionFunc) instead */
 	DEPRECATED void setTimer(int msec, int event);
@@ -45,7 +45,7 @@ public:
 	void setFocus(ComponentPtr _focus);
 	void setGroupLayout (int groupId, LayoutFunction func) { groupLayouts[groupId] = func; }
 	Container() : children(), focus(), mouseFocus(), groupLayouts{} { }
-	virtual void handleMessage(ComponentPtr src, int msg) override;
+	void handleMessage(ComponentPtr src, int msg) override;
 
 private:
 
@@ -56,15 +56,15 @@ protected:
 	virtual void onAdd(ComponentPtr src) {}
 
 	/** called once before any other events */
-	virtual void MsgStart() override {}
+	void MsgStart() override {}
 
 	/** overriding disallowed. Override onResize() instead. */
-	virtual void UpdateSize() override final;
+	void UpdateSize() override final;
 
 public:
-	virtual bool MsgXChar(int keycode, int modifiers) override;
-	virtual void repr(int indent, std::ostream &out) const override;
-	virtual std::string const className() const override { return "Container"; }
+	bool MsgXChar(int keycode, int modifiers) override;
+	void repr(int indent, std::ostream &out) const override;
+	std::string const className() const override { return "Container"; }
 
 	void resizeToChildren();
 

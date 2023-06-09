@@ -11,7 +11,7 @@ private:
 
 	void doAction();
 protected:
-	virtual void doDraw (const GraphicsContext &gc) override;
+	void doDraw (const GraphicsContext &gc) override;
 
     // accelerator
     int keycode = -1;
@@ -21,7 +21,7 @@ protected:
     void parseAndSetText(std::string value);
 public:
     int getAction() { return action; }
-	virtual void handleMessage(ComponentPtr src, int msg) override;
+	void handleMessage(ComponentPtr src, int msg) override;
 	Button () : Button (MSG_ACTIVATE, "") {}
 	Button (int action, std::string text, ALLEGRO_BITMAP* aIcon = nullptr) : action(action), actionFunc()
 	{
@@ -32,9 +32,9 @@ public:
 	}
 
 	virtual ~Button() {}
-    virtual bool wantsFocus () override { return true; }
-    virtual void handleEvent(ALLEGRO_EVENT &event) override;
-    virtual double getPreferredWidth() override;
+    bool wantsFocus () override { return true; }
+    void handleEvent(ALLEGRO_EVENT &event) override;
+    double getPreferredWidth() override;
 
     void setIcon(int i) { icon = GetSkin()->GetBitmap(i); SetFlag(D_DIRTY); }
 
@@ -48,7 +48,7 @@ public:
     // MASking leftovers...
 	void MakeExit(); // make this button exit the dialog
 
-	virtual void UpdateSize() override
+	void UpdateSize() override
 	{
 		TextWidget::UpdateSize();
 		if (bufferSizeMismatch())
@@ -57,9 +57,9 @@ public:
 		}
 	}
 
-	virtual std::string const className() const override { return "Button"; }
+	std::string const className() const override { return "Button"; }
 
-	virtual bool MsgXChar(int aKeycode, int aKeymod) override {
+	bool MsgXChar(int aKeycode, int aKeymod) override {
 		if (keycode >= 0 && keymod >= 0 && aKeycode == keycode && aKeymod == keymod) { doAction(); return true; }
 		return false;
 	}

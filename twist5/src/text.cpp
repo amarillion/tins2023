@@ -68,7 +68,7 @@ private:
 
 	ActionFunc actionFunc;
 protected:
-	virtual void changed(int code = 0) override
+	void changed(int code = 0) override
 	{
 		elems.clear();
 		int xco = 0;
@@ -142,10 +142,10 @@ public:
 		setDimension(300, 20); //TODO: better default w, h...
 	}
 
-	virtual void draw(const GraphicsContext &gc) override;
-	virtual void update() override;
+	void draw(const GraphicsContext &gc) override;
+	void update() override;
 
-	virtual void setFont(ALLEGRO_FONT *value) override {
+	void setFont(ALLEGRO_FONT *value) override {
 		model->setFont(value);
 	}
 
@@ -167,19 +167,19 @@ public:
 		}
 	}
 
-	virtual void setAlignment(int value) override
+	void setAlignment(int value) override
 	{ align = value; changed(1); }
 
-	virtual void setColor (ALLEGRO_COLOR _color) override
+	void setColor (ALLEGRO_COLOR _color) override
 	{ model->setColor(_color); }
 
-	virtual void setLetterColorGenerator (std::shared_ptr<IColorGenerator> generator) override
+	void setLetterColorGenerator (std::shared_ptr<IColorGenerator> generator) override
 	{ model->setLetterColorGenerator(generator); }
 
-	virtual void setText (std::string const &value) override
+	void setText (std::string const &value) override
 	{ model->setText(value); }
 
-	virtual void setTextModel(std::shared_ptr<RichTextModel> const &value) override
+	void setTextModel(std::shared_ptr<RichTextModel> const &value) override
 	{
 		if (model != value) {
 			model = value;
@@ -188,18 +188,18 @@ public:
 		}
 	}
 
-	virtual void setMotion (std::shared_ptr<IMotion> const &_motion) override
+	void setMotion (std::shared_ptr<IMotion> const &_motion) override
 	{ motion = _motion; }
 
-	virtual void setLetterMotion (std::shared_ptr<IMotion> const &_letterMotion) override
+	void setLetterMotion (std::shared_ptr<IMotion> const &_letterMotion) override
 	{ model->setLetterMotion(_letterMotion); }
 
-	virtual void setDecoration (TextStyle value) override
+	void setDecoration (TextStyle value) override
 	{ model->setDecoration(value); }
 
-	virtual void setLetterDelta (int delta) override { letterDelta = delta; }
+	void setLetterDelta (int delta) override { letterDelta = delta; }
 
-	virtual void onAnimationComplete(ActionFunc aActionFunc) override {
+	void onAnimationComplete(ActionFunc aActionFunc) override {
 		actionFunc = aActionFunc;
 	}
 
@@ -208,7 +208,7 @@ public:
 		if (actionFunc) { actionFunc(); }
 	}
 
-	virtual void setTextf(const char *msg, ...) override
+	void setTextf(const char *msg, ...) override
 	{
 		char buf[256];
 

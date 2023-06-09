@@ -136,7 +136,7 @@ public:
 
 	}
 
-	virtual void onFocus() override
+	void onFocus() override
 	{
 		State::onFocus();
 		if (!inited)
@@ -152,7 +152,7 @@ public:
 		}
 	}
 
-	virtual void handleEvent(ALLEGRO_EVENT &event) override
+	void handleEvent(ALLEGRO_EVENT &event) override
 	{
 		Container::handleEvent(event);
 
@@ -162,7 +162,7 @@ public:
 		}
 	}
 
-	virtual void start_check_thread(const string &game, const string &lang) override
+	void start_check_thread(const string &game, const string &lang) override
 	{
 		stringstream urlss;
 		urlss << UPDATE_SERVER_URL << "/updatecheck?software=" << game << "&version=" << info.getCurrentVersion().getVersionString() << "&lang=" << lang << "&platform=" << ALLEGRO_PLATFORM_STR;
@@ -171,7 +171,7 @@ public:
 		worker->start();
 	}
 
-	virtual void done() override
+	void done() override
 	{
 		worker->interruptAndWait(); // signal that downloading should stop even if it's not completed			
 	}

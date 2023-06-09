@@ -33,7 +33,7 @@ public:
 	}
 
 
-	virtual void update() override {
+	void update() override {
 		if (!isAlive()) return;
 
 		// interpolate...

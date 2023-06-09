@@ -33,7 +33,7 @@ class DirectionModel : public IDirectionModel
 		}
 		
 //		int getNumDirections() { return numDirections; }
-		virtual int idToIndex(const std::string &id) override
+		int idToIndex(const std::string &id) override
 		{
 			for (int i = 0; i < numDirections; ++i)
 			{

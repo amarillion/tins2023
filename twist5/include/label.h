@@ -40,7 +40,7 @@ class Label : public Widget {
        If the D_AUTOSIZE flag is set this function resizes the label
       to the length and height of the text.
       */
-      virtual void UpdateSize() override;
+      void UpdateSize() override;
       /**
       Renders the text to the canvas. If the text mode colour is different than -1
       it first fills the canvas with this colour then it renders the text.
@@ -48,7 +48,7 @@ class Label : public Widget {
       the text is horizontally aligned according to the alignment
       settings and is centered vertically.
       */
-      virtual void doDraw(const GraphicsContext &gc) override;
+      void doDraw(const GraphicsContext &gc) override;
 
    public:
       /**
@@ -146,6 +146,6 @@ class Label : public Widget {
       */
         virtual int GetPreferredHeight();
 
-    	virtual std::string const className() const override { return "Label"; }
+    	std::string const className() const override { return "Label"; }
 
 };

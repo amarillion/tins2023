@@ -32,11 +32,11 @@ public:
 	}
 
 	virtual ~Timer();
-	virtual void update() override;
+	void update() override;
 
 	enum { ONCE, REPEATING };
 
-	virtual std::string const className() const override { return "Timer"; }
+	std::string const className() const override { return "Timer"; }
 
 };
 
