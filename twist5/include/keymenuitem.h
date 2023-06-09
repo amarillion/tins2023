@@ -1,7 +1,7 @@
 #pragma once
 
 #include "menubase.h"
-#include "input.h"
+class Input;
 
 class KeyMenuItem : public MenuItem
 {

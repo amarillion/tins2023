@@ -9,8 +9,6 @@
 #include "timer.h"
 #include <allegro5/allegro.h>
 #include <numeric>
-#include <algorithm>
-#include "util.h"
 #include <list>
 #include <limits>
 

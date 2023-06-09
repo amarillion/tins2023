@@ -1,7 +1,4 @@
 #include "wrappers.h"
-#include <allegro5/allegro_image.h>
-#include <string.h>
-#include "color.h"
 
 Bitmap::Bitmap()
 :data(nullptr),

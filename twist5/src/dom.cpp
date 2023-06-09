@@ -1,8 +1,5 @@
-#include <assert.h>
 #include <string>
 #include <algorithm>
-#include <fstream>
-#include <cstdio>
 #include <allegro5/allegro.h>
 
 #include "dom.h"

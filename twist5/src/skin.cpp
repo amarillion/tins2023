@@ -7,8 +7,6 @@
 
 #include "skin.h"
 #include <allegro5/allegro_image.h>
-#include <stdio.h>
-#include "color.h"
 
 const int Skin::nBitmaps = 46;
 const int Skin::nCursors = 12;

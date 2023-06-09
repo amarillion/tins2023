@@ -5,8 +5,6 @@
 #include <allegro5/allegro_native_dialog.h>
 #endif
 
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_primitives.h>
 #include <cstdio>
 #include <string>
 #include <vector>

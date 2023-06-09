@@ -1,10 +1,8 @@
 #include "menubar.h"
-#include "button.h"
 #include "panel.h"
 #include "mainloop.h"
 #include <allegro5/allegro_font.h>
 #include "strutil.h"
-#include "util.h"
 
 using namespace std;
 

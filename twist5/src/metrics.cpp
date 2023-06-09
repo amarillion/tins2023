@@ -2,7 +2,6 @@
 #include "json.h"
 #include "download.h"
 #include "mainloop.h"
-#include "util.h"
 #include <ctime> /* time, time_t, difftime */
 
 // for debugging only:

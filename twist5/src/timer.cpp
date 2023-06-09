@@ -1,5 +1,4 @@
 #include "timer.h"
-#include <stdio.h>
 
 void Timer::update()
 {

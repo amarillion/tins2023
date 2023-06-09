@@ -1,13 +1,11 @@
-#include <assert.h>
+#include <cassert>
 #include "resources.h"
-#include "color.h"
 #include "dom.h"
 #include "util.h"
 #include "strutil.h"
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_font.h>
 #include "mainloop.h"
-#include "json.h"
 #include "anim.h"
 #include "tilemap.h"
 

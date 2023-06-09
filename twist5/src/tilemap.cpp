@@ -1,5 +1,5 @@
 #include "tilemap.h"
-#include "assert.h"
+#include <cassert>
 #include <tegel5.h>
 
 Tilemap::~Tilemap() {

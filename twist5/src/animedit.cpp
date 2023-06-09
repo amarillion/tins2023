@@ -1,7 +1,4 @@
 #include "animedit.h"
-
-#include <cassert>
-
 #include "text.h"
 #include "resources.h"
 #include "DrawStrategy.h"

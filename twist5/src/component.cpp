@@ -1,5 +1,4 @@
 #include "component.h"
-#include <stdio.h>
 #include <iostream>
 #include "strutil.h"
 

@@ -1,14 +1,11 @@
 #pragma once
 
-#include <stdio.h>
 #include <vector>
 #include <map>
 #include <string>
-#include <assert.h>
 #include "dom.h"
 #include <memory>
 #include <allegro5/allegro.h>
-#include "deprecated.h"
 #include "bitmapProvider.h"
 
 struct ALLEGRO_BITMAP;

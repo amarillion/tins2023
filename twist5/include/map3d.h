@@ -1,7 +1,7 @@
 #pragma once
 
-#include <assert.h>
-#include <stddef.h>
+#include <cassert>
+#include <cstddef>
 
 template <class T> class Map3D
 {

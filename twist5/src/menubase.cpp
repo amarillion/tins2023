@@ -1,13 +1,10 @@
 #include "menubase.h"
 #include <allegro5/allegro.h>
-#include "color.h"
-#include <assert.h>
+#include <cassert>
 #include "audio.h"
-#include <stdio.h>
 #include <allegro5/allegro_font.h>
-#include "util.h"
 #include "strutil.h"
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 

@@ -1,13 +1,6 @@
 #include "dialog.h"
-#include "color.h"
-#include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
-#include "button.h"
 #include "mainloop.h"
-#include "panel.h"
-#include "text.h"
-#include <sstream>
-#include <algorithm>
 
 using namespace std;
 

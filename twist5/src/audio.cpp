@@ -1,11 +1,6 @@
 #include "audio.h"
-#include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
-#include "resources.h"
-#include <assert.h>
-#include "util.h"
 #include <iostream>
-#include "mainloop.h"
 #include "setting.h"
 
 using namespace std;

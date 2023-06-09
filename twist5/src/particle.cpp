@@ -1,4 +1,3 @@
-#include <iostream>
 #include <allegro5/allegro_primitives.h>
 #include "util.h"
 #include "color.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "color.h"
 #include "component.h"
 #include "isometric.h"
 #include <iostream>

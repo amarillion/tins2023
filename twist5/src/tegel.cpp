@@ -1,5 +1,5 @@
 #include "tegel5.h"
-#include <assert.h>
+#include <cassert>
 #include <fstream>
 #include "strutil.h"
 #include <allegro5/allegro.h>

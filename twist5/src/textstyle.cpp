@@ -4,8 +4,6 @@
 #include <allegro5/allegro_primitives.h>
 #include <cstdio>
 #include <string>
-#include "strutil.h"
-#include <iostream>
 
 void draw_textf_with_background(const ALLEGRO_FONT *font, ALLEGRO_COLOR text_color, ALLEGRO_COLOR background_color, float x, float y, int alignment, const char *text, ...)
 {

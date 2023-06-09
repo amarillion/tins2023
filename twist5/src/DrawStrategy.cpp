@@ -6,15 +6,10 @@
  */
 
 #include "DrawStrategy.h"
-#include "color.h"
 #include <allegro5/allegro.h>
-#include "component.h"
 #include <tegel5.h>
 #include "mainloop.h"
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
 #include "anim.h"
-#include "componentbuilder.h"
 
 using namespace std;
 

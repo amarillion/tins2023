@@ -1,9 +1,7 @@
 #include "button.h"
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
-#include "color.h"
 #include <memory>
-#include "wrappers.h"
 #include <sstream>
 
 using namespace std;

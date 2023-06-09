@@ -1,7 +1,5 @@
 #include "widget.h"
-#include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
-#include "color.h"
 
 void Widget::SetCallbackID(int id) { key = id; }
 

@@ -1,6 +1,6 @@
 #include "depthshader.h"
 #include <allegro5/allegro.h>
-#include <stdio.h>
+#include <cstdio>
 
 DepthShader::DepthShader()
 {

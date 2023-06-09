@@ -2,7 +2,6 @@
 #include <allegro5/allegro.h>
 #include "util.h"
 #include <sstream>
-#include <algorithm>
 #include "strutil.h"
 
 using namespace std;

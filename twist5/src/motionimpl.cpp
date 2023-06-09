@@ -1,5 +1,5 @@
 #include "motionimpl.h"
-#include <math.h>
+#include <cmath>
 
 #include "util.h" // for M_PI
 

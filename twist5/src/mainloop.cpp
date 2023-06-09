@@ -1,4 +1,4 @@
-#include <assert.h>
+#include <cassert>
 #include "mainloop.h"
 #include "color.h"
 

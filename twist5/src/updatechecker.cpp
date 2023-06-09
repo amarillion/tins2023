@@ -1,10 +1,7 @@
 #include <string>
 #include "updatechecker.h"
-#include <stdlib.h>
-#include <string.h>
 #include <sstream>
 #include <iostream>
-#include "color.h"
 #include <allegro5/allegro.h>
 #include "text.h"
 #include "download.h"

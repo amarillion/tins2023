@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include <assert.h>
+#include <cassert>
 
 struct ALLEGRO_CONFIG;
 

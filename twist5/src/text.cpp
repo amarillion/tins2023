@@ -1,7 +1,6 @@
 #include "text.h"
 #include <string>
 #include <sstream>
-#include "color.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include "mainloop.h"

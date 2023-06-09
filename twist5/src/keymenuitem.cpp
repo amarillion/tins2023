@@ -1,6 +1,6 @@
 #include "keymenuitem.h"
 #include <allegro5/allegro.h>
-#include "util.h"
+#include "input.h"
 
 using namespace std;
 

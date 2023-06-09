@@ -6,8 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "dialog.h"
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 #include "label.h"
 #include <allegro5/allegro_font.h>
 

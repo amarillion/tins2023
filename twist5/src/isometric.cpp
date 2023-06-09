@@ -1,5 +1,4 @@
 #include "isometric.h"
-#include "color.h"
 #include <allegro5/allegro_primitives.h>
 
 float LIGHTX = 0.2;

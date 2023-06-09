@@ -1,5 +1,4 @@
 #include "window.h"
-#include "color.h"
 #include "mainloop.h"
 #include "label.h"
 #include "button.h"

@@ -1,9 +1,7 @@
-
 #include "easing.h"
 
 #define _USE_MATH_DEFINES // enables contants like M_E
 #include <cmath> // std::abs
-#include <algorithm> // std::min
 
 using namespace std;
 

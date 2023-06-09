@@ -1,11 +1,5 @@
 #include "download.h"
-#include <string.h>
-#include <stdlib.h>
-#include <allegro5/allegro.h>
-#include "fileutil.h"
 #include <iostream>
-#include "workerthread.h"
-#include <functional>
 
 class Response
 {

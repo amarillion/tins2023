@@ -1,7 +1,5 @@
 #include <cassert>
 #include "anim.h"
-#include "color.h"
-#include <cstdlib>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <memory>

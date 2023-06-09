@@ -1,10 +1,7 @@
 #pragma once
 
 #include "isogrid.h"
-#include "dialog.h"
-#include "color.h"
 #include "scrollbox.h"
-#include "mainloop.h"
 #include "isomap.h"
 
 template <class T> class IsoCanvas : public Scrollable

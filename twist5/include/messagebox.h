@@ -1,7 +1,6 @@
 #pragma once
 
 #include "window.h"
-#include "componentbuilder.h"
 
 class MessageBox : public Window
 {

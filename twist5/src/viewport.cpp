@@ -1,5 +1,4 @@
 #include "viewport.h"
-#include "component.h"
 
 using namespace std;
 

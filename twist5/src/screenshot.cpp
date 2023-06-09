@@ -1,8 +1,6 @@
 #include "screenshot.h"
 #include <allegro5/allegro.h>
-#include <string.h>
-#include <stdio.h>
-#include "util.h"
+#include <cstdio>
 
 /* Returns Zero on failure, non-zero on success. */
 int take_screen_shot( char *filename )
