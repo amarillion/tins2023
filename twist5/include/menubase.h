@@ -23,7 +23,7 @@ class MenuItem : public Component
 		bool enabled;
 	public:
 		enum { MENU_NONE = 1000, MENU_PREV, MENU_NEXT };
-		MenuItem () : parent(NULL), flashing (false), enabled(true) {}
+		MenuItem () : parent(nullptr), flashing (false), enabled(true) {}
 		virtual ~MenuItem() {}
 		bool isSelected();
 		void setParent (MenuScreen *val) { parent = val; }
@@ -110,7 +110,7 @@ private:
 	int bottomMargin;
 	void selectFirstEnabled();
 public:
-	MenuScreen(Audio *sound = NULL);
+	MenuScreen(Audio *sound = nullptr);
 	virtual ~MenuScreen() {}
 	unsigned int size () { return items.size(); }
 	void push_back(MenuItemPtr item)

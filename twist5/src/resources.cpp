@@ -135,13 +135,13 @@ public:
 	virtual ALLEGRO_SAMPLE *getSampleIfExists(const std::string &id) override
 	{
 		if (samples.find(id) == samples.end())
-			return NULL;
+			return nullptr;
 		else
 			return samples[id];
 	}
 
 	virtual ALLEGRO_BITMAP *getBitmapIfExists(const std::string &id)  override { 
-		if (sprites.find(id) == sprites.end()) return NULL; else return sprites[id]; 
+		if (sprites.find(id) == sprites.end()) return nullptr; else return sprites[id];
 	}
 
 	virtual void putBitmap(const string &id, ALLEGRO_BITMAP *bmp) override {
@@ -215,7 +215,7 @@ public:
 		}
 		else if (equalsIgnoreCase  (extension, "ogg"))
 		{
-			ALLEGRO_SAMPLE *sample_data = NULL;
+			ALLEGRO_SAMPLE *sample_data = nullptr;
 			sample_data = al_load_sample(i.c_str());
 			if (!sample_data)
 			{

@@ -14,7 +14,7 @@ int take_screen_shot( char *filename )
 	//TODO - can we copy backbuffer this way?
 	ALLEGRO_BITMAP *buffer = al_get_backbuffer(al_get_current_display());
 	vis = al_create_sub_bitmap(buffer, 0, 0, al_get_bitmap_width(buffer), al_get_bitmap_height(buffer));
-	if( vis != NULL )
+	if( vis != nullptr )
 	{
 		ret = al_save_bitmap (filename, vis);
 		al_destroy_bitmap( vis );

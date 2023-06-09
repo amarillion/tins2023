@@ -5,8 +5,8 @@
 
 using namespace std;
 
-bool *ObjectBase::debugFlag = NULL;
-ITimer *ObjectBase::timer = NULL;
+bool *ObjectBase::debugFlag = nullptr;
+ITimer *ObjectBase::timer = nullptr;
 
 void ObjectBase::draw (const GraphicsContext &gc)
 {

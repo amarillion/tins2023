@@ -12,7 +12,7 @@ void Widget::MsgStart () { /* TODO */ }
 void Widget::MsgDraw () { /* TODO */ }
 bool Widget::HasMouse () { return false; /* TODO */ }
 Skin *Widget::GetSkin() {
-	assert (theSkin != NULL); return theSkin;
+	assert (theSkin != nullptr); return theSkin;
 }
 ALLEGRO_FONT *Widget::GetFont(int state) { return sfont; /* TODO */ }
 
@@ -20,7 +20,7 @@ void Widget::draw(const GraphicsContext &gc)
 {
 	if (TestFlag(D_DOUBLEBUFFER))
 	{
-		if (buffer == NULL) resetBuffer();
+		if (buffer == nullptr) resetBuffer();
 		if (TestFlag(D_DIRTY)) {
 			updateBuffer();
 		}
@@ -34,17 +34,17 @@ void Widget::draw(const GraphicsContext &gc)
 }
 
 void Widget::resetBuffer() {
-	if (buffer != NULL)
+	if (buffer != nullptr)
 	{
 		al_destroy_bitmap(buffer);
-		buffer = NULL;
+		buffer = nullptr;
 	}
 	SetFlag(D_DIRTY);
 }
 
 void Widget::updateBuffer()
 {
-	if (buffer == NULL) {
+	if (buffer == nullptr) {
 		buffer = al_create_bitmap (getw(), geth());
 		assert(buffer);
 	}

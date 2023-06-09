@@ -30,7 +30,7 @@ protected:
 	bool solid;
 	virtual void setAnim (Anim *a, int state = 0);
 public:
-	ObjectBase () : alive(true), visible(true), animstart(0), animstate(0), current(NULL), x(0), y(0), dir(0), w(0), h(0), solid(true) {}
+	ObjectBase () : alive(true), visible(true), animstart(0), animstate(0), current(nullptr), x(0), y(0), dir(0), w(0), h(0), solid(true) {}
 	double getx () { return x; }
 	double gety () { return y; }
 	int getw () { return w; }

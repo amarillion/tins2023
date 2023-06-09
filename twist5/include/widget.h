@@ -84,7 +84,7 @@ private:
 protected:
 	bool bufferSizeMismatch()
 	{
-		return buffer != NULL && (al_get_bitmap_width(buffer) != getw() || al_get_bitmap_height(buffer) != geth());
+		return buffer != nullptr && (al_get_bitmap_width(buffer) != getw() || al_get_bitmap_height(buffer) != geth());
 	}
 
 	/** initialise back buffer for this component. Call during init and resize */
@@ -97,12 +97,12 @@ protected:
 	/** called automatically by UpdateSize(). Override this to implement special adjustment after screen resize*/
 	virtual void onResize() {}
 public:
-	Widget() : key(0), buffer(NULL), border() {
+	Widget() : key(0), buffer(nullptr), border() {
 		SetFlag(D_DIRTY);
 	}
 
 	virtual ~Widget() {
-		if (buffer != NULL) al_destroy_bitmap(buffer);
+		if (buffer != nullptr) al_destroy_bitmap(buffer);
 	}
 
 	int GetCallbackID() { return key; }

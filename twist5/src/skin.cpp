@@ -41,19 +41,19 @@ ALLEGRO_COLOR parseColor(const char *str) {
 
       tok = strtok(str2, ", ;");
       if (tok) {
-         r = strtol(tok, NULL, 10);
+         r = strtol(tok, nullptr, 10);
 
          tok = strtok(0, ", ;");
          if (tok) {
-            g = strtol(tok, NULL, 10);
+            g = strtol(tok, nullptr, 10);
 
             tok = strtok(0, ", ;");
             if (tok) {
-               b = strtol(tok, NULL, 10);
+               b = strtol(tok, nullptr, 10);
 
                tok = strtok(0, ", ;");
                if (tok) {
-                  a = strtol(tok, NULL, 10);
+                  a = strtol(tok, nullptr, 10);
                }
             }
          }
@@ -94,7 +94,7 @@ static const char *cursorName[] = {
 Skin::Skin(const char *fileName) {
    int i, j;
    lastError = Error(Error::NONE);
-   skinFilePath = NULL;
+   skinFilePath = nullptr;
 
    // fonts
    fntList.reserve(nFontsEx);
@@ -129,7 +129,7 @@ Skin::Skin(const char *fileName) {
       }
    }
 
-   skinFilePath = NULL;
+   skinFilePath = nullptr;
    if (strcmp(fileName, "default") != 0 && strcmp(fileName, "") != 0) {
       assert(false && "Not Implemented");
    }
@@ -843,7 +843,7 @@ Font& Skin::GetFont(int i) const { return *fntList[i]; }
 Sample& Skin::GetSample(int i) const { return *smpList[i]; }
 
 
-Skin *theSkin = NULL;
+Skin *theSkin = nullptr;
 
 const char *Skin::getBitmapName(int i) {
 	return bitmapName[i];

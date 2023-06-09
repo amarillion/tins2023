@@ -148,7 +148,7 @@ void IsoTexturedGrid::drawSurface(const GraphicsContext &gc, int mx, int my, con
 		coord[i].color = color2;
 	}
 
-	al_draw_prim(coord, NULL, tiles, 0, 6, ALLEGRO_PRIM_TRIANGLE_LIST);
+	al_draw_prim(coord, nullptr, tiles, 0, 6, ALLEGRO_PRIM_TRIANGLE_LIST);
 
 	/*
 	// debugging help for interpolation
@@ -447,5 +447,5 @@ void IsoTexturedGrid::drawIsoPoly (const GraphicsContext &gc, int num, int x[], 
 	}
 
 	al_set_target_bitmap (gc.buffer);
-	al_draw_prim (coord, NULL, NULL, 0, num, ALLEGRO_PRIM_TRIANGLE_FAN);
+	al_draw_prim (coord, nullptr, nullptr, 0, num, ALLEGRO_PRIM_TRIANGLE_FAN);
 }

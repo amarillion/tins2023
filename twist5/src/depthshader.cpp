@@ -53,5 +53,5 @@ void DepthShader::enable() {
 }
 
 void DepthShader::disable() {
-	al_use_shader(NULL);
+	al_use_shader(nullptr);
 }

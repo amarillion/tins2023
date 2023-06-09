@@ -63,7 +63,7 @@ public:
 	virtual std::string const className() const override { return "RootComponent"; }
 };
 
-MainLoop *MainLoop::instance = NULL;
+MainLoop *MainLoop::instance = nullptr;
 
 MainLoop *MainLoop::getMainLoop()
 {
@@ -98,18 +98,18 @@ MainLoop &MainLoop::setEngine(ComponentPtr _engine)
 }
 
 MainLoop::MainLoop() :
-		buffer(NULL), equeue(NULL), logicTimer(NULL), display(NULL),
-		engine(), localAppData(NULL), configPath(NULL),
-		configFilename("twist.cfg"), title("untitled"), appname(NULL),
+		buffer(nullptr), equeue(nullptr), logicTimer(nullptr), display(nullptr),
+		engine(), localAppData(nullptr), configPath(nullptr),
+		configFilename("twist.cfg"), title("untitled"), appname(nullptr),
 		prefGameSize(Point(640, 480)), prefDisplaySize(Point(-1, -1)), stretch (false), smokeTest(false), logicIntervalMsec(20),
 #ifdef USE_MONITORING
 		t0(), t1(), sums(), counts(),
 #endif
-		config(NULL)
+		config(nullptr)
 {
 	w = 640;
 	h = 480;
-	buffer = NULL;
+	buffer = nullptr;
 	last_fps = 0;
 	lastUpdateMsec = 0;
 	frame_count = 0;
@@ -204,7 +204,7 @@ int MainLoop::init(int argc, const char *const *argv)
 
 	al_init_font_addon(); //never fails, no return value...
 
-	if (configFilename != NULL)
+	if (configFilename != nullptr)
 	{
 		configPath = al_clone_path(localAppData);
 		al_set_path_filename(configPath, configFilename);
@@ -212,7 +212,7 @@ int MainLoop::init(int argc, const char *const *argv)
 		config = al_load_config_file (al_path_cstr(configPath, ALLEGRO_NATIVE_PATH_SEP));
 	}
 
-	if (config == NULL)
+	if (config == nullptr)
 	{
 		config = al_create_config();
 	}
@@ -355,7 +355,7 @@ int MainLoop::initDisplay()
 				continue;
 
 			display = al_create_display(mode.width, mode.height);
-			if (display != NULL)
+			if (display != nullptr)
 			{
 				success = true;
 				break;
@@ -365,7 +365,7 @@ int MainLoop::initDisplay()
 	else // otherwise just try to get the requested resolution
 	{
 		display = al_create_display(prefDisplaySize.x(), prefDisplaySize.y());
-		if (display != NULL)
+		if (display != nullptr)
 		{
 			success = true;
 		}
@@ -424,7 +424,7 @@ int MainLoop::initDisplay()
 
 	al_set_target_backbuffer(display);
 
-	buffer = NULL;
+	buffer = nullptr;
 
 	// use the first resolution as the primary game resolution.
 	// not necessarily the same size as the actual game resolution
@@ -444,7 +444,7 @@ int MainLoop::initDisplay()
 		return 0;
 	}
 
-	if (title != NULL)
+	if (title != nullptr)
 	{
 		al_set_window_title (display, title);
 	}
@@ -654,7 +654,7 @@ void MainLoop::run()
 	pumpMessages();
 
 	// cleanup
-	if (configFilename != NULL)
+	if (configFilename != nullptr)
 	{
 		al_save_config_file(al_path_cstr(configPath, ALLEGRO_NATIVE_PATH_SEP), config);
 	}

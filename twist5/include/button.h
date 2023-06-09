@@ -23,10 +23,10 @@ public:
     int getAction() { return action; }
 	virtual void handleMessage(ComponentPtr src, int msg) override;
 	Button () : Button (MSG_ACTIVATE, "") {}
-	Button (int action, std::string text, ALLEGRO_BITMAP* aIcon = NULL) : action(action), actionFunc()
+	Button (int action, std::string text, ALLEGRO_BITMAP* aIcon = nullptr) : action(action), actionFunc()
 	{
 		parseAndSetText(text);
-		if (aIcon != NULL) icon = Bitmap(aIcon); else icon = Bitmap();
+		if (aIcon != nullptr) icon = Bitmap(aIcon); else icon = Bitmap();
 		setBorder(Skin::BUTTON);
 		SetFlag(D_DOUBLEBUFFER);
 	}
@@ -42,8 +42,8 @@ public:
     void setActionFunc(ActionFunc value) { actionFunc = value; }
     void setAccelerator(int aKeycode, int aKeymod = 0) { keycode = aKeycode; keymod = aKeymod; }
 
-    static ComponentBuilder<Button> build(int action, std::string text, int accelerator_key = -1, ALLEGRO_BITMAP* icon = NULL);
-    static ComponentBuilder<Button> build(ActionFunc actionFunc, std::string text, int accelerator_key = -1, ALLEGRO_BITMAP* icon = NULL);
+    static ComponentBuilder<Button> build(int action, std::string text, int accelerator_key = -1, ALLEGRO_BITMAP* icon = nullptr);
+    static ComponentBuilder<Button> build(ActionFunc actionFunc, std::string text, int accelerator_key = -1, ALLEGRO_BITMAP* icon = nullptr);
 
     // MASking leftovers...
 	void MakeExit(); // make this button exit the dialog

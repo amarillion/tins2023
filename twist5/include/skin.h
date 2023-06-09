@@ -349,7 +349,7 @@ class Skin {
    public:
       /**
          Default constructor.
-         Load the skin from a file. If the filename is NULL or reads "default",
+         Load the skin from a file. If the filename is nullptr or reads "default",
          then the default skin is generated instead of trying to load from a file.
          The path must be an absolute one (as opposed to being relative)
       */

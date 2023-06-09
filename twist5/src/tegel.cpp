@@ -82,7 +82,7 @@ int teg_tilelist_resize (TEG_TILELIST *tiles, int newtilenum, int newanimsteps)
 		}
 		// free old memory
 		free (tiles->tiles);
-		tiles->tiles = NULL;
+		tiles->tiles = nullptr;
 		// replace old with new
 		tiles->tiles = temp;
 		tiles->animsteps = newanimsteps;
@@ -123,7 +123,7 @@ int teg_scan_data_line (const char *line, TEG_TILE *tempframes, TEG_TILELIST *ti
 	}
 	for (frame = 0; frame < tiles->animsteps && !lastframe && !error; )
 	{	
-		tempframes[frame].bmp = NULL;
+		tempframes[frame].bmp = nullptr;
 		tempframes[frame].index = 0;
 		tempframes[frame].flags = flags;	
 		int index;
@@ -188,7 +188,7 @@ TEG_TILELIST *teg_loadtiles_data_v3(ifstream &f, const char *filename)
 	// *******************************************
 	// first we read the header of the tilelist
 	// *******************************************
-	ALLEGRO_BITMAP *obj = NULL;
+	ALLEGRO_BITMAP *obj = nullptr;
 
 	temp = (TEG_TILELIST*)malloc(sizeof (TEG_TILELIST));
 	if (!temp) {
@@ -197,11 +197,11 @@ TEG_TILELIST *teg_loadtiles_data_v3(ifstream &f, const char *filename)
 	}
 	if (!error)
 	{
-		temp->rawdata = NULL;
+		temp->rawdata = nullptr;
 		temp->rawsize = 0;
-		temp->filename = NULL;
-		temp->largebmp = NULL;
-		temp->bitmapfilename = NULL;
+		temp->filename = nullptr;
+		temp->largebmp = nullptr;
+		temp->bitmapfilename = nullptr;
 	}
 	if (!error)
 	{
@@ -256,7 +256,7 @@ TEG_TILELIST *teg_loadtiles_data_v3(ifstream &f, const char *filename)
 		// start from tilelist filename...
 
 		ALLEGRO_PATH *tail = al_create_path(temp->bitmapfilename);
-		if (filename != NULL)
+		if (filename != nullptr)
 		{
 			ALLEGRO_PATH * head = al_create_path(filename);
 			al_rebase_path (head, tail);
@@ -270,7 +270,7 @@ TEG_TILELIST *teg_loadtiles_data_v3(ifstream &f, const char *filename)
 			error = true;
 			snprintf (teg_error, sizeof(teg_error)-1, teg_errorlist[TEGERR_BITMAP_NOT_FOUND], line.c_str());
 		}
-		if (obj != NULL)
+		if (obj != nullptr)
 		{
 			temp->largebmp = obj;
 			temp->tilenum = (al_get_bitmap_width(temp->largebmp) / temp->tilew) * (al_get_bitmap_height(temp->largebmp) / temp->tileh);
@@ -283,11 +283,11 @@ TEG_TILELIST *teg_loadtiles_data_v3(ifstream &f, const char *filename)
 	}
 
 	// allocate memory for the tile pointers
-	temp->tiles = NULL;
+	temp->tiles = nullptr;
 	if (!error)
 	{
 		temp->tiles = (TEG_TILE*)malloc(temp->tilenum * temp->animsteps * sizeof(TEG_TILE));
-		if (temp->tiles == NULL)
+		if (temp->tiles == nullptr)
 		{
 			error = true;
 			strlcpy (teg_error, teg_errorlist[TEGERR_MEMORY], sizeof(teg_error)-1);
@@ -347,9 +347,9 @@ TEG_TILELIST *teg_loadtiles_data_v3(ifstream &f, const char *filename)
 		{
 			if (temp->largebmp) al_destroy_bitmap (temp->largebmp);
 			free (temp->tiles);
-			temp->tiles = NULL;
+			temp->tiles = nullptr;
 			free (temp);
-			temp = NULL;
+			temp = nullptr;
 		}
 	}
 	return temp;
@@ -399,7 +399,7 @@ TEG_TILELIST *teg_loadtiles_from_stream (ifstream &f, const char *filename)
 			strlcpy (teg_error, teg_errorlist[TEGERR_TLL_VERSION], sizeof(teg_error)-1);
 		}
 	}
-	return NULL;	
+	return nullptr;
 }
 
 
@@ -419,16 +419,16 @@ void destroy_teg_map (void *data)
 TEG_MAP *teg_createmap (int dl, int w, int h, TEG_TILELIST *tilelist)
 {
 	TEG_MAP *result = (TEG_MAP*)malloc(sizeof(TEG_MAP));
-	if (result != NULL)
+	if (result != nullptr)
 	{
 		result->data = (int*)malloc(dl * w * h * sizeof(int));
-		if (result->data != NULL)
+		if (result->data != nullptr)
 		{
 			result->dl = dl;
 			result->w = w;
 			result->h = h;
 			result->tilelist = tilelist;
-			result->tiles_filename = NULL;
+			result->tiles_filename = nullptr;
 			if (result->tilelist && result->tilelist->filename)
 			{
 				result->tiles_filename = strdup (result->tilelist->filename);
@@ -440,7 +440,7 @@ TEG_MAP *teg_createmap (int dl, int w, int h, TEG_TILELIST *tilelist)
 			// if failed to allocate room for data,
 			// also destroy the allocated struct.
 			free (result);
-			result = NULL;
+			result = nullptr;
 		}
 	}
 	return result;
@@ -450,7 +450,7 @@ TEG_MAP *teg_createmap (int dl, int w, int h, TEG_TILELIST *tilelist)
 // destroy a map
 void teg_destroymap (TEG_MAP* map)
 {
-	if (map != NULL)
+	if (map != nullptr)
 	{
 		free (map->data);
 		free (map->tiles_filename);
@@ -461,40 +461,40 @@ void teg_destroymap (TEG_MAP* map)
 // get index at a certain pos in the map
 int teg_mapget (const TEG_MAP* map, int l, int x, int y)
 {
-	assert(map != NULL);
+	assert(map != nullptr);
 	assert(l >= 0 && l < map->dl);
 	assert(x >= 0 && x < map->w);
 	assert(y >= 0 && y < map->h);
-	assert(map->data != NULL);
+	assert(map->data != nullptr);
 	return (map->data[x + map->w * (y + map->h * l)]);
 }
 
 // put index at a certain pos in the map
 void teg_mapput (TEG_MAP* map, int l, int x, int y, int val)
 {
-	assert(map != NULL);
+	assert(map != nullptr);
 	assert(l >= 0 && l < map->dl);
 	assert(x >= 0 && x < map->w);
 	assert(y >= 0 && y < map->h);
-	assert(map->data != NULL);
+	assert(map->data != nullptr);
 	map->data[x + map->w * (y + map->h * l)] = val;
 }
 
 TEG_TILELIST *teg_loadtiles (const char *filename)
 {
-	TEG_TILELIST *result = NULL;
+	TEG_TILELIST *result = nullptr;
 
 	ifstream inf;
 	inf.open(filename, ios::in /*,  "rt"*/); //TODO mode...
 	if (!inf)
 	{
 		strlcpy (teg_error, teg_errorlist[TEGERR_FOPEN], sizeof(teg_error)-1);
-		return NULL; // error
+		return nullptr; // error
 	}
 	result = teg_loadtiles_from_stream (inf, filename);
 	if (result)
 	{
-		assert (result->filename == NULL); // make sure that no memory for filename has been allocated yet
+		assert (result->filename == nullptr); // make sure that no memory for filename has been allocated yet
 		int len = strlen (filename);
 		result->filename = (char *)malloc(len + 1);
 		strlcpy (result->filename, filename, len);
@@ -506,12 +506,12 @@ TEG_TILELIST *teg_loadtiles (const char *filename)
 // destroy a tilelist.
 void teg_destroytiles (TEG_TILELIST* tiles)
 {    
-	if (tiles != NULL)
+	if (tiles != nullptr)
 	{
 		free (tiles->tiles);
 		free (tiles->rawdata);
 		free (tiles->filename);
-		if (tiles->bitmapfilename != NULL) free (tiles->bitmapfilename);
+		if (tiles->bitmapfilename != nullptr) free (tiles->bitmapfilename);
 	}
 	free (tiles);
 }
@@ -519,8 +519,8 @@ void teg_destroytiles (TEG_TILELIST* tiles)
 // draws the tilemap scrolled by xview and yview.
 void teg_draw (const TEG_MAP* map, int layer, int xview, int yview)
 {
-	assert (map != NULL);
-	assert (map->tilelist != NULL);
+	assert (map != nullptr);
+	assert (map->tilelist != nullptr);
 
 	teg_draw_frame (map, layer, xview, yview, 0);
 }
@@ -623,7 +623,7 @@ void teg_draw_repeated (ALLEGRO_BITMAP *bmp, const TEG_MAP* map, int layer, int 
 //			{
 //				i += frame * map->tilelist->tilenum;
 //				s = map->tilelist->tiles[i].bmp;
-//				if (s != NULL)
+//				if (s != nullptr)
 //					al_draw_bitmap (s, x, y, 0);
 //			}
 			tilex++;
@@ -684,11 +684,11 @@ void teg_mapcopy (TEG_MAP *srcmap, TEG_MAP* destmap,
 
 void teg_drawtile (TEG_TILELIST *tiles, int index, int x, int y)
 {
-	assert (tiles != NULL);
+	assert (tiles != nullptr);
 	assert (index >= 0);
 	assert (index < (tiles->tilenum * tiles->animsteps));
 	int tiles_per_row = al_get_bitmap_width(tiles->largebmp) / tiles->tilew;
-	assert (tiles->largebmp != NULL);
+	assert (tiles->largebmp != nullptr);
 	index = tiles->tiles[index].index;
 	al_draw_bitmap_region (tiles->largebmp,
 		(index % tiles_per_row) * tiles->tilew,

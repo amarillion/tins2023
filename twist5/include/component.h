@@ -202,7 +202,7 @@ public:
 	Component () :
 		layout_flags(Layout::LEFT_TOP_RIGHT_BOTTOM), layout_initialised(false), layout_x1(0), layout_y1(0), layout_x2(0), layout_y2(0),
 		flags(0),
-		awake(true), alive(true), sfont(NULL), counter(0), motion(),
+		awake(true), alive(true), sfont(nullptr), counter(0), motion(),
 		x(0), y(0), w(0), h(0),
 		groupId(0)
 	{}

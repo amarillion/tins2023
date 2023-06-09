@@ -209,7 +209,7 @@ void MenuScreen::prev()
 MenuScreen::MenuScreen(Audio *_sound)
 {
 	sound = _sound;
-	sound_enter = NULL; sound_cursor = NULL;
+	sound_enter = nullptr; sound_cursor = nullptr;
 	awake = false;
 	setVisible(false);
 

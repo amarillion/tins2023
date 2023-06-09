@@ -4,7 +4,7 @@
 #include "color.h"
 
 Bitmap::Bitmap()
-:data(NULL),
+:data(nullptr),
    type(VIDEO),
    allocated(false),
    thick(-1,-1)
@@ -13,7 +13,7 @@ Bitmap::Bitmap()
 
 
 Bitmap::Bitmap(int w, int h, Type t)
-   :data(NULL),
+   :data(nullptr),
    thick(-1,-1)
 {
    Create(w, h, t);
@@ -21,7 +21,7 @@ Bitmap::Bitmap(int w, int h, Type t)
 
 
 Bitmap::Bitmap(const Point &s, Type t)
-   :data(NULL),
+   :data(nullptr),
    thick(-1,-1)
 {
    Create(s, t);
@@ -29,7 +29,7 @@ Bitmap::Bitmap(const Point &s, Type t)
 
 
 Bitmap::Bitmap(const char *file, Type t)
-   :data(NULL),
+   :data(nullptr),
    type(t),
    thick(-1,-1)
 {
@@ -40,7 +40,7 @@ Bitmap::Bitmap(const char *file, Type t)
 Bitmap::Bitmap(ALLEGRO_BITMAP *bmp) :thick(-1,-1) {
    if (!bmp) {
       type = Bitmap::UNDEFINED;
-      data = NULL;
+      data = nullptr;
    }
    else {
       if (al_get_bitmap_flags(bmp) & ALLEGRO_MEMORY_BITMAP) {
@@ -77,7 +77,7 @@ Bitmap& Bitmap::operator=(ALLEGRO_BITMAP *bmp) {
    Destroy();
    if (!bmp) {
       type = Bitmap::UNDEFINED;
-      data = NULL;
+      data = nullptr;
    }
    else {
       if (al_get_bitmap_flags(bmp) & ALLEGRO_MEMORY_BITMAP) {
@@ -108,7 +108,7 @@ Bitmap& Bitmap::operator=(const Bitmap &bmp) {
 Bitmap& Bitmap::Set(ALLEGRO_BITMAP *bmp, bool copy, Type t) {
    Destroy();
    if (!bmp) {
-      data = NULL;
+      data = nullptr;
       type = UNDEFINED;
       allocated = false;
    }
@@ -244,7 +244,7 @@ Bitmap& Bitmap::CreateSubBitmap(const Bitmap &parent, int x, int y, int w, int h
 void Bitmap::Destroy() {
    if (data && allocated) {
       al_destroy_bitmap(data);
-      data = NULL;
+      data = nullptr;
       allocated = false;
    }
 }

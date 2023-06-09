@@ -43,7 +43,7 @@ void allegro_message(const char *msg, ...)
 	// log to stderr
 	cerr << buf << endl;
 #ifndef ALLEGRO_ANDROID
-	al_show_native_message_box (al_get_current_display(), "error", "error", buf, NULL, ALLEGRO_MESSAGEBOX_ERROR);
+	al_show_native_message_box (al_get_current_display(), "error", "error", buf, nullptr, ALLEGRO_MESSAGEBOX_ERROR);
 #endif
 }
 
@@ -51,7 +51,7 @@ string get_config_string(ALLEGRO_CONFIG *config, const char *section, const char
 {
 	const char *value = al_get_config_value (config, section, key);
 	string result = defaultValue;
-	if (value != NULL)
+	if (value != nullptr)
 	{
 		return string (value); //TODO - error handling
 	}
@@ -65,7 +65,7 @@ int get_config_int(ALLEGRO_CONFIG *config, const char *section, const char *key,
 {
 	const char *value = al_get_config_value (config, section, key);
 	int result = defaultValue;
-	if (value != NULL)
+	if (value != nullptr)
 	{
 		result = atoi(value); //TODO - error handling
 	}
