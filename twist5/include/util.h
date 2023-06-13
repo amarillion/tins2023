@@ -3,11 +3,13 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include "deprecated.h"
 
 struct ALLEGRO_CONFIG;
 
+/** Use std::clamp instead, since C++17. Keep in mind different order of params! */
 template <typename T>
-static inline T bound (T _min, T val, T _max)
+DEPRECATED static inline T bound (T _min, T val, T _max)
 {
 	return std::min(std::max (_min, val), _max);
 }

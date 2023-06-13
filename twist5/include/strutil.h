@@ -44,7 +44,11 @@ static inline std::vector<std::string> split(const std::string &s, char delim)
 	return result;
 }
 
-static inline std::string join(const std::vector<std::string> &elts, const std::string &sep)
+/**
+ * Join strings separated by sep, works for every vector<T> where T has an operator<<
+ */
+template <typename T>
+static inline std::string join(const std::vector<T> &elts, char sep)
 {
 	std::stringstream ss;
 	bool first = true;

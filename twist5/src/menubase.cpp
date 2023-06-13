@@ -121,7 +121,7 @@ void SliderMenuItem::updateText() {
 		// 11 for the slider: 0-10 inclusive 
 		//  plus one for zero terminator
 	float val = model->getNormalised() * 10.0f;
-	int pos = bound(0, (int)round(val), 10);
+	int pos = std::clamp((int)round(val), 0, 10);
 	buffer[pos] = '|';
 	text = label + ": [" + string(buffer) + ']';
 }

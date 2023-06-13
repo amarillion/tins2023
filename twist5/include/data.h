@@ -132,7 +132,7 @@ public:
 	}
 	
 	void set(T value) { 
-		float newVal = bound(min, value, max);
+		float newVal = std::clamp(value, min, max);
 		if (newVal != val) {
 			val = newVal;
 			FireEvent(1);

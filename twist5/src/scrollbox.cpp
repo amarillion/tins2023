@@ -1,4 +1,5 @@
 #include "scrollbox.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -252,8 +253,8 @@ void Scroller::setRangeAndPosition(int pos, int gripWidth, int max)
 	}
 
 	double delta =	(double)max / (double)(pxMax);
-	int pxGripWidth = bound(0, (int)(gripWidth / delta), pxMax);
-	int pxPos = bound(0, (int)(pos / delta), pxMax - pxGripWidth);
+	int pxGripWidth = clamp((int)(gripWidth / delta), 0, pxMax);
+	int pxPos = clamp((int)(pos / delta), 0, pxMax - pxGripWidth);
 
 	switch (orientation)
 	{
