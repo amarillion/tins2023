@@ -42,7 +42,8 @@ void IrisEffect::enable(float time, int ofstx, int ofsty) {
 	al_set_shader_sampler("gradientMap", gradient, 1);
 	int offset[2] = {ofstx, ofsty };
 
-	al_set_shader_int_vector("offset", 2, offset, 1);
+	al_set_shader_int("ofstx", ofstx);
+	al_set_shader_int("ofsty", ofsty);
 	al_set_shader_float("time",time);
 }
 
